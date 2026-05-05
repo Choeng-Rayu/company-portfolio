@@ -1,0 +1,32 @@
+{
+  "sectionLabel": "05 — TIMELINE",
+  "title": "Our Journey",
+  "subtitle": "Building Cambodia's digital future, one milestone at a time.",
+  "milestones": [
+    {
+      "year": "2026",
+      "title": "Planning & Team Formation",
+      "description": "Prepare infrastructure. Launch first portfolio projects."
+    },
+    {
+      "year": "2027",
+      "title": "First SaaS Product",
+      "description": "Partner with Ministry of Interior."
+    },
+    {
+      "year": "2028",
+      "title": "Expand Team",
+      "description": "Build strong portfolio. Multiple industry solutions."
+    },
+    {
+      "year": "2029",
+      "title": "First in Cambodia",
+      "description": "Become market leader."
+    },
+    {
+      "year": "2030",
+      "title": "Go Overseas",
+      "description": "Regional expansion."
+    }
+  ]
+}

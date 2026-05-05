@@ -1,0 +1,43 @@
+{
+  "sectionLabel": "07 — TEAM",
+  "title": "Meet Our Team",
+  "subtitle": "The passionate minds behind TomNerb",
+  "members": [
+    {
+      "name": "Choeng Rayu",
+      "role": "CEO",
+      "initials": "CR",
+      "linkedIn": "https://linkedin.com"
+    },
+    {
+      "name": "Yen Mara",
+      "role": "CMO",
+      "initials": "YM",
+      "linkedIn": "https://linkedin.com"
+    },
+    {
+      "name": "Rithi Reach",
+      "role": "CTO",
+      "initials": "RR",
+      "linkedIn": "https://linkedin.com"
+    },
+    {
+      "name": "Tep Somnang",
+      "role": "COO",
+      "initials": "TS",
+      "linkedIn": "https://linkedin.com"
+    },
+    {
+      "name": "Povpanha Ngovseng",
+      "role": "CFO",
+      "initials": "PN",
+      "linkedIn": "https://linkedin.com"
+    },
+    {
+      "name": "Prak Dararith",
+      "role": "Project Management",
+      "initials": "PD",
+      "linkedIn": "https://linkedin.com"
+    }
+  ]
+}

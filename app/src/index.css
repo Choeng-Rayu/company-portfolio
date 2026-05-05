@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-base: #0A0A0B;
+    --bg-surface: #111114;
+    --bg-elevated: #1A1A1F;
+    --border-color: #222228;
+    --border-accent: #3A3A44;
+    --text-primary: #FFFFFF;
+    --text-secondary: #D1D1D6;
+    --text-muted: #8E8E93;
+    --accent: #C8F135;
+    --accent-dim: #8FAF20;
+    --accent-glow: rgba(200, 241, 53, 0.12);
+
+    --background: 0 0% 4%;
+    --foreground: 40 7% 93%;
+    --card: 240 7% 7%;
+    --card-foreground: 40 7% 93%;
+    --popover: 240 7% 7%;
+    --popover-foreground: 40 7% 93%;
+    --primary: 75 86% 58%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 240 7% 7%;
+    --secondary-foreground: 40 7% 93%;
+    --muted: 240 7% 7%;
+    --muted-foreground: 252 6% 56%;
+    --accent: 75 86% 58%;
+    --accent-foreground: 0 0% 4%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 6% 15%;
+    --input: 240 6% 15%;
+    --ring: 75 86% 58%;
+    --radius: 0.625rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(200, 241, 53, 0.25);
+    color: var(--text-primary);
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: 'Instrument Serif', Georgia, serif;
+  }
+
+  .font-body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  .font-mono-label {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+@layer utilities {
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes rotatePlanet {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .animate-rotate-planet {
+    animation: rotatePlanet 20s linear infinite;
+  }
+
+  @keyframes pulse-ring {
+    0% { transform: scale(1); opacity: 0.4; }
+    100% { transform: scale(1.5); opacity: 0; }
+  }
+
+  .animate-pulse-ring {
+    animation: pulse-ring 2s ease-out infinite;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+
+    .liquid-glass {
+      @apply rounded-[1rem] border-white/15 shadow-[inset_0_2px_2px_rgba(255,255,255,0.2),0_12px_64px_rgba(0,0,0,0.45)];
+      background: linear-gradient(135deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03));
+      backdrop-filter: blur(120px);
+      border-top-color: rgba(255, 255, 255, 0.45);
+    }
+    .liquid-glass:hover {
+      @apply bg-white/20 border-white/25 shadow-[inset_0_2px_2px_rgba(255,255,255,0.3),0_16px_72px_rgba(0,0,0,0.55)];
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.06));
+    }
+}

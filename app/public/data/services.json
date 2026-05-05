@@ -1,0 +1,31 @@
+{
+  "sectionLabel": "06 — SERVICES",
+  "title": "What We Offer",
+  "subtitle": "Tailored digital solutions for your business needs",
+  "services": [
+    {
+      "icon": "Code",
+      "title": "Custom Software Development",
+      "description": "We build tailor-made systems designed for your exact workflow.",
+      "href": "#contact"
+    },
+    {
+      "icon": "TrendingUp",
+      "title": "Digital Transformation for SMEs",
+      "description": "Transform your manual operations into modern digital systems.",
+      "href": "#contact"
+    },
+    {
+      "icon": "Building2",
+      "title": "Business Management Systems",
+      "description": "Integrated platforms for managing your entire business.",
+      "href": "#contact"
+    },
+    {
+      "icon": "Zap",
+      "title": "Automation Tools",
+      "description": "Streamline repetitive tasks with intelligent automation.",
+      "href": "#contact"
+    }
+  ]
+}

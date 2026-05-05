@@ -1,0 +1,20 @@
+{
+  "sectionLabel": "08 — CONTACT",
+  "title": "Let's Work Together.",
+  "subtitle": "Tell us your challenge — we'll provide the digital solution.",
+  "tagline": "Based in Phnom Penh, Cambodia. Serving local businesses with premium digital solutions since 2026.",
+  "contacts": [
+    {
+      "type": "email",
+      "label": "Email",
+      "value": "info@tomnerb.com",
+      "href": "mailto:info@tomnerb.com"
+    },
+    {
+      "type": "phone",
+      "label": "Phone",
+      "value": "+855 969 983 479",
+      "href": "tel:+855969983479"
+    }
+  ]
+}
