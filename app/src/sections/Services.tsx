@@ -133,7 +133,7 @@ function PlanetCard({ service, index, isInView }: { service: Service; index: num
       className="relative group cursor-pointer"
     >
       <div
-        className="relative h-full flex-shrink-0 w-[320px] md:w-[360px] rounded-3xl p-8 snap-start transition-all duration-300 liquid-glass"
+        className="relative h-full flex-shrink-0 w-[320px] md:w-[360px] rounded-3xl p-8 snap-start transition-all duration-300 liquid-glass opacity-70"
       >
         {/* 3D Planet Visual */}
 <div className="w-[180px] h-[180px] mx-auto mb-6 relative pointer-events-none">

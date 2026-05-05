@@ -20,10 +20,10 @@ const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 // VisionCard component with 3D tilt and spotlight effect
 function VisionCard({
   card,
-  borderClass,
+  tintColor,
 }: {
   card: CardData;
-  borderClass: string;
+  tintColor: string;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
@@ -35,8 +35,8 @@ function VisionCard({
   const spotlight = useMotionTemplate`
     radial-gradient(
       circle at ${mouseX}px ${mouseY}px,
-      rgba(255,255,255,0.2),
-      transparent 80%
+      ${tintColor.replace('0.15', '0.2')},
+      transparent 100%
     )`;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -62,8 +62,8 @@ function VisionCard({
   return (
     <motion.div
       ref={cardRef}
-      className={`relative liquid-glass rounded-3xl p-8 text-center transition-all duration-300 ${borderClass}`}
-      style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+      className={`relative liquid-glass rounded-3xl p-8 text-center transition-all duration-300 bg-white/5`}
+      style={{ rotateX, rotateY, transformStyle: 'preserve-3d', borderColor: tintColor.replace('0.15', '0.3') }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
@@ -115,10 +115,10 @@ export default function VisionMissionGoals() {
     fetchData();
   }, []);
 
-  const borderClasses = [
-    'border-violet-500 hover:border-violet-400', // Vision
-    'border-accent-lime hover:border-accent-lime/80', // Mission
-    'border-amber-500 hover:border-amber-400', // Goals
+  const tintColors = [
+    'rgba(139, 92, 246, 0.15)', // Vision
+    'rgba(200, 241, 53, 0.15)', // Mission
+    'rgba(245, 158, 11, 0.15)', // Goals
   ];
 
   return (
@@ -146,13 +146,13 @@ export default function VisionMissionGoals() {
 
         {/* Cards grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {cards.map((card, i) => (
+{cards.map((card, i) => (
 <VisionCard
   key={card.title}
   card={card}
-  borderClass={borderClasses[i]}
+  tintColor={tintColors[i]}
 />
-          ))}
+))}
         </div>
       </div>
     </section>
