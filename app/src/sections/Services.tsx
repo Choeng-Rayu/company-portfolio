@@ -39,11 +39,17 @@ const PLANET_COLORS = [
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-function RealPlanet3D({ colorHex, glowColor }: { colorHex: string; glowColor: string }) {
+function RealPlanet3D({ colorHex, glowColor, hovered }: { colorHex: string; glowColor: string; hovered: boolean }) {
   const meshRef = useRef<THREE.Group>(null!);
   useFrame(() => {
     if (meshRef.current) {
-      meshRef.current.rotation.y += 0.005;
+      const speed = hovered ? 0.015 : 0.005;
+      meshRef.current.rotation.y += speed;
+      // Smoothly float up on hover instead of scaling to prevent clipping
+      const targetY = hovered ? 0.4 : 0;
+      meshRef.current.position.y += (targetY - meshRef.current.position.y) * 0.1;
+      meshRef.current.scale.setScalar(1.0);
+      meshRef.current.position.z = 0;
     }
   });
 
@@ -59,15 +65,15 @@ function RealPlanet3D({ colorHex, glowColor }: { colorHex: string; glowColor: st
       {/* Core Planet */}
       <mesh>
         <sphereGeometry args={[2, 64, 64]} />
-        <meshStandardMaterial 
-          color={'#ffffff'} 
-          roughness={0.8} 
-          metalness={0.4}
-          map={colorMap}
-          normalMap={normalMap} 
-          normalScale={new THREE.Vector2(2, 2)}
-          roughnessMap={specularMap}
-        />
+<meshStandardMaterial 
+            color={colorHex} 
+            roughness={0.8} 
+            metalness={0.4}
+            map={colorMap}
+            normalMap={normalMap} 
+            normalScale={new THREE.Vector2(2, 2)}
+            roughnessMap={specularMap}
+          />
       </mesh>
         {/* Atmosphere Glow */}
         <mesh scale={1.15}>
@@ -91,6 +97,7 @@ function RealPlanet3D({ colorHex, glowColor }: { colorHex: string; glowColor: st
 function PlanetCard({ service, index, isInView }: { service: Service; index: number; isInView: boolean }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const color = PLANET_COLORS[index % PLANET_COLORS.length];
+  const [hovered, setHovered] = useState(false);
 
   // Mouse-tracking 3D tilt
   const rotateX = useMotionValue(0);
@@ -112,6 +119,7 @@ function PlanetCard({ service, index, isInView }: { service: Service; index: num
   const handleMouseLeave = () => {
     rotateX.set(0);
     rotateY.set(0);
+    setHovered(false);
   };
 
   const iconPath = ICON_MAP[service.icon] ?? ICON_MAP['Code'];
@@ -119,6 +127,7 @@ function PlanetCard({ service, index, isInView }: { service: Service; index: num
   return (
     <motion.div
       ref={cardRef}
+      onMouseEnter={() => setHovered(true)}
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: 0.25 + index * 0.09, duration: 0.65, ease }}
@@ -143,7 +152,7 @@ function PlanetCard({ service, index, isInView }: { service: Service; index: num
         <directionalLight position={[5, 3, 5]} intensity={2} />
         <pointLight position={[-5, -3, -5]} intensity={1} color={color.from} />
         <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
-          <RealPlanet3D colorHex={color.from} glowColor={color.to} />
+          <RealPlanet3D colorHex={color.from} glowColor={color.to} hovered={hovered} />
         </Float>
       </Canvas>
     </Suspense>
