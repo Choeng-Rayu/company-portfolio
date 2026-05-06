@@ -80,7 +80,7 @@ export default function Hero() {
       : [headline];
 
   return (
-    <section className="relative min-h-[100dvh] w-full overflow-hidden bg-transparent pt-24">
+    <section className="relative min-h-[100dvh] w-full overflow-x-hidden bg-transparent pt-24">
       {/* Content */}
       <div className="relative z-10 min-h-[100dvh] grid grid-cols-1 md:grid-cols-2 max-w-[1280px] mx-auto px-6">
         <div className="flex flex-col justify-center py-24 md:py-0">

@@ -72,7 +72,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[100] bg-bg-base flex flex-col items-center justify-center"
+            className="fixed inset-0 z-[100] bg-bg-base/60 backdrop-blur-2xl flex flex-col items-center justify-center"
           >
             <button
               onClick={() => setMobileOpen(false)}
@@ -104,7 +104,7 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ delay: 0.4, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="mt-4 px-8 py-3 rounded-full liquid-glass text-text-primary font-body text-sm font-medium transition-all hover:scale-[1.02]"
+                className="mt-4 px-8 py-3 rounded-full liquid-glass border border-white/10 text-text-primary font-body text-sm font-medium transition-all hover:scale-[1.02]"
               >
                 Start a Project
               </motion.a>

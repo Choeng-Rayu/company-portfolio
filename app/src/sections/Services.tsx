@@ -39,17 +39,37 @@ const PLANET_COLORS = [
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-function RealPlanet3D({ colorHex, glowColor, hovered }: { colorHex: string; glowColor: string; hovered: boolean }) {
+function RealPlanet3D({ colorHex, glowColor, hovered, index }: { colorHex: string; glowColor: string; hovered: boolean; index: number }) {
   const meshRef = useRef<THREE.Group>(null!);
-  useFrame(() => {
+  const planetRef = useRef<THREE.Mesh>(null!);
+  const cloudsRef = useRef<THREE.Mesh>(null!);
+  const atmosphereRef = useRef<THREE.Mesh>(null!);
+
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
     if (meshRef.current) {
-      const speed = hovered ? 0.015 : 0.005;
-      meshRef.current.rotation.y += speed;
-      // Smoothly float up on hover instead of scaling to prevent clipping
-      const targetY = hovered ? 0.4 : 0;
-      meshRef.current.position.y += (targetY - meshRef.current.position.y) * 0.1;
-      meshRef.current.scale.setScalar(1.0);
-      meshRef.current.position.z = 0;
+      // Rotation speeds
+      const rotationSpeed = hovered ? 0.012 : 0.005;
+      
+      // Apply rotation to planet and clouds independently
+      if (planetRef.current) planetRef.current.rotation.y += rotationSpeed;
+      if (cloudsRef.current) cloudsRef.current.rotation.y += rotationSpeed * 1.2;
+      
+      // Axial tilt (Earth's tilt is ~23.5 degrees = 0.41 radians)
+      meshRef.current.rotation.z = 0.41;
+      
+      // Subtle axial wobble
+      meshRef.current.rotation.x = Math.sin(t * 0.3) * 0.02;
+      
+      // Smoothly float up on hover with a more dramatic offset
+      const targetY = hovered ? 0.8 : 0;
+      meshRef.current.position.y += (targetY - meshRef.current.position.y) * 0.05;
+      
+      // Subtle scale pulse on hover
+      const targetScale = hovered ? 1.12 : 1.0;
+      const currentScale = meshRef.current.scale.x;
+      const newScale = currentScale + (targetScale - currentScale) * 0.05;
+      meshRef.current.scale.setScalar(newScale);
     }
   });
 
@@ -60,36 +80,54 @@ function RealPlanet3D({ colorHex, glowColor, hovered }: { colorHex: string; glow
     '/textures/planet_color.jpg',
     '/textures/planet_clouds.png',
   ]);
+
   return (
     <group ref={meshRef}>
       {/* Core Planet */}
-      <mesh>
+      <mesh ref={planetRef}>
         <sphereGeometry args={[2, 64, 64]} />
-<meshStandardMaterial 
-            color={colorHex} 
-            roughness={0.8} 
-            metalness={0.4}
-            map={colorMap}
-            normalMap={normalMap} 
-            normalScale={new THREE.Vector2(2, 2)}
-            roughnessMap={specularMap}
-          />
+        <meshStandardMaterial 
+          color={index === 0 ? '#ffffff' : colorHex} 
+          roughness={0.8} 
+          metalness={0.4}
+          map={colorMap}
+          normalMap={normalMap} 
+          normalScale={new THREE.Vector2(1.5, 1.5)}
+          roughnessMap={specularMap}
+        />
       </mesh>
-        {/* Atmosphere Glow */}
-        <mesh scale={1.15}>
-          <sphereGeometry args={[2, 32, 32]} />
-          <meshBasicMaterial color={colorHex} transparent opacity={0.15} blending={THREE.AdditiveBlending} side={THREE.BackSide} />
-        </mesh>
-        {/* Clouds */}
-        <mesh scale={1.015}>
-          <sphereGeometry args={[2, 64, 64]} />
-          <meshStandardMaterial map={cloudMap} transparent opacity={0.6} depthWrite={false} side={THREE.DoubleSide} />
-        </mesh>
-      {/* Ring */}
-      <mesh rotation={[Math.PI / 2.5, 0, 0]}>
-        <ringGeometry args={[2.8, 2.85, 64]} />
-        <meshBasicMaterial color={glowColor} transparent opacity={0.5} side={THREE.DoubleSide} />
+      
+      {/* Atmosphere Glow */}
+      <mesh ref={atmosphereRef} scale={1.12}>
+        <sphereGeometry args={[2, 32, 32]} />
+        <meshBasicMaterial 
+          color={colorHex} 
+          transparent 
+          opacity={0.15} 
+          blending={THREE.AdditiveBlending} 
+          side={THREE.BackSide} 
+        />
       </mesh>
+      
+      {/* Clouds */}
+      <mesh ref={cloudsRef} scale={1.012}>
+        <sphereGeometry args={[2, 64, 64]} />
+        <meshStandardMaterial 
+          map={cloudMap} 
+          transparent 
+          opacity={0.5} 
+          depthWrite={false} 
+          side={THREE.DoubleSide} 
+        />
+      </mesh>
+
+      {/* Ring (Only if it's not the first one which is Earth-like) */}
+      {index !== 0 && (
+        <mesh rotation={[Math.PI / 2.5, 0, 0]}>
+          <ringGeometry args={[2.8, 2.85, 64]} />
+          <meshBasicMaterial color={glowColor} transparent opacity={0.4} side={THREE.DoubleSide} />
+        </mesh>
+      )}
     </group>
   );
 }
@@ -102,8 +140,8 @@ function PlanetCard({ service, index, isInView }: { service: Service; index: num
   // Mouse-tracking 3D tilt
   const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
-  const springX = useSpring(rotateX, { stiffness: 120, damping: 20 });
-  const springY = useSpring(rotateY, { stiffness: 120, damping: 20 });
+  const springX = useSpring(rotateX, { stiffness: 100, damping: 25 });
+  const springY = useSpring(rotateY, { stiffness: 100, damping: 25 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = cardRef.current?.getBoundingClientRect();
@@ -112,8 +150,8 @@ function PlanetCard({ service, index, isInView }: { service: Service; index: num
     const cy = rect.top + rect.height / 2;
     const dx = (e.clientX - cx) / (rect.width / 2);
     const dy = (e.clientY - cy) / (rect.height / 2);
-    rotateY.set(dx * 14);
-    rotateX.set(-dy * 14);
+    rotateY.set(dx * 10);
+    rotateX.set(-dy * 10);
   };
 
   const handleMouseLeave = () => {
@@ -135,28 +173,32 @@ function PlanetCard({ service, index, isInView }: { service: Service; index: num
         rotateX: springX,
         rotateY: springY,
         transformStyle: 'preserve-3d',
-        perspective: 900,
+        perspective: 1000,
+        zIndex: hovered ? 50 : 1,
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative group cursor-pointer"
+      className="relative group cursor-pointer pt-20"
     >
+      {/* 3D Planet Visual - Moved outside blurred container to prevent clipping */}
+      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[340px] h-[400px] pointer-events-none z-[60]">
+        <Suspense fallback={null}>
+          <Canvas camera={{ position: [0, 0, 7], fov: 45 }}>
+            <ambientLight intensity={0.6} />
+            <directionalLight position={[5, 3, 5]} intensity={1.5} />
+            <pointLight position={[-5, -3, -5]} intensity={0.8} color={color.from} />
+            <Float speed={2.5} rotationIntensity={1.2} floatIntensity={1.5}>
+              <RealPlanet3D colorHex={color.from} glowColor={color.to} hovered={hovered} index={index} />
+            </Float>
+          </Canvas>
+        </Suspense>
+      </div>
+
       <div
-        className="relative h-full flex-shrink-0 w-[320px] md:w-[360px] rounded-3xl p-8 snap-start transition-all duration-300 liquid-glass opacity-70"
+        className="relative h-full flex-shrink-0 w-[320px] md:w-[360px] p-8 snap-start transition-all duration-300 liquid-glass opacity-80 group-hover:opacity-100"
       >
-        {/* 3D Planet Visual */}
-<div className="w-[180px] h-[180px] mx-auto mb-6 relative pointer-events-none">
-<Suspense fallback={null}>
-      <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[5, 3, 5]} intensity={2} />
-        <pointLight position={[-5, -3, -5]} intensity={1} color={color.from} />
-        <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
-          <RealPlanet3D colorHex={color.from} glowColor={color.to} hovered={hovered} />
-        </Float>
-      </Canvas>
-    </Suspense>
-</div>
+        {/* Spacer to prevent overlap with service content */}
+        <div className="h-[100px]" />
 
         {/* Service number */}
         <p className="font-mono text-xs text-text-muted">
@@ -240,10 +282,10 @@ export default function Services() {
   const sectionLabel = data?.sectionLabel ?? 'SERVICES';
 
   return (
-    <section id="services" className="w-full py-[140px] bg-transparent overflow-hidden" ref={ref}>
+    <section id="services" className="w-full py-[160px] bg-transparent" ref={ref}>
       <div className="max-w-[1280px] mx-auto px-6">
         {/* Section header */}
-        <div className="text-center mb-14">
+        <div className="text-center mb-20 relative z-20">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -271,19 +313,21 @@ export default function Services() {
         </div>
 
         {/* Scroll-parallax planet carousel */}
-        <motion.div
-          style={{ x: xParallax }}
-          className="flex gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-6 -mx-6 px-6"
-        >
-          {services.map((service, i) => (
-            <PlanetCard
-              key={service.title}
-              service={service}
-              index={i}
-              isInView={isInView}
-            />
-          ))}
-        </motion.div>
+        <div className="overflow-visible">
+          <motion.div
+            style={{ x: xParallax }}
+            className="flex gap-8 pb-12 -mx-6 px-6 overflow-visible"
+          >
+            {services.map((service, i) => (
+              <PlanetCard
+                key={service.title}
+                service={service}
+                index={i}
+                isInView={isInView}
+              />
+            ))}
+          </motion.div>
+        </div>
 
         {/* Scroll hint */}
         <motion.p

@@ -31,7 +31,7 @@ export default function Home() {
       <Navbar />
 
       {/* Scrollable Content Layer (Overlay) */}
-      <main className="relative z-10 bg-transparent text-text-primary">
+      <main className="relative z-10 bg-transparent text-text-primary overflow-visible">
         <Hero />
         <Marquee />
         <Services />
