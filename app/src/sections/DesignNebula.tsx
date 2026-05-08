@@ -62,7 +62,7 @@ function VisionCard({
   return (
     <motion.div
       ref={cardRef}
-      className={`relative liquid-glass rounded-3xl p-8 text-center transition-all duration-300 bg-white/5`}
+      className={`relative liquid-glass-card rounded-3xl p-8 text-center transition-all duration-300 bg-white/5`}
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d', borderColor: tintColor.replace('0.15', '0.3') }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}

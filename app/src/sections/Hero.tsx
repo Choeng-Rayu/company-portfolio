@@ -125,7 +125,7 @@ export default function Hero() {
             <MagneticButton
               href="#contact"
               onClick={(e) => handleScroll(e, '#contact')}
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full liquid-glass text-text-primary font-body text-sm font-medium transition-all hover:scale-[1.02]"
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full liquid-glass-btn text-text-primary font-body text-sm font-medium transition-all"
             >
               Start a Project
               <ArrowRight size={16} />
@@ -133,7 +133,7 @@ export default function Hero() {
             <MagneticButton
               href="#services"
               onClick={(e) => handleScroll(e, '#services')}
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full liquid-glass text-text-primary font-body text-sm font-medium transition-all hover:scale-[1.02]"
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full liquid-glass-btn text-text-primary font-body text-sm font-medium transition-all"
             >
               View Services
               <ChevronDown size={16} />

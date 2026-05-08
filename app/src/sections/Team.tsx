@@ -42,7 +42,7 @@ function TeamCard({ member, index, isInView }: { member: TeamMember; index: numb
   return (
     <motion.div
       style={{ rotateX: springX, rotateY: springY, transformStyle: 'preserve-3d' } as any}
-      className="liquid-glass p-8 text-center transition-all border border-white/10"
+      className="liquid-glass-card p-8 text-center transition-all"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       initial={{ opacity: 0, y: 24 }}

@@ -195,7 +195,7 @@ function PlanetCard({ service, index, isInView }: { service: Service; index: num
       </div>
 
       <div
-        className="relative h-full flex-shrink-0 w-[320px] md:w-[360px] p-8 snap-start transition-all duration-300 liquid-glass opacity-80 group-hover:opacity-100"
+        className="relative h-full flex-shrink-0 w-[320px] md:w-[360px] p-8 snap-start transition-all duration-300 liquid-glass-card opacity-80 group-hover:opacity-100"
       >
         {/* Spacer to prevent overlap with service content */}
         <div className="h-[100px]" />

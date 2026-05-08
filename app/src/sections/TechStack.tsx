@@ -65,7 +65,7 @@ export default function TechStack() {
                 {cat.items.map((item) => (
                   <span
                     key={item}
-                    className="liquid-glass px-5 py-3 font-mono text-sm text-text-secondary hover:text-text-primary hover:-translate-y-0.5 transition-all cursor-default"
+                    className="liquid-glass-btn px-5 py-3 font-mono text-sm text-text-secondary hover:text-text-primary transition-all cursor-default"
                   >
                     {item}
                   </span>

@@ -107,7 +107,7 @@ export default function ChatWidget() {
       {/* FAB */}
       <motion.button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 flex items-center justify-center liquid-glass border border-white/20 !rounded-full shadow-2xl"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 flex items-center justify-center liquid-glass-btn !rounded-full shadow-2xl"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         aria-label="Open chat"
@@ -130,7 +130,7 @@ export default function ChatWidget() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
             transition={spring}
-            className="fixed bottom-24 right-6 z-50 w-[calc(100vw-48px)] max-w-[420px] max-h-[600px] liquid-glass !rounded-[2.5rem] border border-white/20 shadow-[0_32px_128px_-16px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden"
+            className="fixed bottom-24 right-6 z-50 w-[calc(100vw-48px)] max-w-[420px] max-h-[600px] liquid-glass !rounded-[2.5rem] shadow-[0_32px_128px_-16px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden"
             role="dialog"
             aria-label="Chat widget"
           >

@@ -109,7 +109,7 @@ function MilestoneCard({ milestone, index }: { milestone: Milestone; index: numb
         initial={{ opacity: 0, y: 30 }}
         animate={cardAnimate}
         transition={{ duration: 0.6, ease }}
-        className="liquid-glass rounded-3xl p-6 w-full md:w-5/12"
+        className="liquid-glass-card rounded-3xl p-6 w-full md:w-5/12"
       >
         <div className="flex items-center mb-3">
           <span className="inline-flex items-center justify-center px-3 py-1 text-sm font-mono bg-accent-lime text-bg-base rounded-full mr-2">

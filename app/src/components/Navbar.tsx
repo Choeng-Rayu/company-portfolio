@@ -26,7 +26,7 @@ export default function Navbar() {
   return (
     <>
 <nav
-          className="fixed top-4 left-1/2 -translate-x-1/2 w-[96%] max-w-[1280px] z-50 h-16 flex items-center transition-all duration-300 liquid-glass"
+          className="fixed top-4 left-1/2 -translate-x-1/2 w-[96%] max-w-[1280px] z-50 h-16 flex items-center transition-all duration-300 liquid-glass-nav"
         >
         <div className="w-full max-w-[1280px] mx-auto px-6 flex items-center justify-between">
           <a href="#" className="font-mono text-sm tracking-[0.12em] uppercase text-text-primary">
@@ -50,7 +50,7 @@ export default function Navbar() {
           <a
             href="#contact"
             onClick={(e) => handleNavClick(e, '#contact')}
-            className="hidden md:inline-flex items-center px-6 py-2.5 rounded-full liquid-glass text-text-primary font-body text-xs font-medium tracking-[0.02em] uppercase transition-all hover:scale-[1.02]"
+            className="hidden md:inline-flex items-center px-6 py-2.5 rounded-full liquid-glass-btn text-text-primary font-body text-xs font-medium tracking-[0.02em] uppercase transition-all"
           >
             Start a Project
           </a>
@@ -72,7 +72,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[100] bg-bg-base/60 backdrop-blur-2xl flex flex-col items-center justify-center"
+            className="fixed inset-0 z-[100] bg-bg-base/80 backdrop-blur-2xl flex flex-col items-center justify-center"
           >
             <button
               onClick={() => setMobileOpen(false)}
@@ -104,7 +104,7 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ delay: 0.4, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="mt-4 px-8 py-3 rounded-full liquid-glass border border-white/10 text-text-primary font-body text-sm font-medium transition-all hover:scale-[1.02]"
+                className="mt-4 px-8 py-3 rounded-full liquid-glass-btn text-text-primary font-body text-sm font-medium transition-all"
               >
                 Start a Project
               </motion.a>

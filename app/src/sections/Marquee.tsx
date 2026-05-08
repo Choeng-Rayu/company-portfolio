@@ -14,7 +14,7 @@ export default function Marquee() {
 
   return (
     <section className="w-full py-8 flex items-center justify-center">
-      <div className="w-[96%] max-w-[1280px] h-[72px] liquid-glass !rounded-[1.5rem] border border-white/10 overflow-hidden flex items-center">
+      <div className="w-[96%] max-w-[1280px] h-[72px] liquid-glass-nav !rounded-[1.5rem] overflow-hidden flex items-center">
         <div className="flex items-center whitespace-nowrap">
           <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-text-muted pl-12 pr-8 flex-shrink-0 bg-white/5 h-[72px] flex items-center">
             Trusted by

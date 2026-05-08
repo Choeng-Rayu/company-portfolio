@@ -96,14 +96,14 @@ export default function Contact() {
             <a
               href="#"
               onClick={(e) => handleScroll(e, '#contact')}
-              className="inline-flex items-center px-8 py-3.5 rounded-full liquid-glass text-text-primary font-body text-base font-medium transition-all hover:scale-[1.02]"
+              className="inline-flex items-center px-8 py-3.5 rounded-full liquid-glass-btn text-text-primary font-body text-base font-medium transition-all"
             >
               Start a Project
             </a>
             <a
               href="#"
               onClick={(e) => handleScroll(e, '#contact')}
-              className="inline-flex items-center px-8 py-3.5 rounded-full liquid-glass text-text-primary font-body text-base font-medium transition-all hover:scale-[1.02]"
+              className="inline-flex items-center px-8 py-3.5 rounded-full liquid-glass-btn text-text-primary font-body text-base font-medium transition-all"
             >
               Book a Call →
             </a>
