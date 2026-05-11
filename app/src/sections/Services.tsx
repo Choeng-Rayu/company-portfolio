@@ -37,10 +37,13 @@ const PLANET_COLORS = [
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 // ─── Orbit config ─────────────────────────────────────────────────────────────
-const ORBIT_RADII  = [3.8, 5.6, 7.2, 9.0];
-const ORBIT_SPEEDS = [0.38, 0.28, 0.20, 0.14];
+// All planets share ONE lane, evenly spaced 90° apart, same speed
+const ORBIT_RADIUS   = 6.0;
+const ORBIT_SPEED    = 0.22;
+const ORBIT_RADII    = [ORBIT_RADIUS, ORBIT_RADIUS, ORBIT_RADIUS, ORBIT_RADIUS];
+const ORBIT_SPEEDS   = [ORBIT_SPEED,  ORBIT_SPEED,  ORBIT_SPEED,  ORBIT_SPEED];
 const INITIAL_ANGLES = [0, Math.PI / 2, Math.PI, (3 * Math.PI) / 2];
-const PLANET_SIZE = 1.3;
+const PLANET_SIZE    = 1.3;
 
 // Expanding pulse ring shown on hover
 function PulseRing({ color, active }: { color: string; active: boolean }) {
@@ -199,9 +202,8 @@ function OrbitalScene({ services, focusedIndex, hoveredIndex, onPlanetClick, onP
       <directionalLight position={[10, 8, 6]} intensity={1.8} />
       <pointLight position={[-8, -4, -4]} intensity={0.7} color="#4488ff" />
       <CursorController hoveredIndex={hoveredIndex} />
-      {services.map((_, i) => (
-        <OrbitPath key={i} radius={ORBIT_RADII[i]} color={PLANET_COLORS[i % PLANET_COLORS.length].from} />
-      ))}
+      {/* Single shared orbit path ring */}
+      <OrbitPath radius={ORBIT_RADIUS} color="#ffffff" />
       {services.map((_, i) => (
         <OrbitingPlanet key={i} index={i}
           colorHex={PLANET_COLORS[i % PLANET_COLORS.length].from}
