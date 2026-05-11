@@ -309,6 +309,23 @@ function PlanetDots({ services, active, onSelect }: {
   );
 }
 
+function useCanvasHeight() {
+  const [height, setHeight] = useState(560);
+  useEffect(() => {
+    function update() {
+      const w = window.innerWidth;
+      if (w < 480)       setHeight(340);
+      else if (w < 768)  setHeight(420);
+      else if (w < 1024) setHeight(500);
+      else               setHeight(580);
+    }
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+  return height;
+}
+
 export default function Services() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
@@ -317,6 +334,7 @@ export default function Services() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isOrbiting, setIsOrbiting]     = useState(true);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const canvasHeight = useCanvasHeight();
 
   useEffect(() => {
     fetch('/data/services.json').then((r) => r.json()).then(setData).catch(() => {});
@@ -340,24 +358,29 @@ export default function Services() {
   const tooltipIndex = hoveredIndex !== null && hoveredIndex !== focusedIndex ? hoveredIndex : null;
 
   return (
-    <section id="services" className="w-full py-[120px] bg-transparent" ref={ref}>
-      <div className="max-w-[1280px] mx-auto px-6">
-        <div className="text-center mb-16 relative z-20">
+    <section id="services" className="w-full py-24 sm:py-32 lg:py-[140px] bg-transparent" ref={ref}>
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12 sm:mb-16 relative z-20">
           <motion.p initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease }}
             className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime">{sectionLabel}</motion.p>
           <motion.h2 initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.6, ease }}
-            className="font-display italic text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4">{title}</motion.h2>
+            className="font-display italic text-[clamp(2rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4">{title}</motion.h2>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2, duration: 0.6, ease }}
-            className="font-body text-lg text-text-secondary mt-6 max-w-[560px] mx-auto">{subtitle}</motion.p>
+            className="font-body text-base sm:text-lg text-text-secondary mt-4 max-w-[560px] mx-auto">{subtitle}</motion.p>
         </div>
 
         <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ delay: 0.3, duration: 0.8, ease }}
-          className="relative w-full" style={{ height: 560 }}>
-          <Suspense fallback={null}>
+          className="relative w-full rounded-2xl overflow-hidden"
+          style={{ height: canvasHeight }}>
+          <Suspense fallback={
+            <div className="w-full h-full flex items-center justify-center">
+              <span className="font-mono text-xs text-text-muted animate-pulse tracking-widest uppercase">Loading universe…</span>
+            </div>
+          }>
             <Canvas camera={{ position: [0, 18, 8], fov: 50 }}
               style={{ width: '100%', height: '100%' }}
               onPointerMissed={resumeOrbit}>
