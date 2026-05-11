@@ -1,9 +1,9 @@
-import { useRef, useEffect, useState, Suspense } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, useTexture } from '@react-three/drei';
+import { useRef, useEffect, useState, Suspense, useCallback } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
-import { motion, useInView, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { ArrowRight, MousePointerClick } from 'lucide-react';
 
 interface Service {
   icon: string;
@@ -19,325 +19,409 @@ interface ServicesData {
   services: Service[];
 }
 
-// Icon component map (lucide icons as SVG paths)
 const ICON_MAP: Record<string, string> = {
   Code: 'M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
   TrendingUp: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6',
-  Building2: 'M6 22V4a2 2 0 012-2h8a2 2 0 012 2v18zM6 12H4a2 2 0 00-2 2v6a2 2 0 002 2h2M18 9h2a2 2 0 012 2v9a2 2 0 01-2 2h-2M10 6h4M10 10h4M10 14h4M10 18h4',
+  Building2:
+    'M6 22V4a2 2 0 012-2h8a2 2 0 012 2v18zM6 12H4a2 2 0 00-2 2v6a2 2 0 002 2h2M18 9h2a2 2 0 012 2v9a2 2 0 01-2 2h-2M10 6h4M10 10h4M10 14h4M10 18h4',
   Zap: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z',
 };
 
-// Planet color palette (one per service card)
 const PLANET_COLORS = [
-  { from: '#2E8B57', to: '#3CB371', glow: 'rgba(46,139,87,0.35)' }, // Earth blues/greens
-  { from: '#B7410E', to: '#C1440E', glow: 'rgba(183,65,14,0.35)' }, // Martian rust
-  { from: '#A9A9A9', to: '#D3D3D3', glow: 'rgba(169,169,169,0.35)' }, // Lunar silvers
-  { from: '#1B3F8B', to: '#355C8D', glow: 'rgba(27,63,139,0.35)' }, // Neptunian ice blues
-  { from: '#C2A37F', to: '#D2B48C', glow: 'rgba(194,163,127,0.35)' }, // Jovian sandy beiges
-  { from: '#E5C07B', to: '#F5DEB3', glow: 'rgba(229,192,123,0.35)' }, // Saturnian golds
+  { from: '#2E8B57', to: '#3CB371', glow: 'rgba(46,139,87,0.55)' },
+  { from: '#C1440E', to: '#E05A20', glow: 'rgba(193,68,14,0.55)' },
+  { from: '#B0B8C8', to: '#D8E0F0', glow: 'rgba(176,184,200,0.55)' },
+  { from: '#2255BB', to: '#4477DD', glow: 'rgba(34,85,187,0.55)' },
 ];
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-function RealPlanet3D({ colorHex, glowColor, hovered, index }: { colorHex: string; glowColor: string; hovered: boolean; index: number }) {
-  const meshRef = useRef<THREE.Group>(null!);
-  const planetRef = useRef<THREE.Mesh>(null!);
-  const cloudsRef = useRef<THREE.Mesh>(null!);
-  const atmosphereRef = useRef<THREE.Mesh>(null!);
+// ─── Orbit config ─────────────────────────────────────────────────────────────
+// All planets share ONE lane, evenly spaced 90° apart, same speed
+const ORBIT_RADIUS   = 6.0;
+const ORBIT_SPEED    = 0.22;
+const ORBIT_RADII    = [ORBIT_RADIUS, ORBIT_RADIUS, ORBIT_RADIUS, ORBIT_RADIUS];
+const ORBIT_SPEEDS   = [ORBIT_SPEED,  ORBIT_SPEED,  ORBIT_SPEED,  ORBIT_SPEED];
+const INITIAL_ANGLES = [0, Math.PI / 2, Math.PI, (3 * Math.PI) / 2];
+const PLANET_SIZE    = 1.3;
 
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    if (meshRef.current) {
-      // Rotation speeds
-      const rotationSpeed = hovered ? 0.012 : 0.005;
-      
-      // Apply rotation to planet and clouds independently
-      if (planetRef.current) planetRef.current.rotation.y += rotationSpeed;
-      if (cloudsRef.current) cloudsRef.current.rotation.y += rotationSpeed * 1.2;
-      
-      // Axial tilt (Earth's tilt is ~23.5 degrees = 0.41 radians)
-      meshRef.current.rotation.z = 0.41;
-      
-      // Subtle axial wobble
-      meshRef.current.rotation.x = Math.sin(t * 0.3) * 0.02;
-      
-      // Smoothly float up on hover with a more dramatic offset
-      const targetY = hovered ? 0.8 : 0;
-      meshRef.current.position.y += (targetY - meshRef.current.position.y) * 0.05;
-      
-      // Subtle scale pulse on hover
-      const targetScale = hovered ? 1.12 : 1.0;
-      const currentScale = meshRef.current.scale.x;
-      const newScale = currentScale + (targetScale - currentScale) * 0.05;
-      meshRef.current.scale.setScalar(newScale);
+// Expanding pulse ring shown on hover
+function PulseRing({ color, active }: { color: string; active: boolean }) {
+  const meshRef  = useRef<THREE.Mesh>(null!);
+  const scaleRef = useRef(1.0);
+
+  useFrame((_, delta) => {
+    if (!meshRef.current) return;
+    if (active) {
+      scaleRef.current += delta * 1.2;
+      if (scaleRef.current > 2.2) scaleRef.current = 1.0;
+      const opacity = Math.max(0, 1 - (scaleRef.current - 1) / 1.2);
+      meshRef.current.scale.setScalar(scaleRef.current);
+      (meshRef.current.material as THREE.MeshBasicMaterial).opacity = opacity * 0.6;
+    } else {
+      scaleRef.current = 1.0;
+      meshRef.current.scale.setScalar(1.0);
+      (meshRef.current.material as THREE.MeshBasicMaterial).opacity = 0;
     }
   });
 
-  // Load terrain textures for planet surface
-  const [normalMap, specularMap, colorMap, cloudMap] = useTexture([
-    '/textures/planet_normal.jpg',
-    '/textures/planet_specular.jpg',
-    '/textures/planet_color.jpg',
-    '/textures/planet_clouds.png',
+  return (
+    <mesh ref={meshRef} rotation={[-Math.PI / 2, 0, 0]}>
+      <ringGeometry args={[PLANET_SIZE * 1.3, PLANET_SIZE * 1.38, 64]} />
+      <meshBasicMaterial color={color} transparent opacity={0} side={THREE.DoubleSide} />
+    </mesh>
+  );
+}
+
+function OrbitingPlanet({
+  index, colorHex, glowColor, focused, hovered, orbitAngleRef, onClick, onPointerOver, onPointerOut,
+}: {
+  index: number; colorHex: string; glowColor: string; focused: boolean; hovered: boolean;
+  orbitAngleRef: React.MutableRefObject<number>; onClick: () => void;
+  onPointerOver: () => void; onPointerOut: () => void;
+}) {
+  const groupRef  = useRef<THREE.Group>(null!);
+  const planetRef = useRef<THREE.Mesh>(null!);
+  const cloudsRef = useRef<THREE.Mesh>(null!);
+  const atmRef    = useRef<THREE.Mesh>(null!);
+
+  const [colorMap, normalMap, specularMap, cloudMap] = useTexture([
+    '/textures/planet_color.jpg', '/textures/planet_normal.jpg',
+    '/textures/planet_specular.jpg', '/textures/planet_clouds.png',
   ]);
 
-  return (
-    <group ref={meshRef}>
-      {/* Core Planet */}
-      <mesh ref={planetRef}>
-        <sphereGeometry args={[2, 64, 64]} />
-        <meshStandardMaterial 
-          color={index === 0 ? '#ffffff' : colorHex} 
-          roughness={0.8} 
-          metalness={0.4}
-          map={colorMap}
-          normalMap={normalMap} 
-          normalScale={new THREE.Vector2(1.5, 1.5)}
-          roughnessMap={specularMap}
-        />
-      </mesh>
-      
-      {/* Atmosphere Glow */}
-      <mesh ref={atmosphereRef} scale={1.12}>
-        <sphereGeometry args={[2, 32, 32]} />
-        <meshBasicMaterial 
-          color={colorHex} 
-          transparent 
-          opacity={0.15} 
-          blending={THREE.AdditiveBlending} 
-          side={THREE.BackSide} 
-        />
-      </mesh>
-      
-      {/* Clouds */}
-      <mesh ref={cloudsRef} scale={1.012}>
-        <sphereGeometry args={[2, 64, 64]} />
-        <meshStandardMaterial 
-          map={cloudMap} 
-          transparent 
-          opacity={0.5} 
-          depthWrite={false} 
-          side={THREE.DoubleSide} 
-        />
-      </mesh>
+  const radius = ORBIT_RADII[index];
 
-      {/* Ring (Only if it's not the first one which is Earth-like) */}
-      {index !== 0 && (
-        <mesh rotation={[Math.PI / 2.5, 0, 0]}>
-          <ringGeometry args={[2.8, 2.85, 64]} />
-          <meshBasicMaterial color={glowColor} transparent opacity={0.4} side={THREE.DoubleSide} />
-        </mesh>
-      )}
+  useFrame((_, delta) => {
+    if (!groupRef.current) return;
+    const angle = orbitAngleRef.current;
+    const tx = Math.cos(angle) * radius;
+    const tz = Math.sin(angle) * radius;
+
+    if (focused) {
+      groupRef.current.position.x += (0   - groupRef.current.position.x) * delta * 3.5;
+      groupRef.current.position.z += (2.5 - groupRef.current.position.z) * delta * 3.5;
+      groupRef.current.position.y += (0   - groupRef.current.position.y) * delta * 3.5;
+      const ts = 2.2;
+      groupRef.current.scale.x += (ts - groupRef.current.scale.x) * delta * 5;
+      groupRef.current.scale.y += (ts - groupRef.current.scale.y) * delta * 5;
+      groupRef.current.scale.z += (ts - groupRef.current.scale.z) * delta * 5;
+    } else {
+      const hs = hovered ? 1.18 : 1.0;
+      groupRef.current.position.x += (tx - groupRef.current.position.x) * delta * 2.5;
+      groupRef.current.position.z += (tz - groupRef.current.position.z) * delta * 2.5;
+      groupRef.current.position.y += (0  - groupRef.current.position.y) * delta * 2.5;
+      groupRef.current.scale.x += (hs - groupRef.current.scale.x) * delta * 6;
+      groupRef.current.scale.y += (hs - groupRef.current.scale.y) * delta * 6;
+      groupRef.current.scale.z += (hs - groupRef.current.scale.z) * delta * 6;
+    }
+
+    const rotSpeed = hovered || focused ? 0.7 : 0.35;
+    if (planetRef.current) planetRef.current.rotation.y += delta * rotSpeed;
+    if (cloudsRef.current) cloudsRef.current.rotation.y += delta * rotSpeed * 1.25;
+
+    if (atmRef.current) {
+      const targetOpacity = hovered || focused ? 0.28 : 0.1;
+      const mat = atmRef.current.material as THREE.MeshBasicMaterial;
+      mat.opacity += (targetOpacity - mat.opacity) * delta * 4;
+    }
+
+    groupRef.current.rotation.z = 0.41;
+  });
+
+  return (
+    <group
+      ref={groupRef}
+      position={[Math.cos(INITIAL_ANGLES[index]) * radius, 0, Math.sin(INITIAL_ANGLES[index]) * radius]}
+      onClick={(e) => { e.stopPropagation(); onClick(); }}
+      onPointerOver={(e) => { e.stopPropagation(); onPointerOver(); }}
+      onPointerOut={(e)  => { e.stopPropagation(); onPointerOut(); }}
+    >
+      <mesh ref={planetRef}>
+        <sphereGeometry args={[PLANET_SIZE, 64, 64]} />
+        <meshStandardMaterial map={colorMap} normalMap={normalMap}
+          normalScale={new THREE.Vector2(1.5, 1.5)} roughnessMap={specularMap}
+          roughness={0.75} metalness={0.35} color={colorHex} />
+      </mesh>
+      <mesh ref={atmRef} scale={1.18}>
+        <sphereGeometry args={[PLANET_SIZE, 32, 32]} />
+        <meshBasicMaterial color={colorHex} transparent opacity={0.1}
+          blending={THREE.AdditiveBlending} side={THREE.BackSide} />
+      </mesh>
+      <mesh ref={cloudsRef} scale={1.018}>
+        <sphereGeometry args={[PLANET_SIZE, 64, 64]} />
+        <meshStandardMaterial map={cloudMap} transparent opacity={0.45}
+          depthWrite={false} side={THREE.DoubleSide} />
+      </mesh>
+      <mesh rotation={[Math.PI / 2.5, 0, 0]}>
+        <ringGeometry args={[PLANET_SIZE * 1.42, PLANET_SIZE * 1.48, 64]} />
+        <meshBasicMaterial color={glowColor} transparent opacity={0.3} side={THREE.DoubleSide} />
+      </mesh>
+      <PulseRing color={colorHex} active={hovered && !focused} />
+      <mesh>
+        <sphereGeometry args={[PLANET_SIZE * 1.7, 16, 16]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+      </mesh>
     </group>
   );
 }
 
-function PlanetCard({ service, index, isInView }: { service: Service; index: number; isInView: boolean }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const color = PLANET_COLORS[index % PLANET_COLORS.length];
-  const [hovered, setHovered] = useState(false);
+function OrbitPath({ radius, color }: { radius: number; color: string }) {
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]}>
+      <ringGeometry args={[radius - 0.018, radius + 0.018, 128]} />
+      <meshBasicMaterial color={color} transparent opacity={0.1} side={THREE.DoubleSide} />
+    </mesh>
+  );
+}
 
-  // Mouse-tracking 3D tilt
-  const rotateX = useMotionValue(0);
-  const rotateY = useMotionValue(0);
-  const springX = useSpring(rotateX, { stiffness: 100, damping: 25 });
-  const springY = useSpring(rotateY, { stiffness: 100, damping: 25 });
+function CursorController({ hoveredIndex }: { hoveredIndex: number | null }) {
+  const { gl } = useThree();
+  useEffect(() => {
+    gl.domElement.style.cursor = hoveredIndex !== null ? 'pointer' : 'default';
+  }, [hoveredIndex, gl]);
+  return null;
+}
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = cardRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const dx = (e.clientX - cx) / (rect.width / 2);
-    const dy = (e.clientY - cy) / (rect.height / 2);
-    rotateY.set(dx * 10);
-    rotateX.set(-dy * 10);
-  };
+function OrbitalScene({ services, focusedIndex, hoveredIndex, onPlanetClick, onPlanetHover, isOrbiting }: {
+  services: Service[]; focusedIndex: number | null; hoveredIndex: number | null;
+  onPlanetClick: (i: number) => void; onPlanetHover: (i: number | null) => void; isOrbiting: boolean;
+}) {
+  const angleRefs = useRef<React.MutableRefObject<number>[]>(
+    INITIAL_ANGLES.map((a) => ({ current: a }))
+  );
 
-  const handleMouseLeave = () => {
-    rotateX.set(0);
-    rotateY.set(0);
-    setHovered(false);
-  };
-
-  const iconPath = ICON_MAP[service.icon] ?? ICON_MAP['Code'];
+  useFrame((_, delta) => {
+    if (!isOrbiting) return;
+    angleRefs.current.forEach((ref, i) => { ref.current += ORBIT_SPEEDS[i] * delta; });
+  });
 
   return (
-    <motion.div
-      ref={cardRef}
-      onMouseEnter={() => setHovered(true)}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay: 0.25 + index * 0.09, duration: 0.65, ease }}
-      style={{
-        rotateX: springX,
-        rotateY: springY,
-        transformStyle: 'preserve-3d',
-        perspective: 1000,
-        zIndex: hovered ? 50 : 1,
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="relative group cursor-pointer pt-20"
-    >
-      {/* 3D Planet Visual - Moved outside blurred container to prevent clipping */}
-      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[340px] h-[400px] pointer-events-none z-[60]">
-        <Suspense fallback={null}>
-          <Canvas camera={{ position: [0, 0, 7], fov: 45 }}>
-            <ambientLight intensity={0.6} />
-            <directionalLight position={[5, 3, 5]} intensity={1.5} />
-            <pointLight position={[-5, -3, -5]} intensity={0.8} color={color.from} />
-            <Float speed={2.5} rotationIntensity={1.2} floatIntensity={1.5}>
-              <RealPlanet3D colorHex={color.from} glowColor={color.to} hovered={hovered} index={index} />
-            </Float>
-          </Canvas>
-        </Suspense>
-      </div>
-
-      <div
-        className="relative h-full flex-shrink-0 w-[320px] md:w-[360px] p-8 snap-start transition-all duration-300 liquid-glass-card opacity-80 group-hover:opacity-100"
-      >
-        {/* Spacer to prevent overlap with service content */}
-        <div className="h-[100px]" />
-
-        {/* Service number */}
-        <p className="font-mono text-xs text-text-muted">
-          {String(index + 1).padStart(2, '0')}
-        </p>
-
-        {/* Icon + Title */}
-        <div className="flex items-center gap-3 mt-2">
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-            style={{ background: `${color.from}22` }}
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke={color.from}
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="w-4 h-4"
-            >
-              <path d={iconPath} />
-            </svg>
-          </div>
-          <h3 className="font-body text-lg font-medium text-text-primary leading-tight">
-            {service.title}
-          </h3>
-        </div>
-
-        <p className="font-body text-sm text-text-secondary mt-3 leading-relaxed">
-          {service.description}
-        </p>
-
-        <a
-          href={service.href}
-          onClick={(e) => {
-            e.preventDefault();
-            document.querySelector(service.href)?.scrollIntoView({ behavior: 'smooth' });
-          }}
-          className="inline-flex items-center gap-1 font-mono text-xs mt-5 hover:underline transition-colors"
-          style={{ color: color.from }}
-        >
-          Explore Service
-          <ArrowRight size={12} />
-        </a>
-
-        {/* Card edge glow on hover */}
-        <div
-          className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-500"
-          style={{
-            boxShadow: `inset 0 0 30px ${color.glow}`,
-          }}
-        />
-      </div>
-    </motion.div>
+    <>
+      <ambientLight intensity={0.55} />
+      <directionalLight position={[10, 8, 6]} intensity={1.8} />
+      <pointLight position={[-8, -4, -4]} intensity={0.7} color="#4488ff" />
+      <CursorController hoveredIndex={hoveredIndex} />
+      {/* Single shared orbit path ring */}
+      <OrbitPath radius={ORBIT_RADIUS} color="#ffffff" />
+      {services.map((_, i) => (
+        <OrbitingPlanet key={i} index={i}
+          colorHex={PLANET_COLORS[i % PLANET_COLORS.length].from}
+          glowColor={PLANET_COLORS[i % PLANET_COLORS.length].to}
+          focused={focusedIndex === i} hovered={hoveredIndex === i}
+          orbitAngleRef={angleRefs.current[i]}
+          onClick={() => onPlanetClick(i)}
+          onPointerOver={() => onPlanetHover(i)}
+          onPointerOut={() => onPlanetHover(null)} />
+      ))}
+    </>
   );
+}
+
+function HoverTooltip({ service, index, visible }: { service: Service; index: number; visible: boolean }) {
+  const color = PLANET_COLORS[index % PLANET_COLORS.length];
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.div key={`tooltip-${index}`}
+          initial={{ opacity: 0, y: 6, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 4, scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+          className="absolute top-4 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
+          <div className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono tracking-wide whitespace-nowrap"
+            style={{
+              background: 'rgba(10,10,20,0.75)', border: `1px solid ${color.from}55`,
+              color: color.from, backdropFilter: 'blur(12px)', boxShadow: `0 0 20px ${color.glow}`,
+            }}>
+            <MousePointerClick size={11} />
+            {service.title}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function ServiceInfoCard({ service, index, visible }: { service: Service; index: number; visible: boolean }) {
+  const color = PLANET_COLORS[index % PLANET_COLORS.length];
+  const iconPath = ICON_MAP[service.icon] ?? ICON_MAP['Code'];
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.div key={`card-${index}`}
+          initial={{ opacity: 0, y: 28, scale: 0.94 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -16, scale: 0.94 }}
+          transition={{ duration: 0.45, ease }}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[min(92vw,380px)] pointer-events-none z-30">
+          <div className="liquid-glass-card p-5 sm:p-6 rounded-2xl"
+            style={{ boxShadow: `0 0 48px ${color.glow}` }}>
+            <div className="flex items-start gap-3 mb-3">
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                style={{ background: `${color.from}22` }}>
+                <svg viewBox="0 0 24 24" fill="none" stroke={color.from}
+                  strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                  <path d={iconPath} />
+                </svg>
+              </div>
+              <h3 className="font-body text-base sm:text-lg font-semibold text-text-primary leading-snug">
+                {service.title}
+              </h3>
+            </div>
+            <p className="font-body text-sm text-text-secondary leading-relaxed">{service.description}</p>
+            <a href={service.href}
+              className="inline-flex items-center gap-1 font-mono text-xs mt-4 hover:underline transition-colors pointer-events-auto"
+              style={{ color: color.from }}
+              onClick={(e) => { e.preventDefault(); document.querySelector(service.href)?.scrollIntoView({ behavior: 'smooth' }); }}>
+              Explore Service <ArrowRight size={12} />
+            </a>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function PlanetDots({ services, active, onSelect }: {
+  services: Service[]; active: number | null; onSelect: (i: number) => void;
+}) {
+  return (
+    <div className="flex flex-wrap gap-3 justify-center mt-5">
+      {services.map((svc, i) => {
+        const color = PLANET_COLORS[i % PLANET_COLORS.length];
+        const isActive = active === i;
+        return (
+          <button key={i} onClick={() => onSelect(i)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full font-mono text-[0.65rem] tracking-wide transition-all duration-300 border"
+            style={{
+              background: isActive ? `${color.from}22` : 'transparent',
+              borderColor: isActive ? color.from : `${color.from}55`,
+              color: isActive ? color.from : 'var(--color-text-muted, #888)',
+              boxShadow: isActive ? `0 0 12px ${color.glow}` : 'none',
+            }}
+            aria-label={`Select ${svc.title}`}>
+            <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: color.from }} />
+            <span className="hidden sm:inline">{svc.title}</span>
+            <span className="sm:hidden">{String(i + 1).padStart(2, '0')}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function useCanvasHeight() {
+  const [height, setHeight] = useState(560);
+  useEffect(() => {
+    function update() {
+      const w = window.innerWidth;
+      if (w < 480)       setHeight(340);
+      else if (w < 768)  setHeight(420);
+      else if (w < 1024) setHeight(500);
+      else               setHeight(580);
+    }
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+  return height;
 }
 
 export default function Services() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const [data, setData] = useState<ServicesData | null>(null);
-
-  // Scroll-based horizontal parallax
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
-  const xParallax = useTransform(scrollYProgress, [0, 1], ['4%', '-4%']);
+  const [data, setData]                 = useState<ServicesData | null>(null);
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isOrbiting, setIsOrbiting]     = useState(true);
+  const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const canvasHeight = useCanvasHeight();
 
   useEffect(() => {
-    fetch('/data/services.json')
-      .then((r) => r.json())
-      .then(setData)
-      .catch(() => {});
+    fetch('/data/services.json').then((r) => r.json()).then(setData).catch(() => {});
   }, []);
 
-  const services = data?.services ?? [];
-  const title = data?.title ?? 'What We Offer';
-  const subtitle = data?.subtitle ?? 'Tailored digital solutions for your business needs';
+  const resumeOrbit = useCallback(() => { setFocusedIndex(null); setIsOrbiting(true); }, []);
+
+  const handlePlanetClick = useCallback((i: number) => {
+    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    setFocusedIndex(i);
+    setIsOrbiting(false);
+    idleTimerRef.current = setTimeout(resumeOrbit, 5000);
+  }, [resumeOrbit]);
+
+  useEffect(() => () => { if (idleTimerRef.current) clearTimeout(idleTimerRef.current); }, []);
+
+  const services     = data?.services     ?? [];
+  const title        = data?.title        ?? 'What We Offer';
+  const subtitle     = data?.subtitle     ?? 'Tailored digital solutions for your business needs';
   const sectionLabel = data?.sectionLabel ?? 'SERVICES';
+  const tooltipIndex = hoveredIndex !== null && hoveredIndex !== focusedIndex ? hoveredIndex : null;
 
   return (
-    <section id="services" className="w-full py-[160px] bg-transparent" ref={ref}>
-      <div className="max-w-[1280px] mx-auto px-6">
-        {/* Section header */}
-        <div className="text-center mb-20 relative z-20">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+    <section id="services" className="w-full py-24 sm:py-32 lg:py-[140px] bg-transparent" ref={ref}>
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12 sm:mb-16 relative z-20">
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease }}
-            className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime"
-          >
-            {sectionLabel}
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime">{sectionLabel}</motion.p>
+          <motion.h2 initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.6, ease }}
-            className="font-display italic text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
-          >
-            {title}
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            className="font-display italic text-[clamp(2rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4">{title}</motion.h2>
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2, duration: 0.6, ease }}
-            className="font-body text-lg text-text-secondary mt-6 max-w-[560px] mx-auto"
-          >
-            {subtitle}
-          </motion.p>
+            className="font-body text-base sm:text-lg text-text-secondary mt-4 max-w-[560px] mx-auto">{subtitle}</motion.p>
         </div>
 
-        {/* Scroll-parallax planet carousel */}
-        <div className="overflow-visible">
-          <motion.div
-            style={{ x: xParallax }}
-            className="flex gap-8 pb-12 -mx-6 px-6 overflow-visible"
-          >
-            {services.map((service, i) => (
-              <PlanetCard
-                key={service.title}
-                service={service}
-                index={i}
-                isInView={isInView}
-              />
-            ))}
-          </motion.div>
-        </div>
+        <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ delay: 0.3, duration: 0.8, ease }}
+          className="relative w-full rounded-2xl overflow-hidden"
+          style={{ height: canvasHeight }}>
+          <Suspense fallback={
+            <div className="w-full h-full flex items-center justify-center">
+              <span className="font-mono text-xs text-text-muted animate-pulse tracking-widest uppercase">Loading universe…</span>
+            </div>
+          }>
+            <Canvas camera={{ position: [0, 18, 8], fov: 50 }}
+              style={{ width: '100%', height: '100%' }}
+              onPointerMissed={resumeOrbit}>
+              {services.length > 0 && (
+                <OrbitalScene services={services} focusedIndex={focusedIndex}
+                  hoveredIndex={hoveredIndex} onPlanetClick={handlePlanetClick}
+                  onPlanetHover={setHoveredIndex} isOrbiting={isOrbiting} />
+              )}
+            </Canvas>
+          </Suspense>
+          {services.map((svc, i) => (
+            <HoverTooltip key={svc.title} service={svc} index={i} visible={tooltipIndex === i} />
+          ))}
+          {services.map((svc, i) => (
+            <ServiceInfoCard key={svc.title} service={svc} index={i} visible={focusedIndex === i} />
+          ))}
+          <AnimatePresence>
+            {focusedIndex !== null && (
+              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                className="absolute top-4 right-4 font-mono text-[0.58rem] tracking-[0.1em] uppercase text-text-muted hidden sm:block">
+                orbit resumes in 5 s
+              </motion.p>
+            )}
+          </AnimatePresence>
+          <AnimatePresence>
+            {focusedIndex === null && isInView && (
+              <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                transition={{ delay: 1.2, duration: 0.6 }}
+                className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 font-mono text-[0.6rem] tracking-widest uppercase text-text-muted pointer-events-none">
+                <MousePointerClick size={11} />
+                tap a planet to explore
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
 
-        {/* Scroll hint */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.8, duration: 0.6 }}
-          className="text-center font-mono text-[0.65rem] tracking-[0.1em] uppercase text-text-muted mt-6"
-        >
-          ← scroll to explore →
-        </motion.p>
+        {services.length > 0 && (
+          <PlanetDots services={services} active={focusedIndex} onSelect={handlePlanetClick} />
+        )}
       </div>
     </section>
   );
