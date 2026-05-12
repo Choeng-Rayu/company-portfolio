@@ -42,7 +42,7 @@ export default function OurJourney() {
   if (!data) return null;
 
   return (
-    <section className="w-full py-20 md:py-[140px] bg-transparent" ref={ref}>
+    <section id="work" className="w-full py-20 md:py-[140px] bg-transparent" ref={ref}>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
 
         {/* Section Header */}
