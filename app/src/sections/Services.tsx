@@ -38,12 +38,12 @@ const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 // ─── Orbit config ─────────────────────────────────────────────────────────────
 // All planets share ONE lane, evenly spaced 90° apart, same speed
-const ORBIT_RADIUS   = 6.0;
+const ORBIT_RADIUS   = 7.0;
 const ORBIT_SPEED    = 0.22;
 const ORBIT_RADII    = [ORBIT_RADIUS, ORBIT_RADIUS, ORBIT_RADIUS, ORBIT_RADIUS];
 const ORBIT_SPEEDS   = [ORBIT_SPEED,  ORBIT_SPEED,  ORBIT_SPEED,  ORBIT_SPEED];
 const INITIAL_ANGLES = [0, Math.PI / 2, Math.PI, (3 * Math.PI) / 2];
-const PLANET_SIZE    = 1.3;
+const PLANET_SIZE    = 2.2;
 
 // Expanding pulse ring shown on hover
 function PulseRing({ color, active }: { color: string; active: boolean }) {
@@ -100,9 +100,9 @@ function OrbitingPlanet({
 
     if (focused) {
       groupRef.current.position.x += (0   - groupRef.current.position.x) * delta * 3.5;
-      groupRef.current.position.z += (2.5 - groupRef.current.position.z) * delta * 3.5;
+      groupRef.current.position.z += (3.5 - groupRef.current.position.z) * delta * 3.5;
       groupRef.current.position.y += (0   - groupRef.current.position.y) * delta * 3.5;
-      const ts = 2.2;
+      const ts = 1.6;
       groupRef.current.scale.x += (ts - groupRef.current.scale.x) * delta * 5;
       groupRef.current.scale.y += (ts - groupRef.current.scale.y) * delta * 5;
       groupRef.current.scale.z += (ts - groupRef.current.scale.z) * delta * 5;
@@ -312,14 +312,14 @@ function PlanetDots({ services, active, onSelect }: {
 }
 
 function useCanvasHeight() {
-  const [height, setHeight] = useState(560);
+  const [height, setHeight] = useState(680);
   useEffect(() => {
     function update() {
       const w = window.innerWidth;
-      if (w < 480)       setHeight(340);
-      else if (w < 768)  setHeight(420);
-      else if (w < 1024) setHeight(500);
-      else               setHeight(580);
+      if (w < 480)       setHeight(420);
+      else if (w < 768)  setHeight(520);
+      else if (w < 1024) setHeight(620);
+      else               setHeight(720);
     }
     update();
     window.addEventListener('resize', update);
@@ -383,7 +383,7 @@ export default function Services() {
               <span className="font-mono text-xs text-text-muted animate-pulse tracking-widest uppercase">Loading universe…</span>
             </div>
           }>
-            <Canvas camera={{ position: [0, 18, 8], fov: 50 }}
+            <Canvas camera={{ position: [0, 22, 10], fov: 50 }}
               style={{ width: '100%', height: '100%' }}
               onPointerMissed={resumeOrbit}>
               {services.length > 0 && (
