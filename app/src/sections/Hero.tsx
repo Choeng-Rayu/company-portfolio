@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown, Telescope } from 'lucide-react';
 
 
 
@@ -83,6 +83,8 @@ export default function Hero() {
     <section className="relative min-h-[100dvh] w-full overflow-x-hidden bg-transparent pt-24">
       {/* Content */}
       <div className="relative z-10 min-h-[100dvh] grid grid-cols-1 md:grid-cols-2 max-w-[1280px] mx-auto px-6">
+
+        {/* Left column — text & CTA buttons */}
         <div className="flex flex-col justify-center py-24 md:py-0">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -140,6 +142,86 @@ export default function Hero() {
             </MagneticButton>
           </motion.div>
         </div>
+
+        {/* Right column — orbiting "Our Work" button */}
+        <div className="hidden md:flex items-center justify-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.0, duration: 0.8, ease }}
+            className="relative flex items-center justify-center"
+            style={{ width: 260, height: 260 }}
+          >
+            {/* Outer orbit ring */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+              className="absolute inset-0 rounded-full"
+              style={{
+                border: '1px dashed rgba(200,241,53,0.25)',
+              }}
+            />
+
+            {/* Inner orbit ring */}
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+              className="absolute rounded-full"
+              style={{
+                width: 180,
+                height: 180,
+                border: '1px dashed rgba(200,241,53,0.12)',
+              }}
+            />
+
+            {/* Orbiting dot on outer ring */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+              className="absolute inset-0"
+            >
+              <div
+                className="absolute w-2 h-2 rounded-full bg-accent-lime"
+                style={{
+                  top: '50%',
+                  left: '-4px',
+                  transform: 'translateY(-50%)',
+                  boxShadow: '0 0 8px #C8F135',
+                }}
+              />
+            </motion.div>
+
+            {/* Orbiting dot on inner ring */}
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+              className="absolute"
+              style={{ width: 180, height: 180 }}
+            >
+              <div
+                className="absolute w-1.5 h-1.5 rounded-full bg-accent-lime opacity-60"
+                style={{
+                  bottom: '-3px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  boxShadow: '0 0 6px #C8F135',
+                }}
+              />
+            </motion.div>
+
+            {/* Center "Our Work" button */}
+            <MagneticButton
+              href="#work"
+              onClick={(e) => handleScroll(e, '#work')}
+              className="relative z-10 flex flex-col items-center justify-center gap-2 w-28 h-28 rounded-full liquid-glass-btn text-text-primary font-body text-sm font-medium transition-all text-center"
+              style={{ boxShadow: '0 0 32px rgba(200,241,53,0.12)' } as React.CSSProperties}
+            >
+              <Telescope size={20} className="text-accent-lime" />
+              <span className="font-mono text-xs tracking-widest uppercase leading-tight">Our<br />Work</span>
+            </MagneticButton>
+          </motion.div>
+        </div>
+
       </div>
 
       {/* Bottom hairline */}
