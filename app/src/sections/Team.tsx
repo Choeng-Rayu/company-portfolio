@@ -55,7 +55,7 @@ function TeamCard({ member, index, isInView }: { member: TeamMember; index: numb
       >
         {member.initials}
       </div>
-      <h4 className="font-body text-lg font-medium text-text-primary mt-4">{member.name}</h4>
+      <h4 className="text-lg font-medium text-text-primary mt-4">{member.name}</h4>
       <p className="font-mono text-xs uppercase text-text-muted mt-1">{member.role}</p>
       <a
         href={member.linkedIn}
@@ -104,7 +104,7 @@ export default function Team() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.6, ease }}
-            className="font-display italic text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
+            className="font-display text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
           >
             {data.title}
           </motion.h2>
@@ -112,7 +112,7 @@ export default function Team() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2, duration: 0.6, ease }}
-            className="font-body text-lg text-text-secondary mt-2"
+            className="text-lg text-text-secondary mt-2"
           >
             {data.subtitle}
           </motion.p>

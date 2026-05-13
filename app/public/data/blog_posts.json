@@ -1,0 +1,42 @@
+[
+  {
+    "slug": "building-digital-cambodia",
+    "title": "Building Digital Cambodia: Our Mission",
+    "excerpt": "How we are helping Cambodian businesses transition from manual processes to modern digital systems, one solution at a time.",
+    "content": "Cambodia is at a pivotal moment in its digital transformation journey. As a startup born and built in Phnom Penh, we have a front-row seat to the incredible potential of local businesses.\n\nMany small and medium enterprises still rely on paper-based processes, fragmented spreadsheets, and manual record keeping. While these methods have worked for years, they create bottlenecks that limit growth and competitiveness.\n\nOur mission is simple: make digital transformation accessible. We believe world-class software should not be reserved for large corporations with massive budgets. Every business deserves tools that help them work smarter, serve customers better, and scale with confidence.\n\nWe take a collaborative approach, working closely with business owners to understand their unique challenges before proposing solutions. This ensures that the technology we build actually solves real problems rather than creating new ones.\n\nFrom custom CRM systems to e-commerce platforms and automation tools, we are building the digital infrastructure that Cambodia's next generation of businesses needs to thrive.",
+    "author": "TomNerb Team",
+    "date": "May 2026",
+    "tags": ["Cambodia", "Digital Transformation", "Startups"],
+    "readTime": "4 min read"
+  },
+  {
+    "slug": "why-we-chose-react-three-fiber",
+    "title": "Why We Chose React Three Fiber for Our Portfolio",
+    "excerpt": "A deep dive into how React Three Fiber, Framer Motion, and GSAP combine to create immersive web experiences without sacrificing performance.",
+    "content": "When redesigning our portfolio, we wanted something that felt different. Not just another static landing page, but an experience that captures the wonder of exploration and innovation.\n\nReact Three Fiber (R3F) was the perfect choice. It brings the power of Three.js into the React component model, letting us build declarative 3D scenes that feel native to our codebase. The orbital planet system on our homepage? That is R3F handling camera controls, lighting, and animated meshes.\n\nBut 3D alone is not enough. We paired it with Framer Motion for UI animations and GSAP for scroll-driven effects. The result is a layered experience where 3D backgrounds react to scroll position, cards tilt in 3D space on mouse movement, and page transitions feel smooth and cinematic.\n\nPerformance was a key concern. We use lazy loading for heavy components, optimize textures, and ensure the 3D canvas only renders when visible. On mobile, we gracefully degrade to simpler visuals while maintaining the core aesthetic.\n\nThe lesson? Modern web tech lets small teams build experiences that would have required entire studios just a few years ago.",
+    "author": "Dev Team",
+    "date": "April 2026",
+    "tags": ["React", "Three.js", "WebGL", "Frontend"],
+    "readTime": "6 min read"
+  },
+  {
+    "slug": "liquid-glass-design-system",
+    "title": "Designing the Liquid Glass Aesthetic",
+    "excerpt": "How we created a cohesive glassmorphism design language using SVG filters, backdrop blur, and careful opacity layering.",
+    "content": "Glassmorphism has evolved. The early days of simple backdrop-blur and semi-transparent white backgrounds have given way to more sophisticated approaches. We call ours Liquid Glass.\n\nThe core idea is to create surfaces that feel like they exist in physical space — refracting light, catching highlights, and maintaining depth against dark backgrounds. We achieve this through a combination of techniques.\n\nFirst, SVG feTurbulence and feDisplacementMap filters create subtle surface distortion that mimics real glass irregularities. Second, layered box-shadows and inner highlights give each card a sense of thickness and edge lighting. Third, carefully tuned opacity values ensure readability without losing the see-through quality.\n\nColor is restrained. Our palette centers on deep space blacks, warm whites, and a single accent lime that guides the eye. This discipline ensures the glass effects remain elegant rather than cluttered.\n\nThe system is implemented as reusable Tailwind utilities and React components, making it easy to maintain consistency across every page and section.",
+    "author": "Design Team",
+    "date": "March 2026",
+    "tags": ["Design", "UI/UX", "CSS", "Glassmorphism"],
+    "readTime": "5 min read"
+  },
+  {
+    "slug": "scaling-with-local-businesses",
+    "title": "Scaling Alongside Local Businesses",
+    "excerpt": "Partnership over transaction: why we prioritize long-term relationships with the businesses we serve.",
+    "content": "In the software industry, it is easy to fall into a transactional mindset. Build the product, deliver it, move on. We deliberately reject that approach.\n\nEvery business we work with is a partner. We invest time upfront to understand their operations, their customers, and their goals. This context shapes every technical decision we make.\n\nThe benefits are mutual. Our partners get solutions that actually fit their workflows, not generic tools forced into place. We get deep domain knowledge that makes us better builders. Over time, these relationships compound.\n\nWe have seen retail shops grow into multi-location chains. We have seen family restaurants launch successful delivery apps. Each success story reinforces our belief that local expertise combined with modern technology creates outsized impact.\n\nOur roadmap is shaped by partner feedback. If you are a Cambodian business looking to grow, we would love to hear your story.",
+    "author": "TomNerb Team",
+    "date": "February 2026",
+    "tags": ["Business", "Partnership", "Growth", "Cambodia"],
+    "readTime": "3 min read"
+  }
+]

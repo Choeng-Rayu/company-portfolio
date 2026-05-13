@@ -80,11 +80,11 @@ function VisionCard({
         </span>
       </div>
 
-      <h3 className="font-body text-xl font-medium text-text-primary mb-4">
+      <h3 className="text-xl font-medium text-text-primary mb-4">
         {card.title}
       </h3>
 
-      <ul className="text-left space-y-2 text-text-secondary font-body text-sm">
+      <ul className="text-left space-y-2 text-text-secondary text-base">
         {card.bullets.map((b, idx) => (
           <li key={idx}>• {b}</li>
         ))}
@@ -138,7 +138,7 @@ export default function VisionMissionGoals() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.6, ease }}
-            className="font-display italic text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
+            className="font-display text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
           >
             Where We Stand &amp; Where We Go
           </motion.h2>

@@ -49,7 +49,7 @@ export default function Testimonials() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.6, ease }}
-            className="font-display italic text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
+            className="font-display text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
           >
             Client Signals
           </motion.h2>
@@ -81,7 +81,7 @@ export default function Testimonials() {
                 transition={{ duration: 0.5, ease }}
                 className="text-center"
               >
-                <p className="font-display italic text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.4] text-text-primary">
+                <p className="font-display text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.4] text-text-primary">
                   {testimonials[active].quote}
                 </p>
 
@@ -92,7 +92,7 @@ export default function Testimonials() {
                     className="w-12 h-12 rounded-full object-cover"
                   />
                   <div className="text-left">
-                    <p className="font-body text-base font-medium text-text-primary">
+                    <p className="text-base font-medium text-text-primary">
                       {testimonials[active].name}
                     </p>
                     <p className="font-mono text-xs text-text-muted">

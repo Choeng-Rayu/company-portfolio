@@ -1,59 +1,80 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
-
-const navLinks = [
-  { label: 'Services', href: '#services' },
-  { label: 'Work', href: '#work' },
-  { label: 'Process', href: '#process' },
-  { label: 'Team', href: '#team' },
-  { label: 'Contact', href: '#contact' },
-];
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Menu, X } from 'lucide-react'
+import { Link, useLocation } from 'react-router'
+import { useAppStore } from '../store/useAppStore'
 
 export default function Navbar() {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const location = useLocation()
+  const navLinks = useAppStore((s) => s.navLinks)
 
+  const isHome = location.pathname === '/'
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    setMobileOpen(false);
-    const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+    if (href.startsWith('/#') && isHome) {
+      e.preventDefault()
+      setMobileOpen(false)
+      const id = href.replace('/#', '')
+      const el = document.getElementById(id)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+      }
+    } else if (href.startsWith('/#') && !isHome) {
+      // Navigate to home then scroll
+      setMobileOpen(false)
+    } else {
+      setMobileOpen(false)
     }
-  };
+  }
+
+  const isActive = (href: string) => {
+    if (href === '/') return location.pathname === '/'
+    if (href.startsWith('/#')) return isHome && location.hash === href.replace('/', '')
+    return location.pathname === href || location.pathname.startsWith(href + '/')
+  }
 
   return (
     <>
-<nav
-          className="fixed top-4 left-1/2 -translate-x-1/2 w-[96%] max-w-[1280px] z-50 h-16 flex items-center transition-all duration-300 liquid-glass-nav"
-        >
+      <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[96%] max-w-[1280px] z-50 h-16 flex items-center transition-all duration-300 liquid-glass-nav">
         <div className="w-full max-w-[1280px] mx-auto px-6 flex items-center justify-between">
-          <a href="#" className="font-mono text-sm tracking-[0.12em] uppercase text-text-primary">
-            UNIVERSE
-          </a>
+          <Link
+            to="/"
+            className="flex items-center"
+          >
+            <img
+              src="/images/company_log.png"
+              alt="Universe Software"
+              className="h-8 w-auto object-contain"
+            />
+          </Link>
 
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
-                href={link.href}
+                to={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="relative font-mono text-xs tracking-[0.08em] uppercase text-text-secondary hover:text-text-primary transition-colors group"
+                className={`relative font-mono text-xs tracking-[0.08em] uppercase transition-colors group ${
+                  isActive(link.href) ? 'text-accent-lime' : 'text-text-secondary hover:text-text-primary'
+                }`}
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-full h-px bg-accent-lime scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-              </a>
+                <span
+                  className={`absolute -bottom-1 left-0 w-full h-px bg-accent-lime transition-transform origin-left ${
+                    isActive(link.href) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                  }`}
+                />
+              </Link>
             ))}
           </div>
 
-          <a
-            href="#contact"
-            onClick={(e) => handleNavClick(e, '#contact')}
-            className="hidden md:inline-flex items-center px-6 py-2.5 rounded-full liquid-glass-btn text-text-primary font-body text-xs font-medium tracking-[0.02em] uppercase transition-all"
+          <Link
+            to="/contact"
+            className="hidden md:inline-flex items-center px-6 py-2.5 rounded-full liquid-glass-btn text-text-primary text-xs font-medium tracking-[0.02em] uppercase transition-all hover:text-accent-lime"
           >
             Start a Project
-          </a>
+          </Link>
 
           <button
             onClick={() => setMobileOpen(true)}
@@ -84,34 +105,42 @@ export default function Navbar() {
 
             <div className="flex flex-col items-center gap-8">
               {navLinks.map((link, i) => (
-                <motion.a
+                <motion.div
                   key={link.label}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ delay: i * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-body text-2xl text-text-primary hover:text-accent-lime transition-colors"
                 >
-                  {link.label}
-                </motion.a>
+                  <Link
+                    to={link.href}
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className={`text-2xl transition-colors ${
+                      isActive(link.href) ? 'text-accent-lime' : 'text-text-primary hover:text-accent-lime'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
               ))}
-              <motion.a
-                href="#contact"
-                onClick={(e) => handleNavClick(e, '#contact')}
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ delay: 0.4, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="mt-4 px-8 py-3 rounded-full liquid-glass-btn text-text-primary font-body text-sm font-medium transition-all"
               >
-                Start a Project
-              </motion.a>
+                <Link
+                  to="/contact"
+                  onClick={() => setMobileOpen(false)}
+                  className="mt-4 px-8 py-3 rounded-full liquid-glass-btn text-text-primary text-sm font-medium transition-all hover:text-accent-lime"
+                >
+                  Start a Project
+                </Link>
+              </motion.div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </>
-  );
+  )
 }

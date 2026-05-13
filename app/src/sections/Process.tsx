@@ -39,7 +39,7 @@ export default function Process() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.6, ease }}
-            className="font-display italic text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
+            className="font-display text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
           >
             The Launch Sequence
           </motion.h2>
@@ -82,10 +82,10 @@ export default function Process() {
                 className="text-center"
               >
                 <p className="font-mono text-5xl text-text-muted">{step.num}</p>
-                <h4 className="font-body text-base font-medium text-text-primary mt-3">
+                <h4 className="text-base font-medium text-text-primary mt-3">
                   {step.title}
                 </h4>
-                <p className="font-body text-sm text-text-secondary mt-2">
+                <p className="text-base text-text-secondary mt-2">
                   {step.desc}
                 </p>
                 <span className="inline-block mt-3 px-3 py-1 rounded-full bg-accent-lime text-bg-base font-mono text-[0.65rem] uppercase">
@@ -117,10 +117,10 @@ export default function Process() {
                 )}
               </div>
               <div className="pb-8">
-                <h4 className="font-body text-base font-medium text-text-primary">
+                <h4 className="text-base font-medium text-text-primary">
                   {step.title}
                 </h4>
-                <p className="font-body text-sm text-text-secondary mt-1">
+                <p className="text-base text-text-secondary mt-1">
                   {step.desc}
                 </p>
                 <span className="inline-block mt-2 px-3 py-1 rounded-full bg-accent-lime text-bg-base font-mono text-[0.65rem] uppercase">

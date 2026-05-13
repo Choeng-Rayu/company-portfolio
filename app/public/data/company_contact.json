@@ -8,13 +8,27 @@
       "type": "email",
       "label": "Email",
       "value": "info@tomnerb.com",
-      "href": "mailto:info@tomnerb.com"
+      "href": "mailto:info@tomnerb.com",
+      "icon": "Mail"
     },
     {
       "type": "phone",
       "label": "Phone",
       "value": "+855 969 983 479",
-      "href": "tel:+855969983479"
+      "href": "tel:+855969983479",
+      "icon": "Phone"
+    },
+    {
+      "type": "location",
+      "label": "Location",
+      "value": "Phnom Penh, Cambodia",
+      "href": "#",
+      "icon": "MapPin"
     }
+  ],
+  "socials": [
+    { "platform": "GitHub", "url": "#", "icon": "Github" },
+    { "platform": "LinkedIn", "url": "#", "icon": "Linkedin" },
+    { "platform": "Twitter", "url": "#", "icon": "Twitter" }
   ]
 }

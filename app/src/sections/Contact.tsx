@@ -69,7 +69,7 @@ export default function Contact() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.6, ease }}
-            className="font-display italic text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
+            className="font-display text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
           >
             {contactData?.title}
           </motion.h2>
@@ -96,14 +96,14 @@ export default function Contact() {
             <a
               href="#"
               onClick={(e) => handleScroll(e, '#contact')}
-              className="inline-flex items-center px-8 py-3.5 rounded-full liquid-glass-btn text-text-primary font-body text-base font-medium transition-all"
+              className="inline-flex items-center px-8 py-3.5 rounded-full liquid-glass-btn text-text-primary text-base font-medium transition-all"
             >
               Start a Project
             </a>
             <a
               href="#"
               onClick={(e) => handleScroll(e, '#contact')}
-              className="inline-flex items-center px-8 py-3.5 rounded-full liquid-glass-btn text-text-primary font-body text-base font-medium transition-all"
+              className="inline-flex items-center px-8 py-3.5 rounded-full liquid-glass-btn text-text-primary text-base font-medium transition-all"
             >
               Book a Call →
             </a>

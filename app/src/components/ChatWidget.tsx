@@ -228,10 +228,10 @@ export default function ChatWidget() {
                             ✓
                           </motion.div>
                         </div>
-                        <p className="font-body text-xl text-text-primary font-medium tracking-tight">
+                        <p className="text-xl text-text-primary font-medium tracking-tight">
                           Transmission Received
                         </p>
-                        <p className="font-body text-sm text-text-muted mt-3 leading-relaxed">
+                        <p className="text-base text-text-muted mt-3 leading-relaxed">
                           Our team will reach out to you within 24 hours.
                         </p>
                       </div>
@@ -280,7 +280,7 @@ export default function ChatWidget() {
                         </div>
                         <button
                           type="submit"
-                          className="w-full py-4 mt-2 rounded-[1.2rem] bg-white text-black font-body text-xs font-semibold uppercase tracking-widest hover:bg-white/90 active:scale-[0.98] transition-all shadow-xl"
+                          className="w-full py-4 mt-2 rounded-[1.2rem] bg-white text-black text-xs font-semibold uppercase tracking-widest hover:bg-white/90 active:scale-[0.98] transition-all shadow-xl"
                         >
                           Send Transmission
                         </button>

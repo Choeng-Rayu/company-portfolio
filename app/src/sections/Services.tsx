@@ -265,11 +265,11 @@ function ServiceInfoCard({ service, index, visible }: { service: Service; index:
                   <path d={iconPath} />
                 </svg>
               </div>
-              <h3 className="font-body text-base sm:text-lg font-semibold text-text-primary leading-snug">
+              <h3 className="text-base sm:text-lg font-semibold text-text-primary leading-snug">
                 {service.title}
               </h3>
             </div>
-            <p className="font-body text-sm text-text-secondary leading-relaxed">{service.description}</p>
+            <p className="text-base text-text-secondary leading-relaxed">{service.description}</p>
             <a href={service.href}
               className="inline-flex items-center gap-1 font-mono text-xs mt-4 hover:underline transition-colors pointer-events-auto"
               style={{ color: color.from }}
@@ -368,10 +368,10 @@ export default function Services() {
             className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime">{sectionLabel}</motion.p>
           <motion.h2 initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.6, ease }}
-            className="font-display italic text-[clamp(2rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4">{title}</motion.h2>
+            className="font-display text-[clamp(2rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4">{title}</motion.h2>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2, duration: 0.6, ease }}
-            className="font-body text-base sm:text-lg text-text-secondary mt-4 max-w-[560px] mx-auto">{subtitle}</motion.p>
+            className="text-lg sm:text-xl text-text-secondary mt-4 max-w-[560px] mx-auto">{subtitle}</motion.p>
         </div>
 
         <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={isInView ? { opacity: 1, scale: 1 } : {}}

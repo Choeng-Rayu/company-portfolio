@@ -10,8 +10,8 @@
     --border-color: #222228;
     --border-accent: #3A3A44;
     --text-primary: #FFFFFF;
-    --text-secondary: #D1D1D6;
-    --text-muted: #8E8E93;
+    --text-secondary: #C4C4D0;
+    --text-muted: #9898A8;
     --accent: #C8F135;
     --accent-dim: #8FAF20;
     --accent-glow: rgba(200, 241, 53, 0.12);
@@ -63,15 +63,8 @@
 
 @layer components {
   .font-display {
-    font-family: 'Instrument Serif', Georgia, serif;
-  }
-
-  .font-body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  }
-
-  .font-mono-label {
-    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
   .text-gradient {

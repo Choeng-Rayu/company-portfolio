@@ -42,7 +42,7 @@ export default function OurJourney() {
   if (!data) return null;
 
   return (
-    <section id="work" className="w-full py-20 md:py-[140px] bg-transparent" ref={ref}>
+    <section id="journey" className="w-full py-20 md:py-[140px] bg-transparent" ref={ref}>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
 
         {/* Section Header */}
@@ -59,7 +59,7 @@ export default function OurJourney() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.6, ease }}
-            className="font-display italic text-[clamp(2rem,6vw,5rem)] leading-[1.05] text-text-primary mt-4"
+            className="font-display text-[clamp(2rem,6vw,5rem)] leading-[1.05] text-text-primary mt-4"
           >
             {data.title}
           </motion.h2>
@@ -68,7 +68,7 @@ export default function OurJourney() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.2, duration: 0.6, ease }}
-              className="font-body text-base md:text-lg text-text-secondary mt-4 max-w-[560px] mx-auto"
+              className="text-lg md:text-xl text-text-secondary mt-4 max-w-[560px] mx-auto"
             >
               {data.subtitle}
             </motion.p>
@@ -133,11 +133,11 @@ function MobileCard({ milestone, index, planet }: { milestone: Milestone; index:
           <span className="inline-flex items-center justify-center px-3 py-1 text-xs font-mono bg-accent-lime text-bg-base rounded-full flex-shrink-0">
             {milestone.year}
           </span>
-          <h4 className="font-display italic text-text-primary text-base leading-snug">
+          <h4 className="font-display text-text-primary text-base leading-snug">
             {milestone.title}
           </h4>
         </div>
-        <p className="font-body text-sm text-text-secondary leading-relaxed">
+        <p className="text-base text-text-secondary leading-relaxed">
           {milestone.description}
         </p>
       </motion.div>
@@ -173,11 +173,11 @@ function DesktopCard({ milestone, index, planet }: { milestone: Milestone; index
         <span className="inline-flex items-center justify-center px-3 py-1 text-sm font-mono bg-accent-lime text-bg-base rounded-full mr-2">
           {milestone.year}
         </span>
-        <h4 className="font-display italic text-text-primary text-lg">
+        <h4 className="font-display text-text-primary text-lg">
           {milestone.title}
         </h4>
       </div>
-      <p className="font-body text-text-secondary">{milestone.description}</p>
+      <p className="text-text-secondary">{milestone.description}</p>
     </motion.div>
   );
 

@@ -102,7 +102,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35 + i * 0.1, duration: 0.7, ease }}
-                className="font-display italic text-[clamp(2.5rem,7vw,6rem)] leading-[1.0] tracking-[-0.02em] text-text-primary"
+                className="font-display text-[clamp(2.5rem,7vw,6rem)] leading-[1.0] tracking-[-0.02em] text-text-primary"
               >
                 {line}
               </motion.h1>
@@ -113,7 +113,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.65, duration: 0.6, ease }}
-            className="mt-8 text-lg leading-relaxed text-text-secondary max-w-[480px] font-body"
+            className="mt-8 text-lg leading-relaxed text-text-secondary max-w-[480px] "
           >
             {description}
           </motion.p>
@@ -127,7 +127,7 @@ export default function Hero() {
             <MagneticButton
               href="#contact"
               onClick={(e) => handleScroll(e, '#contact')}
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full liquid-glass-btn text-text-primary font-body text-sm font-medium transition-all"
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full liquid-glass-btn text-text-primary text-sm font-medium transition-all"
             >
               Start a Project
               <ArrowRight size={16} />
@@ -135,7 +135,7 @@ export default function Hero() {
             <MagneticButton
               href="#services"
               onClick={(e) => handleScroll(e, '#services')}
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full liquid-glass-btn text-text-primary font-body text-sm font-medium transition-all"
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full liquid-glass-btn text-text-primary text-sm font-medium transition-all"
             >
               View Services
               <ChevronDown size={16} />
@@ -213,8 +213,7 @@ export default function Hero() {
             <MagneticButton
               href="#work"
               onClick={(e) => handleScroll(e, '#work')}
-              className="relative z-10 flex flex-col items-center justify-center gap-2 w-28 h-28 rounded-full liquid-glass-btn text-text-primary font-body text-sm font-medium transition-all text-center"
-              style={{ boxShadow: '0 0 32px rgba(200,241,53,0.12)' } as React.CSSProperties}
+              className="relative z-10 flex flex-col items-center justify-center gap-2 w-28 h-28 rounded-full liquid-glass-btn text-text-primary text-sm font-medium transition-all text-center"
             >
               <Telescope size={20} className="text-accent-lime" />
               <span className="font-mono text-xs tracking-widest uppercase leading-tight">Our<br />Work</span>

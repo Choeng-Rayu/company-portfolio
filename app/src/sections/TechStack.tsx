@@ -43,7 +43,7 @@ export default function TechStack() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.6, ease }}
-            className="font-body text-[2rem] font-medium text-text-primary mt-4"
+            className="text-[2rem] font-medium text-text-primary mt-4"
           >
             Technologies We Master
           </motion.h2>
