@@ -23,7 +23,7 @@ export interface ContactData {
   socials: { platform: string; url: string; icon: string }[]
 }
 
-export interface ServiceItem {
+interface ServiceItem {
   icon: string
   title: string
   description: string
@@ -75,7 +75,7 @@ export interface TeamData {
   members: TeamMember[]
 }
 
-export interface JourneyItem {
+interface JourneyItem {
   year: string
   title: string
   description: string
@@ -89,9 +89,11 @@ export interface JourneyData {
   milestones: JourneyItem[]
 }
 
-export interface VisionItem {
+export interface VisionData {
+  sectionLabel: string
   title: string
-  description: string
+  number: string
+  bullets: string[]
 }
 
 export interface BlogPost {
@@ -113,9 +115,9 @@ export const dataService = {
   getProjects: () => fetchJson<ProjectsData>('/projects.json'),
   getTeam: () => fetchJson<TeamData>('/our_team.json'),
   getJourney: () => fetchJson<JourneyData>('/our_journey.json'),
-  getGoals: () => fetchJson<VisionItem[]>('/goals.json'),
-  getMissions: () => fetchJson<VisionItem[]>('/missions.json'),
-  getVisions: () => fetchJson<VisionItem[]>('/visions.json'),
+  getGoals: () => fetchJson<VisionData>('/goals.json'),
+  getMissions: () => fetchJson<VisionData>('/missions.json'),
+  getVisions: () => fetchJson<VisionData>('/visions.json'),
   getBlogPosts: () => fetchJson<BlogPost[]>('/blog_posts.json'),
   getBlogPost: async (slug: string) => {
     const posts = await fetchJson<BlogPost[]>('/blog_posts.json')

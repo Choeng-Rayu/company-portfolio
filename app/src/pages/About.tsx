@@ -3,7 +3,7 @@ import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Calendar, MapPin, Target, Eye, Rocket, Award } from 'lucide-react'
 import { dataService } from '../services/dataService'
-import type { AboutUsData, VisionItem, JourneyData } from '../services/dataService'
+import type { AboutUsData, VisionData, JourneyData } from '../services/dataService'
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -29,9 +29,9 @@ function InfoCard({ icon: Icon, title, children, delay = 0 }: any) {
 
 export default function About() {
   const [about, setAbout] = useState<AboutUsData | null>(null)
-  const [visions, setVisions] = useState<VisionItem[]>([])
-  const [missions, setMissions] = useState<VisionItem[]>([])
-  const [goals, setGoals] = useState<VisionItem[]>([])
+  const [visions, setVisions] = useState<VisionData | null>(null)
+  const [missions, setMissions] = useState<VisionData | null>(null)
+  const [goals, setGoals] = useState<VisionData | null>(null)
   const [journey, setJourney] = useState<JourneyData | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -116,24 +116,24 @@ export default function About() {
       {/* Vision / Mission / Goals */}
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <InfoCard icon={Eye} title="Vision" delay={0}>
-            {visions.map((v, i) => (
+          <InfoCard icon={Eye} title={visions?.title || "Vision"} delay={0}>
+            {visions?.bullets?.map((b, i) => (
               <p key={i} className="mb-2">
-                {v.description}
+                {b}
               </p>
             ))}
           </InfoCard>
-          <InfoCard icon={Target} title="Mission" delay={0.1}>
-            {missions.map((m, i) => (
+          <InfoCard icon={Target} title={missions?.title || "Mission"} delay={0.1}>
+            {missions?.bullets?.map((b, i) => (
               <p key={i} className="mb-2">
-                {m.description}
+                {b}
               </p>
             ))}
           </InfoCard>
-          <InfoCard icon={Rocket} title="Goals" delay={0.2}>
-            {goals.map((g, i) => (
+          <InfoCard icon={Rocket} title={goals?.title || "Goals"} delay={0.2}>
+            {goals?.bullets?.map((b, i) => (
               <p key={i} className="mb-2">
-                {g.description}
+                {b}
               </p>
             ))}
           </InfoCard>

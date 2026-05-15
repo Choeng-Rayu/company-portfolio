@@ -10,8 +10,8 @@
     --border-color: #222228;
     --border-accent: #3A3A44;
     --text-primary: #FFFFFF;
-    --text-secondary: #C4C4D0;
-    --text-muted: #9898A8;
+    --text-secondary: #F0F0F5;
+    --text-muted: #D1D1DB;
     --accent: #C8F135;
     --accent-dim: #8FAF20;
     --accent-glow: rgba(200, 241, 53, 0.12);
@@ -27,7 +27,7 @@
     --secondary: 240 7% 7%;
     --secondary-foreground: 40 7% 93%;
     --muted: 240 7% 7%;
-    --muted-foreground: 252 6% 56%;
+    --muted-foreground: 252 6% 80%;
     --accent: 75 86% 58%;
     --accent-foreground: 0 0% 4%;
     --destructive: 0 84.2% 60.2%;

@@ -1,22 +1,10 @@
 // src/components/UniverseCanvas.tsx
-import React, { Suspense, useMemo, useRef } from 'react';
+import React, { Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
-import { Stars, Float, useTexture, useGLTF } from '@react-three/drei';
+import { Stars, Float, useTexture } from '@react-three/drei';
 
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-interface OrbiterProps {
-  modelPath: string;
-  orbitRadius: number;
-  orbitSpeed: number;
-  orbitInclination?: number;
-  modelScale?: number;
-  yOffset?: number;
-  startAngle?: number;
-}
 
 // ---------------------------------------------------------------------------
 // RealUniversePlanet — textured Earth with clouds
@@ -57,57 +45,6 @@ const RealUniversePlanet: React.FC<{
           side={THREE.DoubleSide}
         />
       </mesh>
-    </group>
-  );
-};
-
-// ---------------------------------------------------------------------------
-// Orbiter — loads a GLB model and makes it fly around a centre point
-// ---------------------------------------------------------------------------
-const Orbiter: React.FC<OrbiterProps> = ({
-  modelPath,
-  orbitRadius,
-  orbitSpeed,
-  orbitInclination = 0,
-  modelScale = 1,
-  yOffset = 0,
-  startAngle = 0,
-}) => {
-  const { scene } = useGLTF(modelPath);
-  const groupRef = useRef<THREE.Group>(null);
-
-  // Clone the scene so each Orbiter gets its own instance.
-  // useGLTF caches by URL, so all components sharing the same path
-  // receive the same scene reference — cloning prevents "multiple parent" errors.
-  const clonedScene = useMemo(() => scene.clone(), [scene]);
-
-  useFrame((state) => {
-    if (!groupRef.current) return;
-
-    const time = state.clock.elapsedTime;
-    const angle = startAngle + time * orbitSpeed;
-
-    // Elliptical orbit with slight inclination
-    const x = Math.cos(angle) * orbitRadius;
-    const z = Math.sin(angle) * orbitRadius;
-    const y = yOffset + Math.sin(angle * 1.3 + orbitInclination) * (orbitRadius * 0.15);
-
-    groupRef.current.position.set(x, y, z);
-
-    // Face direction of travel (look slightly ahead on the orbit)
-    const lookAhead = angle + 0.08;
-    const lx = Math.cos(lookAhead) * orbitRadius;
-    const lz = Math.sin(lookAhead) * orbitRadius;
-    const ly = yOffset + Math.sin(lookAhead * 1.3 + orbitInclination) * (orbitRadius * 0.15);
-    groupRef.current.lookAt(lx, ly, lz);
-
-    // Gentle self-rotation
-    groupRef.current.rotateY(0.002);
-  });
-
-  return (
-    <group ref={groupRef} scale={modelScale}>
-      <primitive object={clonedScene} />
     </group>
   );
 };

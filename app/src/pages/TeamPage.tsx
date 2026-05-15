@@ -52,7 +52,7 @@ function TeamCard({ member, index }: { member: TeamMember; index: number }) {
           </a>
         )}
         <a
-          href={`mailto:${member.name.toLowerCase().replace(/\s+/g, '.')}@tomnerb.com`}
+          href={`mailto:${member.name.toLowerCase().replace(/\s+/g, '.')}@chakrawaldigital.com`}
           className="p-2 rounded-full liquid-glass-btn text-text-muted hover:text-accent-lime transition-colors"
         >
           <Mail size={16} />

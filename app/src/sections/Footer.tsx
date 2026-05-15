@@ -88,7 +88,7 @@ export default function Footer() {
         {/* Bottom row */}
         <div className="text-center mt-6">
           <p className="font-mono text-[0.7rem] text-text-muted">
-            &copy; {aboutData?.foundedYear || '2024'} TomNerb Digital Solutions. Engineered in{' '}
+            &copy; {aboutData?.foundedYear || '2024'} Chakrawal Digital. Engineered in{' '}
             {aboutData?.location || 'Phnom Penh'}{' '}
             <span role="img" aria-label="Cambodia">
               🇰🇭
