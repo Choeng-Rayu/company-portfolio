@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Copy, Check, Mail, Phone, MapPin, Send, MessageSquare } from 'lucide-react'
+import { Copy, Check, Mail, Phone, MapPin, Send, MessageSquare, Facebook, Linkedin, Github } from 'lucide-react'
 import { dataService } from '../services/dataService'
-import type { ContactData } from '../services/dataService'
+import type { ContactData, MediaInfo } from '../services/dataService'
+import Folder from '../components/Folder/Folder'
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -12,17 +13,29 @@ const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: 
   MapPin,
 }
 
+const MEDIA_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+  Facebook,
+  Linkedin,
+  Github,
+}
+
 export default function ContactPage() {
   const [data, setData] = useState<ContactData | null>(null)
+  const [mediaInfo, setMediaInfo] = useState<MediaInfo[] | null>(null)
   const [loading, setLoading] = useState(true)
   const [copied, setCopied] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
 
   useEffect(() => {
-    dataService
-      .getContact()
-      .then(setData)
+    Promise.all([
+      dataService.getContact(),
+      dataService.getMediaInfo()
+    ])
+      .then(([contactData, mediaData]) => {
+        setData(contactData)
+        setMediaInfo(mediaData)
+      })
       .catch(console.error)
       .finally(() => setLoading(false))
   }, [])
@@ -128,21 +141,29 @@ export default function ContactPage() {
 
             {/* Socials */}
             <div className="pt-4">
-              <p className="font-mono text-xs uppercase tracking-wide text-text-muted mb-4">
+              <p className="font-mono text-xs uppercase tracking-wide text-text-muted mb-8">
                 Follow Us
               </p>
-              <div className="flex gap-3">
-                {data?.socials.map((social, i) => (
-                  <a
-                    key={i}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-4 py-2 rounded-full liquid-glass-btn font-mono text-xs text-text-muted hover:text-accent-lime transition-colors"
-                  >
-                    {social.platform}
-                  </a>
-                ))}
+              <div className="flex pl-4 h-24">
+                <Folder 
+                  size={0.8} 
+                  color="#C8F135"
+                  items={mediaInfo?.map((media, i) => {
+                    const Icon = MEDIA_ICONS[media.icon] || Facebook
+                    return (
+                      <a
+                        key={i}
+                        href={media.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full h-full flex items-center justify-center text-gray-800 hover:text-accent-lime transition-colors"
+                        title={media.platform}
+                      >
+                        <Icon size={24} />
+                      </a>
+                    )
+                  }) || []}
+                />
               </div>
             </div>
           </motion.div>

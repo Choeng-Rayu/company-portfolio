@@ -3,7 +3,8 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { ArrowRight, MousePointerClick } from 'lucide-react';
+import { MousePointerClick } from 'lucide-react';
+import ServiceCard from '../components/ServiceCard/ServiceCard2';
 
 interface Service {
   icon: string;
@@ -229,12 +230,12 @@ function HoverTooltip({ service, index, visible }: { service: Service; index: nu
           exit={{ opacity: 0, y: 4, scale: 0.95 }}
           transition={{ duration: 0.2 }}
           className="absolute top-4 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono tracking-wide whitespace-nowrap"
+          <div className="flex items-center gap-2 px-5 py-3 rounded-full text-base font-mono font-semibold tracking-wide whitespace-nowrap"
             style={{
-              background: 'rgba(10,10,20,0.75)', border: `1px solid ${color.from}55`,
-              color: color.from, backdropFilter: 'blur(12px)', boxShadow: `0 0 20px ${color.glow}`,
+              background: 'rgba(10,10,20,0.9)', border: `2px solid ${color.from}`,
+              color: '#fff', backdropFilter: 'blur(12px)', boxShadow: `0 0 24px ${color.glow}`,
             }}>
-            <MousePointerClick size={11} />
+            <MousePointerClick size={16} />
             {service.title}
           </div>
         </motion.div>
@@ -270,12 +271,9 @@ function ServiceInfoCard({ service, index, visible }: { service: Service; index:
               </h3>
             </div>
             <p className="text-base text-text-secondary leading-relaxed">{service.description}</p>
-            <a href={service.href}
-              className="inline-flex items-center gap-1 font-mono text-xs mt-4 hover:underline transition-colors pointer-events-auto"
-              style={{ color: color.from }}
-              onClick={(e) => { e.preventDefault(); document.querySelector(service.href)?.scrollIntoView({ behavior: 'smooth' }); }}>
-              Explore Service <ArrowRight size={12} />
-            </a>
+            <p className="font-mono text-xs mt-4 opacity-70" style={{ color: color.from }}>
+              Click planet for full details
+            </p>
           </div>
         </motion.div>
       )}
@@ -335,6 +333,7 @@ export default function Services() {
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isOrbiting, setIsOrbiting]     = useState(true);
+  const [selectedService, setSelectedService] = useState<number | null>(null);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const canvasHeight = useCanvasHeight();
 
@@ -344,19 +343,22 @@ export default function Services() {
 
   const resumeOrbit = useCallback(() => { setFocusedIndex(null); setIsOrbiting(true); }, []);
 
-  const handlePlanetClick = useCallback((i: number) => {
-    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
-    setFocusedIndex(i);
-    setIsOrbiting(false);
-    idleTimerRef.current = setTimeout(resumeOrbit, 5000);
-  }, [resumeOrbit]);
-
-  useEffect(() => () => { if (idleTimerRef.current) clearTimeout(idleTimerRef.current); }, []);
-
   const services     = data?.services     ?? [];
   const title        = data?.title        ?? 'What We Offer';
   const subtitle     = data?.subtitle     ?? 'Tailored digital solutions for your business needs';
   const sectionLabel = data?.sectionLabel ?? 'SERVICES';
+
+  const handlePlanetClick = useCallback((i: number) => {
+    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    setFocusedIndex(i);
+    setIsOrbiting(false);
+    setSelectedService(i);
+    console.log('Planet clicked:', i, 'Service:', services[i]);
+    idleTimerRef.current = setTimeout(resumeOrbit, 5000);
+  }, [resumeOrbit, services]);
+
+  useEffect(() => () => { if (idleTimerRef.current) clearTimeout(idleTimerRef.current); }, []);
+
   const tooltipIndex = hoveredIndex !== null && hoveredIndex !== focusedIndex ? hoveredIndex : null;
 
   return (
@@ -411,8 +413,8 @@ export default function Services() {
             {focusedIndex === null && isInView && (
               <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
                 transition={{ delay: 1.2, duration: 0.6 }}
-                className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 font-mono text-[0.6rem] tracking-widest uppercase text-text-muted pointer-events-none">
-                <MousePointerClick size={11} />
+                className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 font-mono text-sm tracking-widest uppercase text-white font-semibold pointer-events-none">
+                <MousePointerClick size={16} />
                 tap a planet to explore
               </motion.div>
             )}
@@ -423,6 +425,13 @@ export default function Services() {
           <PlanetDots services={services} active={focusedIndex} onSelect={handlePlanetClick} />
         )}
       </div>
+
+      <AnimatePresence>
+        {selectedService !== null && services[selectedService] && (
+          <ServiceCard service={services[selectedService]} index={selectedService}
+            onClose={() => { setSelectedService(null); resumeOrbit(); }} />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

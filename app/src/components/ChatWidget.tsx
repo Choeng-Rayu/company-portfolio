@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send } from 'lucide-react';
+import { X, Send } from 'lucide-react';
 import OpenAI from 'openai';
+import { SplineScene } from '@/components/ui/splite';
 
 interface Message {
   id: string;
@@ -18,12 +19,44 @@ const openai = new OpenAI({
 });
 const systemPrompt = 'You are a helpful assistant for Universe Software, a product engineering company. Be concise and helpful.';
 
+function TypingDots() {
+  return (
+    <div className="flex items-center gap-1.5 h-5">
+      <span
+        className="w-2 h-2 rounded-full bg-accent-lime animate-bounce"
+        style={{ animationDelay: '0ms', animationDuration: '0.6s' }}
+      />
+      <span
+        className="w-2 h-2 rounded-full bg-accent-lime animate-bounce"
+        style={{ animationDelay: '150ms', animationDuration: '0.6s' }}
+      />
+      <span
+        className="w-2 h-2 rounded-full bg-accent-lime animate-bounce"
+        style={{ animationDelay: '300ms', animationDuration: '0.6s' }}
+      />
+    </div>
+  );
+}
 
+function StatusPill({ text }: { text: string }) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="relative flex h-2 w-2">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-lime opacity-75" />
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-lime" />
+      </span>
+      <span className="text-[11px] font-mono uppercase tracking-[0.15em] text-accent-lime">
+        {text}
+      </span>
+    </div>
+  );
+}
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'chat' | 'email'>('chat');
   const [isLoading, setIsLoading] = useState(false);
+  const [isUserTyping, setIsUserTyping] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'welcome',
@@ -36,6 +69,7 @@ export default function ChatWidget() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [stopPulse, setStopPulse] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setStopPulse(true), 5000);
@@ -46,8 +80,23 @@ export default function ChatWidget() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    };
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+    setIsUserTyping(true);
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    typingTimeoutRef.current = setTimeout(() => setIsUserTyping(false), 800);
+  };
+
   const handleSend = async () => {
     if (!input.trim()) return;
+    setIsUserTyping(false);
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
     const userMsg: Message = { id: Date.now().toString(), text: input, sender: 'user' };
     setMessages((prev) => [...prev, userMsg]);
     setInput('');
@@ -85,10 +134,10 @@ export default function ChatWidget() {
       console.error(error);
       const errorMessage = error?.message || 'Connection lost to the neural network.';
       setMessages((prev) =>
-        prev.filter((m) => m.id !== 'typing').concat({ 
-          id: Date.now().toString(), 
-          text: `Error [${error?.status || 403}]: ${errorMessage}. Please check your API configuration or model access.`, 
-          sender: 'bot' 
+        prev.filter((m) => m.id !== 'typing').concat({
+          id: Date.now().toString(),
+          text: `Error [${error?.status || 403}]: ${errorMessage}. Please check your API configuration or model access.`,
+          sender: 'bot'
         })
       );
     } finally {
@@ -106,19 +155,32 @@ export default function ChatWidget() {
     <>
       {/* FAB */}
       <motion.button
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 flex items-center justify-center liquid-glass-btn !rounded-full shadow-2xl"
+        className="fixed bottom-6 right-6 z-50 w-24 h-24 flex items-center justify-center !rounded-full shadow-2xl bg-gray-900 border border-white/10"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         aria-label="Open chat"
       >
         {!stopPulse && (
-          <span className="absolute inset-0 rounded-full bg-white/20 animate-pulse-ring" />
+          <span className="absolute inset-0 rounded-full bg-accent-lime/20 animate-pulse-ring pointer-events-none" />
         )}
-        {open ? (
-          <X size={24} className="text-text-primary relative z-10" />
-        ) : (
-          <MessageCircle size={24} className="text-text-primary relative z-10" />
+
+        {/* Spline container - needs pointer events for WebGL to sometimes initialize properly,
+            so we remove pointer-events-none from it and put an absolute overlay for clicks */}
+        <div className="absolute inset-0 z-0 scale-150 w-full h-full rounded-full overflow-hidden flex items-center justify-center">
+          <SplineScene
+            scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+            className="w-full h-full"
+          />
+        </div>
+
+        {/* Clickable overlay to trigger the chat open/close */}
+        <div className="absolute inset-0 z-10 rounded-full cursor-pointer" onClick={() => setOpen(!open)} />
+
+        {/* If chat is open, we can show an overlay X to close it */}
+        {open && (
+          <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-20 backdrop-blur-[2px] rounded-full pointer-events-none">
+            <X size={32} className="text-white drop-shadow-md" />
+          </div>
         )}
       </motion.button>
 
@@ -181,7 +243,18 @@ export default function ChatWidget() {
                                 : 'bg-black/20 backdrop-blur-md text-text-secondary rounded-tl-sm border border-white/5'
                             }`}
                           >
-                            {msg.text}
+                            {msg.id === 'typing' ? (
+                              <div className="space-y-2">
+                                <TypingDots />
+                                {msg.text !== 'typing...' && (
+                                  <div className="text-sm text-text-secondary leading-relaxed">
+                                    {msg.text}
+                                  </div>
+                                )}
+                              </div>
+                            ) : (
+                              <div className="text-sm leading-relaxed">{msg.text}</div>
+                            )}
                           </div>
                         </div>
                       ))}
@@ -189,24 +262,42 @@ export default function ChatWidget() {
                     </div>
 
                     {/* Input */}
-                    <div className="p-4 bg-white/5 backdrop-blur-xl border-t border-white/10 flex gap-3">
-                      <input
-                        type="text"
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                        placeholder={isLoading ? 'Computing...' : 'Ask anything...'}
-                        disabled={isLoading}
-                        className="flex-1 bg-black/20 border border-white/10 rounded-[1.2rem] px-5 py-3 font-mono text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-white/30 disabled:opacity-50 transition-all shadow-inner"
-                      />
-                      <button
-                        onClick={handleSend}
-                        disabled={isLoading}
-                        className="w-11 h-11 flex items-center justify-center bg-white/10 rounded-full text-text-primary hover:bg-white/20 transition-all disabled:opacity-50 border border-white/10 shadow-sm"
-                        aria-label="Send message"
-                      >
-                        <Send size={16} />
-                      </button>
+                    <div className="p-4 bg-white/5 backdrop-blur-xl border-t border-white/10 flex flex-col gap-2">
+                      {(isUserTyping || isLoading) && (
+                        <div className="px-1">
+                          <StatusPill text={isLoading ? 'Assistant is computing…' : 'You are typing…'} />
+                        </div>
+                      )}
+                      <div className="flex gap-3">
+                        <input
+                          type="text"
+                          value={input}
+                          onChange={handleInputChange}
+                          onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                          placeholder={isLoading ? 'Computing...' : 'Ask anything...'}
+                          disabled={isLoading}
+                          className={`flex-1 bg-black/20 border rounded-[1.2rem] px-5 py-3 font-mono text-xs text-text-primary placeholder:text-text-muted focus:outline-none disabled:opacity-50 transition-all shadow-inner ${
+                            isUserTyping && !isLoading
+                              ? 'border-accent-lime/50 shadow-[0_0_12px_rgba(200,241,53,0.08)]'
+                              : 'border-white/10 focus:border-white/30'
+                          }`}
+                        />
+                        <button
+                          onClick={handleSend}
+                          disabled={isLoading}
+                          className="w-11 h-11 flex items-center justify-center bg-white/10 rounded-full text-text-primary hover:bg-white/20 transition-all disabled:opacity-50 border border-white/10 shadow-sm"
+                          aria-label="Send message"
+                        >
+                          {isLoading ? (
+                            <svg className="animate-spin h-4 w-4 text-text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l2-2.647z"></path>
+                            </svg>
+                          ) : (
+                            <Send size={16} />
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </motion.div>
                 ) : (

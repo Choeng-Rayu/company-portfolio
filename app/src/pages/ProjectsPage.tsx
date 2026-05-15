@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import { Figma, Globe, ExternalLink, Eye } from 'lucide-react'
 import { dataService } from '../services/dataService'
 import type { ProjectsData, Project } from '../services/dataService'
+import { TiltCard } from '../components/TiltCard'
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -18,11 +19,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.5, delay: index * 0.08, ease }}
-      className="group liquid-glass-card rounded-2xl overflow-hidden flex flex-col hover:-translate-y-1 transition-transform"
+      className="h-full"
     >
-      <div className="h-1 w-full" style={{ backgroundColor: project.color }} />
-      <div className="flex flex-col flex-1 p-5 gap-4">
-        <div className="flex items-center justify-between">
+      <TiltCard className="group liquid-glass-card rounded-2xl flex flex-col h-full w-full">
+        <div className="h-1 w-full shrink-0" style={{ backgroundColor: project.color }} />
+        <div className="flex flex-col flex-1 p-5 gap-4 relative z-20">
+          <div className="flex items-center justify-between">
           <span
             className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[0.6rem] tracking-wide border"
             style={{
@@ -73,6 +75,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           />
         </a>
       </div>
+      </TiltCard>
     </motion.div>
   )
 }

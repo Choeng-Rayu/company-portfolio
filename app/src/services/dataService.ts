@@ -108,6 +108,12 @@ export interface BlogPost {
   readTime: string
 }
 
+export interface MediaInfo {
+  platform: string
+  url: string
+  icon: string
+}
+
 export const dataService = {
   getAboutUs: () => fetchJson<AboutUsData>('/about_us.json'),
   getContact: () => fetchJson<ContactData>('/company_contact.json'),
@@ -119,6 +125,7 @@ export const dataService = {
   getMissions: () => fetchJson<VisionData>('/missions.json'),
   getVisions: () => fetchJson<VisionData>('/visions.json'),
   getBlogPosts: () => fetchJson<BlogPost[]>('/blog_posts.json'),
+  getMediaInfo: () => fetchJson<MediaInfo[]>('/media_info.json'),
   getBlogPost: async (slug: string) => {
     const posts = await fetchJson<BlogPost[]>('/blog_posts.json')
     return posts.find((p) => p.slug === slug) ?? null

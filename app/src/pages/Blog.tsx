@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router'
-import { Calendar, Clock, ArrowRight, Tag } from 'lucide-react'
 import { dataService } from '../services/dataService'
 import type { BlogPost } from '../services/dataService'
+import CardFlip from '@/components/ui/flip-card'
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -86,7 +86,7 @@ export default function Blog() {
 
       {/* Posts Grid */}
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
           {filtered.map((post, index) => (
             <motion.article
               key={post.slug}
@@ -94,53 +94,17 @@ export default function Blog() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.5, delay: index * 0.08, ease }}
+              className="w-full flex justify-center"
             >
-              <Link
-                to={`/blog/${post.slug}`}
-                className="group block liquid-glass-card rounded-2xl overflow-hidden hover:-translate-y-1 transition-transform h-full flex flex-col"
-              >
-                {post.coverImage && (
-                  <div className="h-48 overflow-hidden">
-                    <img
-                      src={post.coverImage}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                  </div>
-                )}
-                <div className="p-6 flex flex-col flex-1">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="flex items-center gap-1 text-text-muted font-mono text-[0.6rem]">
-                      <Calendar size={10} />
-                      {post.date}
-                    </span>
-                    <span className="flex items-center gap-1 text-text-muted font-mono text-[0.6rem]">
-                      <Clock size={10} />
-                      {post.readTime}
-                    </span>
-                  </div>
-                  <h3 className="font-display text-xl text-text-primary leading-snug mb-2 group-hover:text-accent-lime transition-colors">
-                    {post.title}
-                  </h3>
-                  <p className="text-text-muted text-base leading-relaxed line-clamp-3 flex-1">
-                    {post.excerpt}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-white/5">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md font-mono text-[0.6rem] tracking-wide text-text-muted border border-white/5 bg-white/[0.03]"
-                      >
-                        <Tag size={8} />
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex items-center gap-1 mt-4 text-accent-lime font-mono text-xs group-hover:gap-2 transition-all">
-                    Read More <ArrowRight size={12} />
-                  </div>
-                </div>
+              <Link to={`/blog/${post.slug}`} className="block w-full max-w-[300px]">
+                <CardFlip 
+                  title={post.title}
+                  subtitle={`${post.date} · ${post.readTime}`}
+                  description={post.excerpt}
+                  features={post.tags.slice(0, 4)}
+                  color="#ccff00"
+                  image={post.coverImage}
+                />
               </Link>
             </motion.article>
           ))}

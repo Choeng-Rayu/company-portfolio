@@ -1,0 +1,17 @@
+[
+  {
+    "platform": "Facebook",
+    "url": "https://facebook.com",
+    "icon": "Facebook"
+  },
+  {
+    "platform": "LinkedIn",
+    "url": "https://linkedin.com",
+    "icon": "Linkedin"
+  },
+  {
+    "platform": "GitHub",
+    "url": "https://github.com",
+    "icon": "Github"
+  }
+]

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { Calendar, MapPin, Target, Eye, Rocket, Award } from 'lucide-react'
+import { Calendar, MapPin, Target, Eye, Rocket } from 'lucide-react'
 import { dataService } from '../services/dataService'
 import type { AboutUsData, VisionData, JourneyData } from '../services/dataService'
+import Lanyard from '../components/Lanyard/Lanyard'
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -69,48 +70,61 @@ export default function About() {
     <div className="pt-24 pb-20">
       {/* Hero */}
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 py-16 md:py-24" ref={heroRef}>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease }}
-          className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime mb-4"
-        >
-          {about?.sectionLabel}
-        </motion.p>
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1, ease }}
-          className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.05] text-text-primary max-w-4xl"
-        >
-          {about?.headline}
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2, ease }}
-          className="text-lg text-text-secondary mt-6 max-w-2xl leading-relaxed"
-        >
-          {about?.description}
-        </motion.p>
+        <div className="flex flex-col lg:flex-row items-center gap-12">
+          <div className="flex-1 w-full">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, ease }}
+              className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime mb-4"
+            >
+              {about?.sectionLabel}
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1, ease }}
+              className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.05] text-text-primary"
+            >
+              {about?.headline}
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 24 }}
+              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2, ease }}
+              className="text-lg text-text-secondary mt-6 leading-relaxed"
+            >
+              {about?.description}
+            </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.3, ease }}
-          className="flex flex-wrap gap-6 mt-10"
-        >
-          <div className="flex items-center gap-2 text-text-muted">
-            <Calendar size={16} className="text-accent-lime" />
-            <span className="font-mono text-xs">Founded {about?.foundedYear}</span>
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.3, ease }}
+              className="flex flex-wrap gap-6 mt-10"
+            >
+              <div className="flex items-center gap-2 text-text-muted">
+                <Calendar size={16} className="text-accent-lime" />
+                <span className="font-mono text-xs">Founded {about?.foundedYear}</span>
+              </div>
+              <div className="flex items-center gap-2 text-text-muted">
+                <MapPin size={16} className="text-accent-lime" />
+                <span className="font-mono text-xs">
+                  {about?.location}, {about?.country}
+                </span>
+              </div>
+            </motion.div>
           </div>
-          <div className="flex items-center gap-2 text-text-muted">
-            <MapPin size={16} className="text-accent-lime" />
-            <span className="font-mono text-xs">
-              {about?.location}, {about?.country}
-            </span>
-          </div>
-        </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={isHeroInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.4, ease }}
+            className="flex-1 w-full h-[600px] relative rounded-3xl overflow-hidden liquid-glass-card shadow-2xl border border-white/10"
+          >
+            <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
+          </motion.div>
+        </div>
       </section>
 
       {/* Vision / Mission / Goals */}
@@ -151,26 +165,41 @@ export default function About() {
         >
           Our Journey
         </motion.h2>
-        <div className="space-y-8">
-          {journey?.milestones.map((m, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease }}
-              className="flex gap-6 items-start"
-            >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full liquid-glass-card flex items-center justify-center">
-                <Award size={20} className="text-accent-lime" />
-              </div>
-              <div className="liquid-glass-card p-6 rounded-xl flex-1">
-                <span className="font-mono text-xs text-accent-lime">{m.year}</span>
-                <h3 className="font-display text-lg text-text-primary mt-1">{m.title}</h3>
-                <p className="text-text-muted text-base mt-2">{m.description}</p>
-              </div>
-            </motion.div>
-          ))}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-8 pb-12 pt-8 scrollbar-hide">
+          {journey?.milestones.map((m, i) => {
+            const planets = ['forge', 'nexus', 'neural', 'aether', 'oracle', 'terra']
+            const planetImage = `/images/planet-${planets[i % planets.length]}.png`
+            
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease }}
+                className="snap-center shrink-0 w-[85vw] sm:w-[400px] flex flex-col items-center"
+              >
+                {/* Planet */}
+                <div className="w-32 h-32 mb-8 relative group cursor-grab active:cursor-grabbing">
+                  <div className="absolute inset-0 rounded-full bg-accent-lime/20 blur-2xl group-hover:bg-accent-lime/40 transition-colors duration-500" />
+                  <img 
+                    src={planetImage} 
+                    alt="Planet" 
+                    className="w-full h-full object-contain relative z-10 animate-rotate-planet group-hover:scale-110 transition-transform duration-500" 
+                  />
+                </div>
+                
+                {/* Card */}
+                <div className="liquid-glass-card p-8 rounded-2xl w-full flex-1 flex flex-col items-center text-center">
+                  <div className="inline-block px-4 py-1.5 rounded-full bg-accent-lime/10 text-accent-lime font-mono text-sm mb-6 border border-accent-lime/20">
+                    {m.year}
+                  </div>
+                  <h3 className="font-display text-2xl text-text-primary mb-4">{m.title}</h3>
+                  <p className="text-text-muted text-base leading-relaxed">{m.description}</p>
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
       </section>
     </div>

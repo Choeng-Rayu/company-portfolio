@@ -7,6 +7,7 @@
     "author": "Chakrawal Digital Team",
     "date": "May 2026",
     "tags": ["Cambodia", "Digital Transformation", "Startups"],
+    "coverImage": "/images/project-greenroute.jpg",
     "readTime": "4 min read"
   },
   {
@@ -17,6 +18,7 @@
     "author": "Dev Team",
     "date": "April 2026",
     "tags": ["React", "Three.js", "WebGL", "Frontend"],
+    "coverImage": "/images/moon-poster.png",
     "readTime": "6 min read"
   },
   {
@@ -27,6 +29,7 @@
     "author": "Design Team",
     "date": "March 2026",
     "tags": ["Design", "UI/UX", "CSS", "Glassmorphism"],
+    "coverImage": "/images/planet-nexus.png",
     "readTime": "5 min read"
   },
   {
@@ -37,6 +40,7 @@
     "author": "Chakrawal Digital Team",
     "date": "February 2026",
     "tags": ["Business", "Partnership", "Growth", "Cambodia"],
+    "coverImage": "/images/project-payflow.jpg",
     "readTime": "3 min read"
   }
 ]
