@@ -1,6 +1,7 @@
-// Our Journey Timeline Section
+// Our Journey Timeline Section - Orbit Animation
 import { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import OrbitImages from '../components/OrbitImages';
 
 const PLANET_IMAGES = [
   '/images/planet-aether.png',
@@ -27,26 +28,45 @@ const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function OurJourney() {
   const [data, setData] = useState<JourneyData | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch('/data/our_journey.json');
-      const json = await res.json();
-      setData(json);
-    };
-    fetchData();
+    fetch('/data/our_journey.json')
+      .then(r => r.json())
+      .then(setData);
   }, []);
 
   if (!data) return null;
 
+  const planetImages = data.milestones.map((_, idx) => PLANET_IMAGES[idx % PLANET_IMAGES.length]);
+
+  const centerContent = (
+    <motion.div
+      key={activeIndex}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.35 }}
+      className="liquid-glass-card rounded-3xl p-6 md:p-8 text-center max-w-[320px]"
+    >
+      <span className="inline-flex items-center justify-center px-4 py-1.5 text-base font-mono bg-accent-lime text-bg-base rounded-full mb-3">
+        {data.milestones[activeIndex].year}
+      </span>
+      <h3 className="font-display text-xl md:text-2xl text-text-primary mb-2 leading-tight">
+        {data.milestones[activeIndex].title}
+      </h3>
+      <p className="text-text-secondary text-sm leading-relaxed">
+        {data.milestones[activeIndex].description}
+      </p>
+    </motion.div>
+  );
+
   return (
     <section id="journey" className="w-full py-20 md:py-[140px] bg-transparent" ref={ref}>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-
         {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-12">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -75,141 +95,43 @@ export default function OurJourney() {
           )}
         </div>
 
-        {/* ── Mobile timeline (single column, line on left) ── */}
-        <div className="block md:hidden relative">
-          {/* Left-side vertical line */}
-          <div className="absolute left-6 top-0 w-px h-full bg-border-surface pointer-events-none" />
-          <div className="space-y-10 pl-16">
-            {data.milestones.map((m, idx) => (
-              <MobileCard key={m.year} milestone={m} index={idx} planet={PLANET_IMAGES[idx % PLANET_IMAGES.length]} />
-            ))}
-          </div>
-        </div>
-
-        {/* ── Desktop timeline (alternating left/right) ── */}
-        <div className="hidden md:block relative">
-          <div className="absolute left-1/2 top-0 w-px h-full bg-border-surface pointer-events-none" />
-          <div className="space-y-32">
-            {data.milestones.map((m, idx) => (
-              <DesktopCard key={m.year} milestone={m} index={idx} planet={PLANET_IMAGES[idx % PLANET_IMAGES.length]} />
-            ))}
-          </div>
-        </div>
-
+        {/* Orbit */}
+        <OrbitImages
+          images={planetImages}
+          shape="ellipse"
+          baseWidth={900}
+          radiusX={400}
+          radiusY={100}
+          rotation={-8}
+          duration={30}
+          itemSize={80}
+          responsive={true}
+          direction="normal"
+          showPath={true}
+          paused={false}
+          fill={true}
+          centerContent={centerContent}
+          renderItem={(src, index) => (
+            <button
+              onClick={() => setActiveIndex(index)}
+              className="w-full h-full rounded-full overflow-hidden border-2 transition-all duration-300 cursor-pointer"
+              style={{
+                borderColor: activeIndex === index ? '#C8F135' : 'rgba(255,255,255,0.15)',
+                boxShadow: activeIndex === index ? '0 0 20px rgba(200,241,53,0.5)' : 'none',
+                transform: activeIndex === index ? 'scale(1.2)' : 'scale(1)',
+              }}
+              title={data!.milestones[index].year}
+            >
+              <img
+                src={src}
+                alt={data!.milestones[index].year}
+                className="w-full h-full object-cover"
+                style={{ animation: `planet-spin ${10 + index * 2}s linear infinite` }}
+              />
+            </button>
+          )}
+        />
       </div>
     </section>
-  );
-}
-
-/* ─── Mobile card: planet on the left line, card fills the right ─── */
-function MobileCard({ milestone, index, planet }: { milestone: Milestone; index: number; planet: string }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
-
-  return (
-    <div className="relative">
-      {/* Planet sits on the left line */}
-      <div
-        className="absolute -left-10 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full overflow-hidden border border-border-surface z-10"
-        style={{ filter: 'drop-shadow(0 0 6px rgba(200,241,53,0.35))' }}
-      >
-        <img
-          src={planet}
-          alt="planet milestone"
-          className="w-full h-full object-cover"
-          style={{ animation: `planet-spin ${10 + index * 2}s linear infinite` }}
-        />
-      </div>
-
-      {/* Card */}
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, x: 20 }}
-        animate={inView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.5, ease, delay: index * 0.08 }}
-        className="liquid-glass-card rounded-2xl p-4 sm:p-5"
-      >
-        <div className="flex items-center gap-2 mb-2">
-          <span className="inline-flex items-center justify-center px-3 py-1 text-xs font-mono bg-accent-lime text-bg-base rounded-full flex-shrink-0">
-            {milestone.year}
-          </span>
-          <h4 className="font-display text-text-primary text-base leading-snug">
-            {milestone.title}
-          </h4>
-        </div>
-        <p className="text-base text-text-secondary leading-relaxed">
-          {milestone.description}
-        </p>
-      </motion.div>
-    </div>
-  );
-}
-
-/* ─── Desktop card: alternating left / right ─── */
-function DesktopCard({ milestone, index, planet }: { milestone: Milestone; index: number; planet: string }) {
-  const isLeft = index % 2 === 0;
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-  const [isHovered, setIsHovered] = useState(false);
-
-  const cardAnimate = {
-    ...(inView ? { opacity: 1, y: 0 } : {}),
-    ...(isHovered ? { y: -5 } : {}),
-  };
-
-  const connectorAnimate = {
-    ...(isHovered ? { scale: 1.4, filter: 'drop-shadow(0 0 14px #C8F135)' } : {}),
-  };
-
-  const CardContent = () => (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={cardAnimate}
-      transition={{ duration: 0.6, ease }}
-      className="liquid-glass-card rounded-3xl p-6 w-full max-w-[420px]"
-    >
-      <div className="flex items-center mb-3">
-        <span className="inline-flex items-center justify-center px-3 py-1 text-sm font-mono bg-accent-lime text-bg-base rounded-full mr-2">
-          {milestone.year}
-        </span>
-        <h4 className="font-display text-text-primary text-lg">
-          {milestone.title}
-        </h4>
-      </div>
-      <p className="text-text-secondary">{milestone.description}</p>
-    </motion.div>
-  );
-
-  return (
-    <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="relative flex items-center w-full"
-    >
-      {/* Left half */}
-      <div className="w-1/2 flex justify-end pr-16">
-        {isLeft && <CardContent />}
-      </div>
-
-      {/* Center planet */}
-      <motion.div
-        animate={connectorAnimate}
-        className="absolute left-1/2 -translate-x-1/2 w-16 h-16 rounded-full overflow-hidden border border-border-surface flex-shrink-0 z-10"
-        style={{ filter: 'drop-shadow(0 0 8px rgba(200,241,53,0.35))' }}
-      >
-        <img
-          src={planet}
-          alt="planet milestone"
-          className="w-full h-full object-cover"
-          style={{ animation: `planet-spin ${10 + index * 2}s linear infinite` }}
-        />
-      </motion.div>
-
-      {/* Right half */}
-      <div className="w-1/2 flex justify-start pl-16">
-        {!isLeft && <CardContent />}
-      </div>
-    </div>
   );
 }

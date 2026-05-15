@@ -1,12 +1,12 @@
-import { useRef, useState, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Copy, Check, Mail, Phone } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function Contact() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { ref, isInView } = useScrollAnimation('-100px');
   const [copied, setCopied] = useState(false);
   const [contactData, setContactData] = useState<any>(null);
 

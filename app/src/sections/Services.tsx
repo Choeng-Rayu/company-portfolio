@@ -2,9 +2,10 @@ import { useRef, useEffect, useState, Suspense, useCallback } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { MousePointerClick } from 'lucide-react';
 import ServiceCard from '../components/ServiceCard/ServiceCard2';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 interface Service {
   icon: string;
@@ -327,8 +328,7 @@ function useCanvasHeight() {
 }
 
 export default function Services() {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { ref, isInView } = useScrollAnimation('-100px');
   const [data, setData]                 = useState<ServicesData | null>(null);
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);

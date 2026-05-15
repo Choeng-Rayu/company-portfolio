@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const categories = [
   {
@@ -23,8 +23,7 @@ const categories = [
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function TechStack() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { ref, isInView } = useScrollAnimation('-100px');
 
   return (
     <section className="w-full py-[100px] bg-transparent" ref={ref}>

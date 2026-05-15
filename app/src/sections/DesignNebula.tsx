@@ -1,12 +1,12 @@
 // Vision, Mission, Goals Section
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   motion,
-  useInView,
   useMotionValue,
   useSpring,
   useMotionTemplate,
 } from 'framer-motion';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 type CardData = {
   sectionLabel: string;
@@ -95,8 +95,7 @@ function VisionCard({
 
 export default function VisionMissionGoals() {
   const [cards, setCards] = useState<CardData[]>([]);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { ref, isInView } = useScrollAnimation('-100px');
 
   useEffect(() => {
     const fetchData = async () => {

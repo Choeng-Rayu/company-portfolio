@@ -1,5 +1,6 @@
-import { useState, useRef } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const testimonials = [
   {
@@ -29,8 +30,7 @@ const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function Testimonials() {
   const [active, setActive] = useState(0);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { ref, isInView } = useScrollAnimation('-100px');
 
   return (
     <section className="w-full py-[140px] bg-[#0E0E11]" ref={ref}>

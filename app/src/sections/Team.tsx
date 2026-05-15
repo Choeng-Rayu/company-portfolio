@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { Linkedin } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 interface TeamMember {
   name: string;
@@ -71,8 +72,7 @@ function TeamCard({ member, index, isInView }: { member: TeamMember; index: numb
 }
 
 export default function Team() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { ref, isInView } = useScrollAnimation('-100px');
 
   const [data, setData] = useState<TeamData | null>(null);
 

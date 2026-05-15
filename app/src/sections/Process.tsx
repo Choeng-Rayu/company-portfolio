@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const steps = [
   { num: '01', title: 'Discovery', desc: 'Requirements, research, scoping', duration: '1–2 weeks' },
@@ -13,8 +13,7 @@ const steps = [
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function Process() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { ref, isInView } = useScrollAnimation('-100px');
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start 80%', 'end 50%'],

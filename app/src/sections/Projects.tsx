@@ -1,7 +1,8 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useEffect, useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Figma, Globe, ExternalLink, X, Eye, AlertCircle, Loader2 } from 'lucide-react';
 import projectsData from '../../public/data/projects.json';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 interface Project {
   id: number;
@@ -246,8 +247,7 @@ function ProjectCard({
 export default function Projects() {
   const [data] = useState<ProjectsData>(projectsData as ProjectsData);
   const [previewProject, setPreviewProject] = useState<Project | null>(null);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { ref, isInView } = useScrollAnimation('-100px');
 
   /* Lock body scroll when modal is open */
   useEffect(() => {
