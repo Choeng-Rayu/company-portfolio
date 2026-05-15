@@ -1,7 +1,7 @@
 import { type ReactNode, useEffect } from 'react'
 import { useLocation } from 'react-router'
 import Navbar from '../components/Navbar'
-import Footer from '../sections/Footer'
+import Contact from '../sections/Contact'
 import ChatWidget from '../components/ChatWidget'
 import UniverseCanvas from '../components/UniverseCanvas'
 import HUD from '../components/HUD'
@@ -31,7 +31,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
         <PageTransition>{children}</PageTransition>
       </main>
 
-      <Footer />
+      {location.pathname !== '/contact' && <Contact />}
       <ChatWidget />
     </SmoothScroller>
   )

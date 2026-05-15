@@ -3,8 +3,9 @@ import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Calendar, MapPin, Target, Eye, Rocket } from 'lucide-react'
 import { dataService } from '../services/dataService'
-import type { AboutUsData, VisionData, JourneyData } from '../services/dataService'
+import type { AboutUsData, VisionData } from '../services/dataService'
 import Lanyard from '../components/Lanyard/Lanyard'
+import OurJourney from '../sections/FeaturedWork'
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -33,7 +34,6 @@ export default function About() {
   const [visions, setVisions] = useState<VisionData | null>(null)
   const [missions, setMissions] = useState<VisionData | null>(null)
   const [goals, setGoals] = useState<VisionData | null>(null)
-  const [journey, setJourney] = useState<JourneyData | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -42,14 +42,12 @@ export default function About() {
       dataService.getVisions(),
       dataService.getMissions(),
       dataService.getGoals(),
-      dataService.getJourney(),
     ])
-      .then(([a, v, m, g, j]) => {
+      .then(([a, v, m, g]) => {
         setAbout(a)
         setVisions(v)
         setMissions(m)
         setGoals(g)
-        setJourney(j)
       })
       .catch(console.error)
       .finally(() => setLoading(false))
@@ -129,6 +127,14 @@ export default function About() {
 
       {/* Vision / Mission / Goals */}
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 py-16">
+        <div className="text-center mb-12">
+          <p className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime">
+            {visions?.sectionLabel}
+          </p>
+          <h2 className="font-display text-[clamp(2rem,5vw,4rem)] leading-[1.05] text-text-primary mt-4">
+            Vision, Mission & Goals
+          </h2>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <InfoCard icon={Eye} title={visions?.title || "Vision"} delay={0}>
             {visions?.bullets?.map((b, i) => (
@@ -155,53 +161,7 @@ export default function About() {
       </section>
 
       {/* Journey */}
-      <section className="max-w-[1280px] mx-auto px-4 sm:px-6 py-16">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6, ease }}
-          className="font-display text-[clamp(2rem,5vw,4rem)] leading-[1.05] text-text-primary mb-12"
-        >
-          Our Journey
-        </motion.h2>
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-8 pb-12 pt-8 scrollbar-hide">
-          {journey?.milestones.map((m, i) => {
-            const planets = ['forge', 'nexus', 'neural', 'aether', 'oracle', 'terra']
-            const planetImage = `/images/planet-${planets[i % planets.length]}.png`
-            
-            return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.6, delay: i * 0.1, ease }}
-                className="snap-center shrink-0 w-[85vw] sm:w-[400px] flex flex-col items-center"
-              >
-                {/* Planet */}
-                <div className="w-32 h-32 mb-8 relative group cursor-grab active:cursor-grabbing">
-                  <div className="absolute inset-0 rounded-full bg-accent-lime/20 blur-2xl group-hover:bg-accent-lime/40 transition-colors duration-500" />
-                  <img 
-                    src={planetImage} 
-                    alt="Planet" 
-                    className="w-full h-full object-contain relative z-10 animate-rotate-planet group-hover:scale-110 transition-transform duration-500" 
-                  />
-                </div>
-                
-                {/* Card */}
-                <div className="liquid-glass-card p-8 rounded-2xl w-full flex-1 flex flex-col items-center text-center">
-                  <div className="inline-block px-4 py-1.5 rounded-full bg-accent-lime/10 text-accent-lime font-mono text-sm mb-6 border border-accent-lime/20">
-                    {m.year}
-                  </div>
-                  <h3 className="font-display text-2xl text-text-primary mb-4">{m.title}</h3>
-                  <p className="text-text-muted text-base leading-relaxed">{m.description}</p>
-                </div>
-              </motion.div>
-            )
-          })}
-        </div>
-      </section>
+      <OurJourney />
     </div>
   )
 }

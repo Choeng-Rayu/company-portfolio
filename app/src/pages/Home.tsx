@@ -8,7 +8,6 @@ import Process from '../sections/Process'
 import TechStack from '../sections/TechStack'
 import Team from '../sections/Team'
 import Testimonials from '../sections/Testimonials'
-import Contact from '../sections/Contact'
 
 export default function Home() {
   return (
@@ -23,7 +22,6 @@ export default function Home() {
       <TechStack />
       <Team />
       <Testimonials />
-      <Contact />
     </>
   )
 }

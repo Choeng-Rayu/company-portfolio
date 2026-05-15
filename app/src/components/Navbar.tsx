@@ -36,55 +36,52 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[96%] max-w-[1280px] z-50 h-16 flex items-center transition-all duration-300 liquid-glass-nav">
-        <div className="w-full max-w-[1280px] mx-auto px-6 flex items-center justify-between">
-          <Link
-            to="/"
-            className="flex items-center"
-          >
+      <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[96%] max-w-[1280px] z-50 h-20 flex items-center transition-all duration-300 liquid-glass-nav">
+        <div className="w-full mx-auto px-6 flex items-center justify-between">
+          <Link to="/" className="flex items-center">
             <img
               src="/images/company_log.png"
               alt="Universe Software"
-              className="h-8 w-auto object-contain"
+              className="h-12 w-auto object-contain"
             />
           </Link>
 
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                to={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className={`relative font-mono text-xs tracking-[0.08em] uppercase transition-colors group ${
-                  isActive(link.href) ? 'text-accent-lime' : 'text-text-secondary hover:text-text-primary'
-                }`}
-              >
-                {link.label}
-                <span
-                  className={`absolute -bottom-1 left-0 w-full h-px bg-accent-lime transition-transform origin-left ${
-                    isActive(link.href) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+            <div className="hidden md:flex items-center gap-8">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  to={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={`relative font-mono text-sm font-light tracking-[0.08em] uppercase transition-colors group ${
+                    isActive(link.href) ? 'text-accent-lime' : 'text-text-secondary hover:text-text-primary'
                   }`}
-                />
-              </Link>
-            ))}
+                >
+                  {link.label}
+                  <span
+                    className={`absolute -bottom-1 left-0 w-full h-px bg-accent-lime transition-transform origin-left ${
+                      isActive(link.href) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                    }`}
+                  />
+                </Link>
+              ))}
+            </div>
+
+            <Link
+              to="/contact"
+              className="hidden md:inline-flex items-center px-6 py-2.5 rounded-full liquid-glass-btn text-text-primary text-sm font-medium tracking-[0.02em] uppercase transition-all hover:text-accent-lime"
+            >
+              Start a Project
+            </Link>
+
+            <button
+              onClick={() => setMobileOpen(true)}
+              className="md:hidden p-2 text-text-primary"
+              aria-label="Open menu"
+            >
+              <Menu size={24} />
+            </button>
           </div>
-
-          <Link
-            to="/contact"
-            className="hidden md:inline-flex items-center px-6 py-2.5 rounded-full liquid-glass-btn text-text-primary text-xs font-medium tracking-[0.02em] uppercase transition-all hover:text-accent-lime"
-          >
-            Start a Project
-          </Link>
-
-          <button
-            onClick={() => setMobileOpen(true)}
-            className="md:hidden p-2 text-text-primary"
-            aria-label="Open menu"
-          >
-            <Menu size={24} />
-          </button>
-        </div>
-      </nav>
+        </nav>
 
       <AnimatePresence>
         {mobileOpen && (

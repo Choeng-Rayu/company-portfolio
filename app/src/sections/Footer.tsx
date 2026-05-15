@@ -1,5 +1,4 @@
-import { Github, Linkedin, Twitter } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { Github, Linkedin, Twitter, ArrowUpRight } from 'lucide-react'
 import { Link, useLocation } from 'react-router'
 
 const pageLinks = [
@@ -19,35 +18,38 @@ const socials = [
 ]
 
 export default function Footer() {
-  const [aboutData, setAboutData] = useState<any>(null)
   const location = useLocation()
-  const isHome = location.pathname === '/'
-
-  useEffect(() => {
-    fetch('/data/about_us.json')
-      .then((res) => res.json())
-      .then(setAboutData)
-      .catch((err) => console.error('Failed to load about us data', err))
-  }, [])
-
-  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith('/#') && isHome) {
-      e.preventDefault()
-      const id = href.replace('/#', '')
-      const el = document.getElementById(id)
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
 
   return (
-    <footer className="w-full py-12 border-t border-border-surface bg-transparent">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer className="relative z-10 w-full bg-[#0A0A0B] border-t border-white/10">
+      {/* CTA Section */}
+      <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
+        <p className="font-mono text-xs text-accent-lime uppercase tracking-widest mb-4">
+          Ready to launch?
+        </p>
+        <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-none mb-6">
+          LET'S WORK<br />
+          <span className="text-accent-lime">TOGETHER</span>
+        </h2>
+        <p className="text-text-muted text-base md:text-lg max-w-xl mx-auto mb-10">
+          Have a project in mind? We'd love to hear about it. Let's build something extraordinary.
+        </p>
+        <Link
+          to="/contact"
+          className="inline-flex items-center gap-2 bg-accent-lime text-black font-mono text-sm font-bold px-8 py-4 rounded-full hover:bg-white transition-colors duration-200"
+        >
+          Start a Project <ArrowUpRight size={16} />
+        </Link>
+      </div>
+
+      {/* Divider */}
+      <div className="border-t border-white/10" />
+
+      {/* Bottom bar */}
+      <div className="max-w-[1280px] mx-auto px-6 py-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Logo */}
-          <Link
-            to="/"
-            className="flex items-center hover:opacity-80 transition-opacity"
-          >
+          <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
             <img
               src="/images/company_log.png"
               alt="Universe Software"
@@ -56,49 +58,37 @@ export default function Footer() {
           </Link>
 
           {/* Nav links */}
-          <nav className="flex flex-wrap justify-center gap-6">
+          <nav className="flex flex-wrap justify-center gap-5">
             {pageLinks.map((link) => (
               <Link
                 key={link.label}
                 to={link.href}
-                onClick={(e) => handleScroll(e, link.href)}
-                className="font-mono text-xs text-text-muted hover:text-text-secondary transition-colors uppercase tracking-[0.04em]"
+                className="font-mono text-xs text-text-muted hover:text-white transition-colors uppercase tracking-[0.04em]"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          {/* Social icons */}
+          {/* Socials */}
           <div className="flex items-center gap-4">
             {socials.map((social) => (
               <a
                 key={social.label}
                 href={social.href}
-                onClick={(e) => e.preventDefault()}
                 className="text-text-muted hover:text-accent-lime transition-colors"
                 aria-label={social.label}
               >
-                <social.icon size={20} />
+                <social.icon size={18} />
               </a>
             ))}
           </div>
         </div>
 
-        {/* Bottom row */}
-        <div className="text-center mt-6">
-          <p className="font-mono text-[0.7rem] text-text-muted">
-            &copy; {aboutData?.foundedYear || '2024'} Chakrawal Digital. Engineered in{' '}
-            {aboutData?.location || 'Phnom Penh'}{' '}
-            <span role="img" aria-label="Cambodia">
-              🇰🇭
-            </span>{' '}
-            ·{' '}
-            <Link to="/" className="hover:text-text-secondary transition-colors">
-              Privacy Policy
-            </Link>
-          </p>
-        </div>
+        <p className="font-mono text-[0.65rem] text-text-muted text-center mt-4">
+          © 2024 Chakrawal Digital. Engineered in Phnom Penh 🇰🇭 ·{' '}
+          <Link to="/" className="hover:text-white transition-colors">Privacy Policy</Link>
+        </p>
       </div>
     </footer>
   )

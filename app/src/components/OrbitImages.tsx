@@ -139,7 +139,7 @@ export default function OrbitImages({
     <div
       ref={containerRef}
       className={`orbit-container ${className}`}
-      style={{ width: '100%', height: responsive ? baseWidth * scale : baseWidth }}
+      style={{ width: '100%', height: responsive ? baseWidth * scale : baseWidth, overflow: 'visible' }}
     >
       <div
         style={{
