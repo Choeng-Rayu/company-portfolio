@@ -72,12 +72,28 @@ export default function Hero() {
   const founded = data?.foundedYear ?? '2026';
   const location = data?.location ?? 'Phnom Penh';
 
+  // Split headline into lines for staggered animation without breaking words
+  const splitHeadline = (text: string) => {
+    if (text.includes(' — ')) return text.split(' — ');
+    if (text.length <= 50) return [text];
+    const mid = Math.floor(text.length / 2);
+    const leftSpace = text.lastIndexOf(' ', mid);
+    const rightSpace = text.indexOf(' ', mid + 1);
+    let splitAt = mid;
+    if (leftSpace === -1 && rightSpace === -1) {
+      splitAt = mid;
+    } else if (leftSpace === -1) {
+      splitAt = rightSpace;
+    } else if (rightSpace === -1) {
+      splitAt = leftSpace;
+    } else {
+      splitAt = (mid - leftSpace <= rightSpace - mid) ? leftSpace : rightSpace;
+    }
+    return [text.slice(0, splitAt).trimEnd(), text.slice(splitAt).trimStart()];
+  };
+
   // Split headline into lines for staggered animation
-  const headlineLines = headline.split(' — ').length > 1
-    ? headline.split(' — ')
-    : headline.length > 40
-      ? [headline.slice(0, Math.ceil(headline.length / 2)).trimEnd(), headline.slice(Math.ceil(headline.length / 2)).trimStart()]
-      : [headline];
+  const headlineLines = splitHeadline(headline);
 
   return (
     <section className="relative min-h-[100dvh] w-full overflow-x-hidden bg-transparent pt-24">
