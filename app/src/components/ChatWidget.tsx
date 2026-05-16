@@ -13,7 +13,7 @@ const spring = { type: 'spring' as const, stiffness: 300, damping: 25 };
 
 const openai = new OpenAI({
   apiKey: import.meta.env.VITE_NVIDIA_API_KEY || 'missing-api-key',
-  baseURL: 'https://integrate.api.nvidia.com/v1',
+  baseURL: `${window.location.origin}/api/nvidia`,
   dangerouslyAllowBrowser: true,
 });
 const systemPrompt = 'You are a helpful assistant for Universe Software, a product engineering company. Be concise and helpful.';
