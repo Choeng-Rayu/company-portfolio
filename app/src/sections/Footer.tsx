@@ -1,12 +1,11 @@
 import { Github, Linkedin, Twitter, ArrowUpRight } from 'lucide-react'
-import { Link, useLocation } from 'react-router'
+import { Link } from 'react-router'
 
 const pageLinks = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Services', href: '/services' },
   { label: 'Work', href: '/work' },
-  { label: 'Team', href: '/team' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ]
@@ -18,8 +17,6 @@ const socials = [
 ]
 
 export default function Footer() {
-  const location = useLocation()
-
   return (
     <footer className="relative z-10 w-full bg-[#0A0A0B] border-t border-white/10">
       {/* CTA Section */}

@@ -9,7 +9,6 @@ const About = lazy(() => import('./pages/About'))
 const ServicesPage = lazy(() => import('./pages/ServicesPage'))
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'))
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'))
-const TeamPage = lazy(() => import('./pages/TeamPage'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))
 const Blog = lazy(() => import('./pages/Blog'))
 const BlogPost = lazy(() => import('./pages/BlogPost'))
@@ -35,7 +34,6 @@ export default function App() {
     '/about': 'About — Universe Software',
     '/services': 'Services — Universe Software',
     '/work': 'Our Work — Universe Software',
-    '/team': 'Team — Universe Software',
     '/contact': 'Contact — Universe Software',
     '/blog': 'Blog — Universe Software',
   }
@@ -55,7 +53,6 @@ export default function App() {
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/work" element={<ProjectsPage />} />
             <Route path="/work/:id" element={<ProjectDetail />} />
-            <Route path="/team" element={<TeamPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />

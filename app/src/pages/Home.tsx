@@ -6,7 +6,6 @@ import OurJourney from '../sections/FeaturedWork'
 import Projects from '../sections/Projects'
 import Process from '../sections/Process'
 import TechStack from '../sections/TechStack'
-import Team from '../sections/Team'
 import Testimonials from '../sections/Testimonials'
 
 export default function Home() {
@@ -20,7 +19,6 @@ export default function Home() {
       <Projects />
       <Process />
       <TechStack />
-      <Team />
       <Testimonials />
     </>
   )

@@ -45,9 +45,10 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
 
           <h3 className="font-display text-xl text-text-primary leading-snug">{project.title}</h3>
 
-          <p className="text-base text-text-muted leading-relaxed line-clamp-3 flex-1">
+          <p className="text-base text-text-muted leading-relaxed">
             {project.description}
           </p>
+          <div className="flex-1" />
 
           <div className="flex flex-wrap gap-1.5">
             {project.tags.map((tag) => (
