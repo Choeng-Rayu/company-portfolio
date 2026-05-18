@@ -8,27 +8,8 @@ import { dataService } from '../services/dataService'
 import type { AboutUsData, VisionData } from '../services/dataService'
 import Lanyard from '../components/Lanyard/Lanyard'
 import OurJourney from '../sections/FeaturedWork'
+import ScrollStack, { ScrollStackItem } from '../components/ScrollStack/ScrollStack'
 
-
-function InfoCard({ icon: Icon, title, children, delay = 0 }: any) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-80px' })
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: EASE_OUT_EXPO }}
-      className="liquid-glass-card p-8 rounded-2xl"
-    >
-      <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent-lime/10 text-accent-lime mb-4">
-        <Icon size={20} />
-      </div>
-      <h3 className="font-display text-xl text-text-primary mb-2">{title}</h3>
-      <div className="text-text-muted text-base leading-relaxed">{children}</div>
-    </motion.div>
-  )
-}
 
 const whyUsItems = [
   {
@@ -168,29 +149,66 @@ export default function About() {
               Vision, Mission & Goals
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <InfoCard icon={Eye} title={visions?.title || "Vision"} delay={0}>
-              {visions?.bullets?.map((b, i) => (
-                <p key={i} className="mb-2">
-                  {b}
-                </p>
-              ))}
-            </InfoCard>
-            <InfoCard icon={Target} title={missions?.title || "Mission"} delay={0.1}>
-              {missions?.bullets?.map((b, i) => (
-                <p key={i} className="mb-2">
-                  {b}
-                </p>
-              ))}
-            </InfoCard>
-            <InfoCard icon={Rocket} title={goals?.title || "Goals"} delay={0.2}>
-              {goals?.bullets?.map((b, i) => (
-                <p key={i} className="mb-2">
-                  {b}
-                </p>
-              ))}
-            </InfoCard>
-          </div>
+        </Container>
+        <Container>
+          <ScrollStack
+            useWindowScroll={true}
+            itemDistance={80}
+            itemScale={0.04}
+            itemStackDistance={40}
+            stackPosition="15%"
+            scaleEndPosition="8%"
+            baseScale={0.9}
+            blurAmount={2}
+          >
+            <ScrollStackItem>
+              <div className="flex items-start gap-4">
+                <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent-lime/10 text-accent-lime shrink-0 mt-1">
+                  <Eye size={20} />
+                </div>
+                <div>
+                  <h3 className="font-display text-xl text-text-primary mb-3">{visions?.title || 'Vision'}</h3>
+                  <div className="text-text-muted text-base leading-relaxed">
+                    {visions?.bullets?.map((b, i) => (
+                      <p key={i} className="mb-2">{b}</p>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </ScrollStackItem>
+
+            <ScrollStackItem>
+              <div className="flex items-start gap-4">
+                <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent-lime/10 text-accent-lime shrink-0 mt-1">
+                  <Target size={20} />
+                </div>
+                <div>
+                  <h3 className="font-display text-xl text-text-primary mb-3">{missions?.title || 'Mission'}</h3>
+                  <div className="text-text-muted text-base leading-relaxed">
+                    {missions?.bullets?.map((b, i) => (
+                      <p key={i} className="mb-2">{b}</p>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </ScrollStackItem>
+
+            <ScrollStackItem>
+              <div className="flex items-start gap-4">
+                <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent-lime/10 text-accent-lime shrink-0 mt-1">
+                  <Rocket size={20} />
+                </div>
+                <div>
+                  <h3 className="font-display text-xl text-text-primary mb-3">{goals?.title || 'Goals'}</h3>
+                  <div className="text-text-muted text-base leading-relaxed">
+                    {goals?.bullets?.map((b, i) => (
+                      <p key={i} className="mb-2">{b}</p>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </ScrollStackItem>
+          </ScrollStack>
         </Container>
       </section>
 
