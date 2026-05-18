@@ -1,22 +1,69 @@
 import { motion } from 'framer-motion';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import {
+  Palette, Server, Cloud, BrainCircuit,
+  type LucideIcon
+} from 'lucide-react';
 
-const categories = [
+interface TechItem {
+  name: string;
+  icon: LucideIcon;
+}
+
+interface TechCategory {
+  label: string;
+  icon: LucideIcon;
+  items: TechItem[];
+}
+
+const categories: TechCategory[] = [
   {
     label: 'Frontend',
-    items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Three.js'],
+    icon: Palette,
+    items: [
+      { name: 'React', icon: Palette },
+      { name: 'Next.js', icon: Palette },
+      { name: 'TypeScript', icon: Palette },
+      { name: 'Tailwind CSS', icon: Palette },
+      { name: 'Framer Motion', icon: Palette },
+      { name: 'Three.js', icon: Palette },
+    ],
   },
   {
     label: 'Backend',
-    items: ['Node.js', 'Python', 'Go', 'PostgreSQL', 'MongoDB', 'Redis'],
+    icon: Server,
+    items: [
+      { name: 'Node.js', icon: Server },
+      { name: 'Python', icon: Server },
+      { name: 'Go', icon: Server },
+      { name: 'PostgreSQL', icon: Server },
+      { name: 'MongoDB', icon: Server },
+      { name: 'Redis', icon: Server },
+    ],
   },
   {
     label: 'Infrastructure',
-    items: ['AWS', 'Google Cloud', 'Kubernetes', 'Docker', 'Terraform', 'CI/CD'],
+    icon: Cloud,
+    items: [
+      { name: 'AWS', icon: Cloud },
+      { name: 'Google Cloud', icon: Cloud },
+      { name: 'Kubernetes', icon: Cloud },
+      { name: 'Docker', icon: Cloud },
+      { name: 'Terraform', icon: Cloud },
+      { name: 'CI/CD', icon: Cloud },
+    ],
   },
   {
     label: 'AI / Data',
-    items: ['OpenAI', 'TensorFlow', 'PyTorch', 'Pandas', 'Kafka', 'Elasticsearch'],
+    icon: BrainCircuit,
+    items: [
+      { name: 'OpenAI', icon: BrainCircuit },
+      { name: 'TensorFlow', icon: BrainCircuit },
+      { name: 'PyTorch', icon: BrainCircuit },
+      { name: 'Pandas', icon: BrainCircuit },
+      { name: 'Kafka', icon: BrainCircuit },
+      { name: 'Elasticsearch', icon: BrainCircuit },
+    ],
   },
 ];
 
@@ -49,29 +96,39 @@ export default function TechStack() {
         </div>
 
         {/* Category clusters */}
-        <div className="space-y-12">
-          {categories.map((cat, catIndex) => (
-            <motion.div
-              key={cat.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 + catIndex * 0.1, duration: 0.6, ease }}
-            >
-              <p className="font-mono text-xs tracking-[0.08em] uppercase text-text-muted mb-4">
-                {cat.label}
-              </p>
-              <div className="flex flex-wrap gap-3">
-                {cat.items.map((item) => (
-                  <span
-                    key={item}
-                    className="liquid-glass-btn px-5 py-3 font-mono text-sm text-text-secondary hover:text-text-primary transition-all cursor-default"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {categories.map((cat, catIndex) => {
+            const CatIcon = cat.icon;
+            return (
+              <motion.div
+                key={cat.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.2 + catIndex * 0.1, duration: 0.6, ease }}
+                className="liquid-glass-card rounded-2xl p-6"
+              >
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-xl bg-accent-lime/10 flex items-center justify-center border border-accent-lime/20">
+                    <CatIcon size={20} className="text-accent-lime" />
+                  </div>
+                  <p className="font-mono text-xs tracking-[0.08em] uppercase text-text-muted">
+                    {cat.label}
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {cat.items.map((item) => (
+                    <span
+                      key={item.name}
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl liquid-glass-btn font-mono text-sm text-text-secondary hover:text-text-primary hover:border-accent-lime/30 transition-all cursor-default group"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent-lime/60 group-hover:bg-accent-lime transition-colors" />
+                      {item.name}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -1,36 +1,88 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const testimonials = [
+interface Testimonial {
+  quote: string;
+  name: string;
+  title: string;
+  company: string;
+  initials: string;
+  color: string;
+  rating: number;
+}
+
+const testimonials: Testimonial[] = [
   {
     quote:
-      'Universe transformed our legacy payment system into a modern, scalable platform. The team\'s technical depth and communication were exceptional.',
+      'Chakrawal Digital built our lab management system from scratch. The team understood our workflow and delivered something that actually makes our daily operations easier.',
     name: 'Chanrith Sok',
-    title: 'CTO at PayFlow',
-    avatar: '/images/avatar-chanrith.jpg',
+    title: 'Operations Director',
+    company: 'MR Training & Jobs Center',
+    initials: 'CS',
+    color: '#C8F135',
+    rating: 5,
   },
   {
     quote:
-      'Their AI integration reduced our logistics costs by 40%. They didn\'t just build software — they understood our business.',
+      'We needed a provincial website that citizens could actually use. They delivered a clean, fast site that our elderly residents can navigate without help.',
     name: 'Sopheap Chea',
-    title: 'CEO at GreenRoute',
-    avatar: '/images/avatar-sopheap.jpg',
+    title: 'Digital Transformation Lead',
+    company: 'Oddar Meanchey Provincial Gov',
+    initials: 'SC',
+    color: '#3CB371',
+    rating: 5,
   },
   {
     quote:
-      'The design system they created unified our entire product suite. Every pixel, every interaction, feels intentional.',
+      'Our HRM system went from spreadsheet chaos to a proper platform. Payroll used to take days. Now it takes hours. Worth every riel.',
     name: 'Dara Oum',
-    title: 'Product Lead at MedConnect',
-    avatar: '/images/avatar-dara.jpg',
+    title: 'HR Manager',
+    company: 'MR Training & Jobs Center',
+    initials: 'DO',
+    color: '#4477DD',
+    rating: 5,
   },
 ];
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
+function Avatar({ initials, color }: { initials: string; color: string }) {
+  return (
+    <div
+      className="w-14 h-14 rounded-2xl flex items-center justify-center font-mono text-sm font-bold flex-shrink-0"
+      style={{
+        background: `${color}18`,
+        color,
+        border: `1.5px solid ${color}40`,
+      }}
+    >
+      {initials}
+    </div>
+  );
+}
+
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div className="flex gap-1">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star
+          key={i}
+          size={14}
+          className={i < rating ? 'text-accent-lime fill-accent-lime' : 'text-text-muted'}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function Testimonials() {
   const [active, setActive] = useState(0);
   const { ref, isInView } = useScrollAnimation('-100px');
+
+  const next = () => setActive((prev) => (prev + 1) % testimonials.length);
+  const prev = () => setActive((prev) => (prev - 1 + testimonials.length) % testimonials.length);
 
   return (
     <section className="w-full py-[140px] bg-[#0E0E11]" ref={ref}>
@@ -43,7 +95,7 @@ export default function Testimonials() {
             transition={{ duration: 0.6, ease }}
             className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime"
           >
-            TRANSMISSIONS
+            CLIENT FEEDBACK
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -51,73 +103,116 @@ export default function Testimonials() {
             transition={{ delay: 0.1, duration: 0.6, ease }}
             className="font-display text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
           >
-            Client Signals
+            What They Say
           </motion.h2>
         </div>
 
-        {/* Quote carousel */}
+        {/* Featured quote */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.3, duration: 0.6, ease }}
-          className="relative max-w-[800px] mx-auto"
+          className="relative max-w-[900px] mx-auto"
         >
-          {/* Large quotation mark */}
-          <span
-            className="absolute -top-8 -left-4 font-display text-[6rem] leading-none select-none pointer-events-none"
-            style={{ color: 'rgba(200, 241, 53, 0.15)' }}
-            aria-hidden="true"
-          >
-            &ldquo;
-          </span>
+          <div className="liquid-glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden">
+            {/* Background accent */}
+            <div
+              className="absolute top-0 right-0 w-64 h-64 rounded-full blur-[100px] opacity-[0.06] pointer-events-none"
+              style={{ background: testimonials[active].color }}
+            />
 
-          <div className="relative min-h-[200px]">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.5, ease }}
-                className="text-center"
-              >
-                <p className="font-display text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.4] text-text-primary">
-                  {testimonials[active].quote}
-                </p>
+            {/* Quote icon */}
+            <Quote
+              size={40}
+              className="text-accent-lime/20 mb-6"
+            />
 
-                <div className="flex items-center justify-center gap-4 mt-10">
-                  <img
-                    src={testimonials[active].avatar}
-                    alt={testimonials[active].name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                  <div className="text-left">
+            <div className="relative min-h-[160px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ duration: 0.4, ease }}
+                >
+                  <p className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.5] text-text-primary">
+                    &ldquo;{testimonials[active].quote}&rdquo;
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 10 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex items-center gap-4"
+                >
+                  <Avatar initials={testimonials[active].initials} color={testimonials[active].color} />
+                  <div>
                     <p className="text-base font-medium text-text-primary">
                       {testimonials[active].name}
                     </p>
-                    <p className="font-mono text-xs text-text-muted">
-                      {testimonials[active].title}
+                    <p className="font-mono text-xs text-text-muted mt-0.5">
+                      {testimonials[active].title} · {testimonials[active].company}
                     </p>
+                    <div className="mt-1.5">
+                      <StarRating rating={testimonials[active].rating} />
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+                </motion.div>
+              </AnimatePresence>
 
-          {/* Dot navigation */}
-          <div className="flex justify-center gap-2 mt-8">
-            {testimonials.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActive(i)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  i === active ? 'bg-accent-lime' : 'bg-border-surface hover:bg-border-accent'
-                }`}
-                aria-label={`Go to testimonial ${i + 1}`}
-              />
-            ))}
+              {/* Navigation */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={prev}
+                  className="w-10 h-10 rounded-xl liquid-glass-btn flex items-center justify-center text-text-muted hover:text-text-primary transition-colors"
+                  aria-label="Previous testimonial"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  onClick={next}
+                  className="w-10 h-10 rounded-xl liquid-glass-btn flex items-center justify-center text-text-muted hover:text-text-primary transition-colors"
+                  aria-label="Next testimonial"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            </div>
           </div>
         </motion.div>
+
+        {/* Thumbnail selectors */}
+        <div className="flex justify-center gap-3 mt-8">
+          {testimonials.map((t, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300 border ${
+                i === active
+                  ? 'bg-white/5 border-white/15'
+                  : 'bg-transparent border-transparent hover:bg-white/[0.02] hover:border-white/5'
+              }`}
+            >
+              <Avatar initials={t.initials} color={t.color} />
+              <div className="text-left hidden sm:block">
+                <p className={`text-sm font-medium transition-colors ${i === active ? 'text-text-primary' : 'text-text-muted'}`}>
+                  {t.name}
+                </p>
+                <p className="font-mono text-[0.6rem] text-text-muted">
+                  {t.company}
+                </p>
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
     </section>
   );

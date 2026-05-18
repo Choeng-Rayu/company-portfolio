@@ -7,37 +7,49 @@
       "name": "Choeng Rayu",
       "role": "CEO",
       "initials": "CR",
-      "linkedIn": "https://linkedin.com"
+      "linkedIn": "https://linkedin.com",
+      "bio": "Visionary leader with a deep understanding of Cambodia's digital landscape. Drives strategic partnerships and ensures every project aligns with our mission to empower local businesses.",
+      "skills": ["Strategy", "Business Development", "Team Leadership", "Partnerships", "Digital Transformation"]
     },
     {
       "name": "Yen Mara",
       "role": "CMO",
       "initials": "YM",
-      "linkedIn": "https://linkedin.com"
+      "linkedIn": "https://linkedin.com",
+      "bio": "Creative marketer who bridges the gap between technology and people. Crafts compelling brand stories and growth strategies that resonate with Cambodian audiences.",
+      "skills": ["Marketing", "Brand Strategy", "Content Creation", "Social Media", "Growth Hacking"]
     },
     {
       "name": "Rithi Reach",
       "role": "CTO",
       "initials": "RR",
-      "linkedIn": "https://linkedin.com"
+      "linkedIn": "https://linkedin.com",
+      "bio": "Full-stack architect passionate about clean code and scalable systems. Leads technical decisions and mentors the team on modern development practices.",
+      "skills": ["React", "Node.js", "System Design", "Cloud Architecture", "TypeScript", "DevOps"]
     },
     {
       "name": "Tep Somnang",
       "role": "COO",
       "initials": "TS",
-      "linkedIn": "https://linkedin.com"
+      "linkedIn": "https://linkedin.com",
+      "bio": "Operations expert who keeps projects on time and within budget. Streamlines workflows and ensures smooth delivery from discovery to deployment.",
+      "skills": ["Project Management", "Agile", "Process Optimization", "Client Relations", "Quality Assurance"]
     },
     {
       "name": "Povpanha Ngovseng",
       "role": "CFO",
       "initials": "PN",
-      "linkedIn": "https://linkedin.com"
+      "linkedIn": "https://linkedin.com",
+      "bio": "Financial strategist ensuring sustainable growth. Manages resources wisely so we can invest in talent and deliver exceptional value to our partners.",
+      "skills": ["Financial Planning", "Budgeting", "Risk Management", "Business Analysis", "Forecasting"]
     },
     {
       "name": "Prak Dararith",
       "role": "Project Management",
       "initials": "PD",
-      "linkedIn": "https://linkedin.com"
+      "linkedIn": "https://linkedin.com",
+      "bio": "Detail-oriented coordinator who translates client needs into actionable tasks. Ensures every sprint delivers measurable progress and client satisfaction.",
+      "skills": ["Scrum", "Stakeholder Management", "Requirements Analysis", "Timeline Planning", "Communication"]
     }
   ]
 }

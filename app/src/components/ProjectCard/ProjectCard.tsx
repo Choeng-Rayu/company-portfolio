@@ -1,55 +1,84 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router'
-import { Figma, Globe, ExternalLink, Eye } from 'lucide-react'
+import { Figma, Globe, ExternalLink, Eye, ArrowUpRight } from 'lucide-react'
 import { TiltCard } from '../TiltCard'
 import type { Project } from '../../services/dataService'
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
+function ProjectInitial({ title, color }: { title: string; color: string }) {
+  const initial = title.charAt(0).toUpperCase()
+  return (
+    <div
+      className="w-8 h-8 rounded-lg flex items-center justify-center font-mono text-xs font-bold flex-shrink-0"
+      style={{
+        background: `${color}18`,
+        color,
+        border: `1px solid ${color}33`,
+      }}
+    >
+      {initial}
+    </div>
+  )
+}
+
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
   const isFigma = project.type === 'figma'
   const TypeIcon = isFigma ? Figma : Globe
-  const typeLabel = isFigma ? 'Figma Prototype' : 'Live Site'
+  const typeLabel = isFigma ? 'Figma' : 'Live'
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.95 }}
+      initial={{ opacity: 0, y: 40, scale: 0.95 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.5, delay: index * 0.1, ease }}
       className="h-full"
     >
-      <TiltCard className="group liquid-glass-card rounded-2xl flex flex-col h-full w-full">
-        <div className="h-1 w-full shrink-0" style={{ backgroundColor: project.color }} />
+      <TiltCard className="group liquid-glass-card rounded-2xl flex flex-col h-full w-full overflow-hidden hover:border-white/20 transition-all duration-500">
+        {/* Top accent gradient bar */}
+        <div
+          className="h-1 w-full shrink-0 transition-all duration-500 group-hover:h-1.5"
+          style={{
+            background: `linear-gradient(90deg, ${project.color} 0%, ${project.color}88 100%)`,
+          }}
+        />
+
         <div className="flex flex-col flex-1 p-5 gap-4 relative z-20">
+          {/* Header row */}
           <div className="flex items-center justify-between">
-            <span
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[0.6rem] tracking-wide border"
-              style={{
-                background: `${project.color}15`,
-                borderColor: `${project.color}40`,
-                color: project.color,
-              }}
-            >
-              <TypeIcon size={10} />
-              {typeLabel}
-            </span>
+            <div className="flex items-center gap-2">
+              <ProjectInitial title={project.title} color={project.color} />
+              <span
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[0.6rem] tracking-wide border"
+                style={{
+                  background: `${project.color}15`,
+                  borderColor: `${project.color}40`,
+                  color: project.color,
+                }}
+              >
+                <TypeIcon size={10} />
+                {typeLabel}
+              </span>
+            </div>
             <Link
               to={`/work/${project.id}`}
-              className="liquid-glass-btn flex items-center gap-1.5 px-3 py-1.5 font-mono text-[0.65rem] tracking-wide text-text-muted hover:text-accent-lime"
+              className="liquid-glass-btn flex items-center gap-1.5 px-3 py-1.5 font-mono text-[0.65rem] tracking-wide text-text-muted hover:text-accent-lime transition-colors"
             >
               <Eye size={12} />
-              Details
+              View
             </Link>
           </div>
 
-          <h3 className="font-display text-xl text-text-primary leading-snug">{project.title}</h3>
+          <h3 className="font-display text-xl text-text-primary leading-snug group-hover:text-accent-lime transition-colors duration-300">
+            {project.title}
+          </h3>
 
-          <p className="text-base text-text-muted leading-relaxed">
+          <p className="text-sm text-text-muted leading-relaxed flex-1">
             {project.description}
           </p>
-          <div className="flex-1" />
 
+          {/* Tags */}
           <div className="flex flex-wrap gap-1.5">
             {project.tags.map((tag) => (
               <span
@@ -61,6 +90,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
             ))}
           </div>
 
+          {/* CTA */}
           <a
             href={project.link}
             target="_blank"
@@ -68,9 +98,12 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
             className="pt-4 border-t border-white/5 flex items-center justify-between group/link"
           >
             <span className="font-mono text-xs text-text-muted group-hover/link:text-accent-lime transition-colors">
-              {isFigma ? 'Open in Figma' : 'Visit Site'}
+              {isFigma ? 'Open Prototype' : 'Visit Live Site'}
             </span>
-            <ExternalLink size={12} className="text-text-muted group-hover/link:text-accent-lime transition-colors" />
+            <div className="flex items-center gap-1">
+              <ExternalLink size={12} className="text-text-muted group-hover/link:text-accent-lime transition-colors" />
+              <ArrowUpRight size={12} className="text-text-muted group-hover/link:text-accent-lime transition-colors opacity-0 group-hover/link:opacity-100 -translate-x-1 group-hover/link:translate-x-0 transition-all" />
+            </div>
           </a>
         </div>
       </TiltCard>

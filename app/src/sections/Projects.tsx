@@ -4,8 +4,37 @@ import { dataService } from '../services/dataService'
 import type { ProjectsData } from '../services/dataService'
 import { ProjectGrid } from '../components/ProjectCard/ProjectCard'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import { useAnimatedCounter } from '../hooks/useAnimatedCounter'
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
+
+function parseStatValue(value: string): { num: number; suffix: string } {
+  const match = value.match(/^([0-9]+)(.*)$/)
+  if (match) {
+    return { num: parseInt(match[1], 10), suffix: match[2] }
+  }
+  return { num: 0, suffix: value }
+}
+
+function AnimatedStat({ value, label, delay }: { value: string; label: string; delay: number }) {
+  const { num, suffix } = parseStatValue(value)
+  const { value: animatedValue, ref } = useAnimatedCounter(num, 2000)
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay, ease }}
+      className="text-center"
+    >
+      <div className="font-display text-3xl md:text-4xl text-accent-lime tabular-nums">
+        {animatedValue}{suffix}
+      </div>
+      <div className="font-mono text-xs tracking-[0.08em] uppercase text-text-muted mt-1">{label}</div>
+    </motion.div>
+  )
+}
 
 export default function Projects() {
   const [data, setData] = useState<ProjectsData | null>(null)
@@ -49,19 +78,16 @@ export default function Projects() {
         </div>
 
         {/* Stats Row */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.3, duration: 0.6, ease }}
-          className="flex flex-wrap justify-center gap-8 md:gap-16 mb-16 md:mb-20"
-        >
-          {data.stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="font-display text-3xl md:text-4xl text-accent-lime">{stat.value}</div>
-              <div className="font-mono text-xs tracking-[0.08em] uppercase text-text-muted mt-1">{stat.label}</div>
-            </div>
+        <div className="flex flex-wrap justify-center gap-8 md:gap-16 mb-16 md:mb-20">
+          {data.stats.map((stat, i) => (
+            <AnimatedStat
+              key={stat.label}
+              value={stat.value}
+              label={stat.label}
+              delay={0.3 + i * 0.1}
+            />
           ))}
-        </motion.div>
+        </div>
 
         <ProjectGrid projects={data.projects} />
       </div>

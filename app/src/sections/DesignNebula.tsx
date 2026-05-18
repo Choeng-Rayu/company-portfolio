@@ -131,7 +131,7 @@ export default function VisionMissionGoals() {
             transition={{ duration: 0.6, ease }}
             className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime"
           >
-            02 — VISION · MISSION · GOALS
+            VISION · MISSION · GOALS
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}

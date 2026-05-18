@@ -67,10 +67,11 @@ export default function Hero() {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const headline = data?.headline ?? 'We Turn Your Challenges Into Digital Solutions.';
-  const description = data?.description ?? "Cambodia's startup tech team helping SMEs go digital — affordably.";
-  const founded = data?.foundedYear ?? '2026';
+  const headline = data?.headline ?? 'Born in Cambodia. Built for Cambodia.';
+  const description = data?.description ?? 'Chakrawal Digital is a Cambodian technology startup helping local businesses modernize through software, automation, and digital solutions. We empower SMEs to move from manual operations to smarter, more efficient digital systems.';
+  const founded = data?.foundedYear ?? '2023';
   const location = data?.location ?? 'Phnom Penh';
+  const country = data?.country ?? 'Cambodia';
 
   // Split headline into lines for staggered animation without breaking words
   const splitHeadline = (text: string) => {
@@ -108,7 +109,7 @@ export default function Hero() {
             transition={{ delay: 0.2, duration: 0.6, ease }}
             className="font-mono text-xs tracking-[0.08em] uppercase text-text-muted mb-6"
           >
-            EST. {founded} · DIGITAL SOLUTIONS STUDIO · {location}
+            EST. {founded} · DIGITAL SOLUTIONS STUDIO · {location}, {country}
           </motion.p>
 
           <div className="space-y-0">

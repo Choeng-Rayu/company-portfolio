@@ -1,4 +1,4 @@
-import { Github, Linkedin, Twitter, ArrowUpRight } from 'lucide-react'
+import { Facebook, Linkedin, Twitter, Instagram, MessageCircle, Github, ArrowUpRight } from 'lucide-react'
 import { Link } from 'react-router'
 
 const pageLinks = [
@@ -11,9 +11,12 @@ const pageLinks = [
 ]
 
 const socials = [
-  { icon: Github, label: 'GitHub', href: '#' },
-  { icon: Linkedin, label: 'LinkedIn', href: '#' },
-  { icon: Twitter, label: 'Twitter', href: '#' },
+  { icon: Facebook, label: 'Facebook', href: 'https://facebook.com/chakrawaldigital' },
+  { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/company/chakrawaldigital' },
+  { icon: MessageCircle, label: 'Telegram', href: 'https://t.me/chakrawaldigital' },
+  { icon: Twitter, label: 'X', href: 'https://x.com/chakrawaldigital' },
+  { icon: Instagram, label: 'Instagram', href: 'https://instagram.com/chakrawaldigital' },
+  { icon: Github, label: 'GitHub', href: 'https://github.com/chakrawaldigital' },
 ]
 
 export default function Footer() {
@@ -73,6 +76,8 @@ export default function Footer() {
               <a
                 key={social.label}
                 href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-text-muted hover:text-accent-lime transition-colors"
                 aria-label={social.label}
               >
@@ -83,7 +88,7 @@ export default function Footer() {
         </div>
 
         <p className="font-mono text-[0.65rem] text-text-muted text-center mt-4">
-          © 2024 Chakrawal Digital. Engineered in Phnom Penh 🇰🇭 ·{' '}
+          © 2024 Chakrawal Digital. Engineered in Phnom Penh, Cambodia ·{' '}
           <Link to="/" className="hover:text-white transition-colors">Privacy Policy</Link>
         </p>
       </div>
