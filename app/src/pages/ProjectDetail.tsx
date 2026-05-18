@@ -42,11 +42,11 @@ export default function ProjectDetail() {
       <div className="min-h-screen flex items-center justify-center pt-24 px-6">
         <div className="text-center space-y-4">
           <AlertCircle size={40} className="text-text-muted mx-auto" />
-          <h1 className="font-display text-2xl text-text-primary">Project not found</h1>
-          <p className="text-text-muted text-sm">The project you are looking for does not exist.</p>
+          <h1 className="font-subheader text-subheader text-text-primary">Project not found</h1>
+          <p className="font-body text-body text-text-muted">The project you are looking for does not exist.</p>
           <Link
             to="/work"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full liquid-glass-btn text-text-primary font-mono text-xs uppercase tracking-wide hover:text-accent-lime transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full liquid-glass-btn text-text-primary font-small text-small hover:text-accent-lime transition-colors"
           >
             <ArrowLeft size={14} />
             Back to Work
@@ -67,7 +67,7 @@ export default function ProjectDetail() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4, ease: EASE_OUT_EXPO }}
           onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-2 text-text-muted hover:text-accent-lime transition-colors font-mono text-xs mb-8"
+          className="inline-flex items-center gap-2 text-text-muted hover:text-accent-lime transition-colors font-small text-small mb-8"
         >
           <ArrowLeft size={14} />
           Back
@@ -80,7 +80,7 @@ export default function ProjectDetail() {
         >
           <div className="flex items-center gap-3 mb-4">
             <span
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[0.65rem] tracking-wide border"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-small text-small border"
               style={{
                 background: `${project.color}15`,
                 borderColor: `${project.color}40`,
@@ -94,14 +94,14 @@ export default function ProjectDetail() {
               {project.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-2 py-0.5 rounded-md font-mono text-[0.6rem] tracking-wide text-text-muted border border-white/5 bg-white/[0.03]"
+                  className="px-2 py-0.5 rounded-md font-small text-small text-text-muted border border-white/5 bg-white/[0.03]"
                 >
                   {tag}
                 </span>
               ))}
             </div>
           </div>
-          <h1 className="font-display text-[clamp(2rem,5vw,4rem)] leading-[1.05] text-text-primary">
+          <h1 className="font-header text-header text-text-primary">
             {project.title}
           </h1>
           <p className="text-text-secondary mt-4 max-w-2xl leading-relaxed">{project.description}</p>
@@ -110,7 +110,7 @@ export default function ProjectDetail() {
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-full liquid-glass-btn text-text-primary font-mono text-xs uppercase tracking-wide hover:text-accent-lime transition-colors"
+            className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-full liquid-glass-btn text-text-primary font-small text-small hover:text-accent-lime transition-colors"
           >
             <ExternalLink size={14} />
             {isFigma ? 'Open in Figma' : 'Visit Live Site'}

@@ -28,10 +28,10 @@ function AnimatedStat({ value, label, delay }: { value: string; label: string; d
       transition={{ duration: 0.6, delay, ease: EASE_OUT_EXPO }}
       className="text-center"
     >
-      <div className="font-display text-3xl md:text-4xl text-accent-lime tabular-nums">
+      <div className="font-header text-header text-accent-lime tabular-nums">
         {animatedValue}{suffix}
       </div>
-      <div className="font-mono text-xs tracking-[0.08em] uppercase text-text-muted mt-1">{label}</div>
+      <div className="font-small text-small text-text-muted mt-1">{label}</div>
     </motion.div>
   )
 }
@@ -55,7 +55,7 @@ export default function Projects() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
-            className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime"
+            className="font-small text-small text-accent-lime"
           >
             {data.sectionLabel}
           </motion.p>
@@ -63,7 +63,7 @@ export default function Projects() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
-            className="font-display text-[clamp(2rem,6vw,5rem)] leading-[1.05] text-text-primary mt-4"
+            className="font-header text-header text-text-primary mt-4"
           >
             {data.headline}
           </motion.h2>
@@ -71,7 +71,7 @@ export default function Projects() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2, duration: 0.6, ease: EASE_OUT_EXPO }}
-            className="text-lg md:text-xl text-text-secondary mt-4 max-w-[560px] mx-auto"
+            className="font-body text-body text-text-secondary mt-4 max-w-[560px] mx-auto"
           >
             {data.subtitle}
           </motion.p>

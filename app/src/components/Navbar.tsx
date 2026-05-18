@@ -52,7 +52,7 @@ export default function Navbar() {
                   key={link.label}
                   to={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`relative font-mono text-sm font-light tracking-[0.08em] uppercase transition-colors group ${
+                  className={`relative font-small text-small font-light tracking-[0.08em] transition-colors group ${
                     isActive(link.href) ? 'text-accent-lime' : 'text-text-secondary hover:text-text-primary'
                   }`}
                 >
@@ -68,7 +68,7 @@ export default function Navbar() {
 
             <Link
               to="/contact"
-              className="hidden md:inline-flex items-center px-6 py-2.5 rounded-full liquid-glass-btn text-text-primary text-sm font-medium tracking-[0.02em] uppercase transition-all hover:text-accent-lime"
+              className="hidden md:inline-flex items-center px-6 py-2.5 rounded-full liquid-glass-btn text-text-primary font-small text-small font-medium tracking-[0.02em] transition-all hover:text-accent-lime"
             >
               Start a Project
             </Link>
@@ -112,7 +112,7 @@ export default function Navbar() {
                   <Link
                     to={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className={`text-2xl transition-colors ${
+                    className={`font-subheader text-subheader transition-colors ${
                       isActive(link.href) ? 'text-accent-lime' : 'text-text-primary hover:text-accent-lime'
                     }`}
                   >
@@ -129,7 +129,7 @@ export default function Navbar() {
                 <Link
                   to="/contact"
                   onClick={() => setMobileOpen(false)}
-                  className="mt-4 px-8 py-3 rounded-full liquid-glass-btn text-text-primary text-sm font-medium transition-all hover:text-accent-lime"
+                  className="mt-4 px-8 py-3 rounded-full liquid-glass-btn text-text-primary font-small text-small font-medium transition-all hover:text-accent-lime"
                 >
                   Start a Project
                 </Link>

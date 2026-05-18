@@ -52,13 +52,13 @@ export default function OurJourney() {
       transition={{ duration: 0.35 }}
       className="liquid-glass-card rounded-3xl p-6 md:p-8 text-center max-w-[320px]"
     >
-      <span className="inline-flex items-center justify-center px-4 py-1.5 text-base font-mono bg-accent-lime text-bg-base rounded-full mb-3">
+      <span className="inline-flex items-center justify-center px-4 py-1.5 font-small text-small bg-accent-lime text-bg-base rounded-full mb-3">
         {data.milestones[activeIndex].year}
       </span>
-      <h3 className="font-display text-xl md:text-2xl text-text-primary mb-2 leading-tight">
+      <h3 className="font-subheader text-subheader text-text-primary mb-2 leading-tight">
         {data.milestones[activeIndex].title}
       </h3>
-      <p className="text-text-secondary text-sm leading-relaxed">
+      <p className="font-body text-body text-text-secondary leading-relaxed">
         {data.milestones[activeIndex].description}
       </p>
     </motion.div>
@@ -74,7 +74,7 @@ export default function OurJourney() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
-            className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime"
+            className="font-small text-small text-accent-lime"
           >
             {data.sectionLabel}
           </motion.p>
@@ -83,7 +83,7 @@ export default function OurJourney() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
-            className="font-display text-[clamp(2rem,6vw,5rem)] leading-[1.05] text-text-primary mt-4"
+            className="font-header text-header text-text-primary mt-4"
           >
             {data.title}
           </motion.h2>
@@ -93,7 +93,7 @@ export default function OurJourney() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-100px' }}
               transition={{ delay: 0.2, duration: 0.6, ease: EASE_OUT_EXPO }}
-              className="text-lg md:text-xl text-text-secondary mt-4 max-w-[560px] mx-auto"
+              className="font-body text-body text-text-secondary mt-4 max-w-[560px] mx-auto"
             >
               {data.subtitle}
             </motion.p>
@@ -106,8 +106,8 @@ export default function OurJourney() {
             transition={{ delay: 0.35, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="inline-flex items-center gap-3 mt-6 px-5 py-3 rounded-2xl liquid-glass-card mx-auto"
           >
-            <span className="font-display text-2xl text-accent-lime">{data.milestones.length}</span>
-            <span className="text-sm text-text-secondary leading-snug text-left">
+            <span className="font-header text-header text-accent-lime">{data.milestones.length}</span>
+            <span className="font-body text-body text-text-secondary leading-snug text-left">
               key milestones shaping<br />our path to the future
             </span>
           </motion.div>
@@ -117,7 +117,7 @@ export default function OurJourney() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ delay: 0.5, duration: 0.6 }}
-            className="font-mono text-[0.65rem] tracking-wide text-text-muted/50 mt-3"
+            className="font-small text-small text-text-muted/50 mt-3"
           >
             Hover to pause · Click a milestone to explore
           </motion.p>
@@ -162,7 +162,7 @@ export default function OurJourney() {
                     />
                   </div>
                   <span
-                    className="absolute -bottom-6 left-1/2 -translate-x-1/2 font-mono text-[0.6rem] tracking-wide whitespace-nowrap transition-colors duration-300"
+                    className="absolute -bottom-6 left-1/2 -translate-x-1/2 font-small text-small whitespace-nowrap transition-colors duration-300"
                     style={{ color: activeIndex === index ? '#C8F135' : 'rgba(255,255,255,0.4)' }}
                   >
                     {data!.milestones[index].year}

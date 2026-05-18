@@ -86,7 +86,7 @@ export default function About() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
-                className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime mb-4"
+                className="font-small text-small text-accent-lime mb-4"
               >
                 {about?.sectionLabel}
               </motion.p>
@@ -94,7 +94,7 @@ export default function About() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.1, ease: EASE_OUT_EXPO }}
-                className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.05] text-text-primary"
+                className="font-header text-header text-text-primary"
               >
                 {about?.headline}
               </motion.h1>
@@ -102,7 +102,7 @@ export default function About() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.2, ease: EASE_OUT_EXPO }}
-                className="text-lg text-text-secondary mt-6 leading-relaxed"
+                className="font-body text-body text-text-secondary mt-6 leading-relaxed"
               >
                 {about?.description}
               </motion.p>
@@ -115,11 +115,11 @@ export default function About() {
               >
                 <div className="flex items-center gap-2 text-text-muted">
                   <Calendar size={16} className="text-accent-lime" />
-                  <span className="font-mono text-xs">Founded {about?.foundedYear}</span>
+                  <span className="font-small text-small">Founded {about?.foundedYear}</span>
                 </div>
                 <div className="flex items-center gap-2 text-text-muted">
                   <MapPin size={16} className="text-accent-lime" />
-                  <span className="font-mono text-xs">
+                  <span className="font-small text-small">
                     {about?.location}, {about?.country}
                   </span>
                 </div>
@@ -142,10 +142,10 @@ export default function About() {
       <section className="py-16">
         <Container>
           <div className="text-center mb-12">
-            <p className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime">
+            <p className="font-small text-small tracking-[0.08em] uppercase text-accent-lime">
               {visions?.sectionLabel}
             </p>
-            <h2 className="font-display text-[clamp(2rem,5vw,4rem)] leading-[1.05] text-text-primary mt-4">
+            <h2 className="font-header text-header text-text-primary mt-4">
               Vision, Mission & Goals
             </h2>
           </div>
@@ -167,8 +167,8 @@ export default function About() {
                   <Eye size={20} />
                 </div>
                 <div>
-                  <h3 className="font-display text-xl text-text-primary mb-3">{visions?.title || 'Vision'}</h3>
-                  <div className="text-text-muted text-base leading-relaxed">
+                  <h3 className="font-subheader text-subheader text-text-primary mb-3">{visions?.title || 'Vision'}</h3>
+                  <div className="font-body text-body text-text-muted leading-relaxed">
                     {visions?.bullets?.map((b, i) => (
                       <p key={i} className="mb-2">{b}</p>
                     ))}
@@ -183,8 +183,8 @@ export default function About() {
                   <Target size={20} />
                 </div>
                 <div>
-                  <h3 className="font-display text-xl text-text-primary mb-3">{missions?.title || 'Mission'}</h3>
-                  <div className="text-text-muted text-base leading-relaxed">
+                  <h3 className="font-subheader text-subheader text-text-primary mb-3">{missions?.title || 'Mission'}</h3>
+                  <div className="font-body text-body text-text-muted leading-relaxed">
                     {missions?.bullets?.map((b, i) => (
                       <p key={i} className="mb-2">{b}</p>
                     ))}
@@ -199,8 +199,8 @@ export default function About() {
                   <Rocket size={20} />
                 </div>
                 <div>
-                  <h3 className="font-display text-xl text-text-primary mb-3">{goals?.title || 'Goals'}</h3>
-                  <div className="text-text-muted text-base leading-relaxed">
+                  <h3 className="font-subheader text-subheader text-text-primary mb-3">{goals?.title || 'Goals'}</h3>
+                  <div className="font-body text-body text-text-muted leading-relaxed">
                     {goals?.bullets?.map((b, i) => (
                       <p key={i} className="mb-2">{b}</p>
                     ))}
@@ -216,13 +216,13 @@ export default function About() {
       <section className="w-full py-[140px] bg-[#0E0E11] border-t border-border-surface">
         <Container>
           <div className="text-center mb-16">
-            <p className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime">
+            <p className="font-small text-small tracking-[0.08em] uppercase text-accent-lime">
               WHY CHOOSE US
             </p>
-            <h2 className="font-display text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4">
+            <h2 className="font-header text-header text-text-primary mt-4">
               We Are Here To Solve Problems
             </h2>
-            <p className="text-lg text-text-secondary mt-4 max-w-[640px] mx-auto">
+            <p className="font-body text-body text-text-secondary mt-4 max-w-[640px] mx-auto">
               Technology should make your life easier, not harder. We build digital solutions that remove friction, automate busywork, and let you focus on what you do best.
             </p>
           </div>
@@ -238,10 +238,10 @@ export default function About() {
                   <div className="w-12 h-12 rounded-xl bg-accent-lime/10 flex items-center justify-center border border-accent-lime/20 mb-4 group-hover:scale-110 transition-transform duration-300">
                     <Icon size={22} className="text-accent-lime" />
                   </div>
-                  <h3 className="font-display text-lg text-text-primary mb-2">
+                  <h3 className="font-subheader text-subheader text-text-primary mb-2">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-text-muted leading-relaxed">
+                  <p className="font-body text-body text-text-muted leading-relaxed">
                     {item.desc}
                   </p>
                 </div>

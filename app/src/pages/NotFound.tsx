@@ -13,27 +13,27 @@ export default function NotFound() {
         className="text-center space-y-8 max-w-md"
       >
         <div className="relative">
-          <h1 className="font-display text-[8rem] leading-none text-text-primary/10 select-none">
+          <h1 className="font-header text-header text-text-primary/10 select-none">
             404
           </h1>
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-display text-4xl text-text-primary">Lost in Space</span>
+            <span className="font-header text-header text-text-primary">Lost in Space</span>
           </div>
         </div>
-        <p className="text-text-muted text-sm">
+        <p className="font-body text-body text-text-muted">
           The page you are looking for has drifted into the void. Let us get you back on course.
         </p>
         <div className="flex items-center justify-center gap-4">
           <button
             onClick={() => window.history.back()}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full liquid-glass-btn text-text-primary font-mono text-xs uppercase tracking-wide hover:text-accent-lime transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full liquid-glass-btn text-text-primary font-small text-small hover:text-accent-lime transition-colors"
           >
             <ArrowLeft size={14} />
             Go Back
           </button>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full liquid-glass-btn text-text-primary font-mono text-xs uppercase tracking-wide hover:text-accent-lime transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full liquid-glass-btn text-text-primary font-small text-small hover:text-accent-lime transition-colors"
           >
             <Home size={14} />
             Home

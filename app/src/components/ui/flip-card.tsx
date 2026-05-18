@@ -107,10 +107,10 @@ export default function CardFlip({
           {/* Bottom content */}
           <div className="absolute right-0 bottom-0 left-0 p-6 z-10">
             <div className="space-y-2">
-              <h3 className="font-display text-xl text-white leading-snug group-hover:text-accent-lime transition-all duration-500 ease-out group-hover:translate-y-[-4px]">
+              <h3 className="font-subheader text-subheader text-white leading-snug group-hover:text-accent-lime transition-all duration-500 ease-out group-hover:translate-y-[-4px]">
                 {title}
               </h3>
-              <p className="line-clamp-2 font-mono text-[0.6rem] text-white/70 transition-all delay-[50ms] duration-500 ease-out group-hover:translate-y-[-4px]">
+              <p className="line-clamp-2 font-small text-small text-white/70 transition-all delay-[50ms] duration-500 ease-out group-hover:translate-y-[-4px]">
                 {subtitle}
               </p>
             </div>
@@ -130,10 +130,10 @@ export default function CardFlip({
         >
           <div className="relative z-10 flex-1 space-y-4">
             <div className="space-y-2">
-              <h3 className="font-display text-xl text-text-primary leading-snug mb-2 group-hover:text-accent-lime transition-colors">
+              <h3 className="font-subheader text-subheader text-text-primary leading-snug mb-2 group-hover:text-accent-lime transition-colors">
                 {title}
               </h3>
-              <p className="text-text-muted text-sm leading-relaxed line-clamp-5 flex-1">
+              <p className="font-body text-body text-text-muted leading-relaxed line-clamp-5 flex-1">
                 {description}
               </p>
             </div>
@@ -142,7 +142,7 @@ export default function CardFlip({
               {features.map((feature, index) => (
                 <span
                   key={feature}
-                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md font-mono text-[0.6rem] tracking-wide text-text-muted border border-white/5 bg-white/[0.03]"
+                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md font-small text-small text-text-muted border border-white/5 bg-white/[0.03]"
                   style={{
                     transform: isFlipped ? 'translateX(0)' : 'translateX(-10px)',
                     opacity: isFlipped ? 1 : 0,
@@ -158,7 +158,7 @@ export default function CardFlip({
           </div>
 
           <div className="relative z-10 mt-auto pt-4 border-t border-white/5">
-            <div className="flex items-center gap-1 text-accent-lime font-mono text-xs group-hover:gap-2 transition-all">
+            <div className="flex items-center gap-1 text-accent-lime font-small text-small group-hover:gap-2 transition-all">
               Read More <ArrowRight size={12} />
             </div>
           </div>

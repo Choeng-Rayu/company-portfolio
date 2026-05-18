@@ -20,7 +20,7 @@ function PageLoader() {
     <div className="min-h-[60vh] flex items-center justify-center">
       <div className="flex flex-col items-center gap-3">
         <div className="w-8 h-8 border-2 border-accent-lime/20 border-t-accent-lime rounded-full animate-spin" />
-        <span className="font-mono text-xs text-text-muted animate-pulse">Loading…</span>
+        <span className="font-small text-small text-text-muted animate-pulse">Loading…</span>
       </div>
     </div>
   )

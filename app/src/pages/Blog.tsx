@@ -34,7 +34,7 @@ export default function Blog() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
-          className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime mb-4"
+          className="font-small text-small text-accent-lime mb-4"
         >
           Insights & Updates
         </motion.p>
@@ -42,7 +42,7 @@ export default function Blog() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: EASE_OUT_EXPO }}
-          className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.05] text-text-primary max-w-4xl"
+          className="font-header text-header text-text-primary max-w-4xl"
         >
           From the Blog
         </motion.h1>
@@ -50,7 +50,7 @@ export default function Blog() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: EASE_OUT_EXPO }}
-          className="text-lg text-text-secondary mt-6 max-w-2xl leading-relaxed"
+          className="font-body text-body text-text-secondary mt-6 max-w-2xl leading-relaxed"
         >
           Thoughts on design, development, and building digital products for Cambodia and beyond.
         </motion.p>
@@ -68,7 +68,7 @@ export default function Blog() {
             <button
               key={tag}
               onClick={() => setFilter(tag)}
-              className={`px-3 py-1.5 rounded-full font-mono text-[0.65rem] tracking-wide transition-all ${
+              className={`px-3 py-1.5 rounded-full font-small text-small tracking-wide transition-all ${
                 filter === tag
                   ? 'bg-accent-lime text-bg-base'
                   : 'liquid-glass-btn text-text-muted hover:text-text-primary'
@@ -108,7 +108,7 @@ export default function Blog() {
 
         {filtered.length === 0 && (
           <div className="text-center py-20">
-            <p className="text-text-muted font-mono text-sm">No posts found for this filter.</p>
+            <p className="text-text-muted font-small text-small">No posts found for this filter.</p>
           </div>
         )}
       </section>

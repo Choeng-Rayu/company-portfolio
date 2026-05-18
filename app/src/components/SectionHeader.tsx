@@ -28,7 +28,7 @@ export default function SectionHeader({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={VIEWPORT_ONCE}
           transition={{ duration: 0.6, delay, ease: EASE_OUT_EXPO }}
-          className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime mb-4"
+          className="font-small text-small text-accent-lime mb-4"
         >
           {label}
         </motion.p>
@@ -39,7 +39,7 @@ export default function SectionHeader({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={VIEWPORT_ONCE}
           transition={{ duration: 0.6, delay: delay + 0.1, ease: EASE_OUT_EXPO }}
-          className="font-display text-[clamp(2rem,6vw,5rem)] leading-[1.05] text-text-primary mt-4"
+          className="font-header text-header text-text-primary mt-4"
         >
           {title}
         </motion.h2>
@@ -50,7 +50,7 @@ export default function SectionHeader({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={VIEWPORT_ONCE}
           transition={{ duration: 0.6, delay: delay + 0.2, ease: EASE_OUT_EXPO }}
-          className="text-lg text-text-secondary mt-4 max-w-[560px] mx-auto"
+          className="font-body text-body text-text-secondary mt-4 max-w-[560px] mx-auto"
         >
           {subtitle}
         </motion.p>

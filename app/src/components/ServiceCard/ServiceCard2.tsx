@@ -70,28 +70,28 @@ export default function ServiceCard({ service, index, onClose }: { service: any;
             </svg>
           </div>
           <div className="flex-1">
-            <p className="font-mono text-sm uppercase tracking-widest font-semibold mb-2" style={{ color: color.from }}>
+            <p className="font-small text-small font-semibold mb-2" style={{ color: color.from }}>
               Service {String(index + 1).padStart(2, '0')}
             </p>
-            <h2 className={`${isMobile ? 'text-3xl' : 'text-4xl'} font-bold text-white leading-tight`}>
+            <h2 className={`${isMobile ? 'font-subheader text-subheader' : 'font-header text-header'} font-bold text-white leading-tight`}>
               {service.title}
             </h2>
           </div>
         </div>
 
-        <p className="text-lg text-gray-300 leading-relaxed mb-9 pl-5" style={{ borderLeft: `4px solid ${color.from}` }}>
+        <p className="font-body text-body text-gray-300 mb-9 pl-5" style={{ borderLeft: `4px solid ${color.from}` }}>
           {service.description}
         </p>
 
         <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-8 mb-9`}>
           <div>
-            <h3 className="font-mono text-sm uppercase tracking-wider font-bold mb-5 flex items-center gap-3" style={{ color: color.from }}>
+            <h3 className="font-small text-small font-bold mb-5 flex items-center gap-3" style={{ color: color.from }}>
               <span className="w-8 h-0.5" style={{ background: color.from }} />
               Key Features
             </h3>
             <ul className="space-y-3.5">
               {details.features.map((feature, i) => (
-                <li key={i} className="flex items-start gap-3.5 text-sm text-gray-200">
+                <li key={i} className="flex items-start gap-3.5 font-body text-body text-gray-200">
                   <span className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0" 
                     style={{ background: color.from, boxShadow: `0 0 12px ${color.from}` }} />
                   <span>{feature}</span>
@@ -101,13 +101,13 @@ export default function ServiceCard({ service, index, onClose }: { service: any;
           </div>
 
           <div>
-            <h3 className="font-mono text-sm uppercase tracking-wider font-bold mb-5 flex items-center gap-3" style={{ color: color.from }}>
+            <h3 className="font-small text-small font-bold mb-5 flex items-center gap-3" style={{ color: color.from }}>
               <span className="w-8 h-0.5" style={{ background: color.from }} />
               Benefits
             </h3>
             <ul className="space-y-3.5">
               {details.benefits.map((benefit, i) => (
-                <li key={i} className="flex items-start gap-3.5 text-sm text-gray-200">
+                <li key={i} className="flex items-start gap-3.5 font-body text-body text-gray-200">
                   <svg viewBox="0 0 24 24" fill="none" stroke={color.from} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" 
                     className="w-[18px] h-[18px] mt-0.5 flex-shrink-0">
                     <polyline points="20 6 9 17 4 12" />
@@ -120,13 +120,13 @@ export default function ServiceCard({ service, index, onClose }: { service: any;
         </div>
 
         <div className="flex gap-4 pt-8 border-t border-white/8 flex-wrap">
-          <button className="liquid-glass-btn flex-1 min-w-[200px] px-8 py-4 rounded-xl text-base font-semibold text-white transition-all"
+          <button className="liquid-glass-btn flex-1 min-w-[200px] px-8 py-4 rounded-xl font-subheader text-subheader text-white transition-all"
             style={{ background: `linear-gradient(135deg, ${color.from}, ${color.to})`, boxShadow: `0 4px 20px ${color.from}40, inset 0 1px 0 rgba(255,255,255,0.2)` }}
             onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = `0 8px 28px ${color.from}50, inset 0 1px 0 rgba(255,255,255,0.2)`; }}
             onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = `0 4px 20px ${color.from}40, inset 0 1px 0 rgba(255,255,255,0.2)`; }}>
             Get Started
           </button>
-          <button className="liquid-glass-btn flex-1 min-w-[200px] px-8 py-4 rounded-xl text-base font-semibold transition-all"
+          <button className="liquid-glass-btn flex-1 min-w-[200px] px-8 py-4 rounded-xl font-subheader text-subheader transition-all"
             style={{ color: color.from, border: `1px solid ${color.from}40` }}
             onMouseEnter={(e) => { e.currentTarget.style.background = `${color.from}15`; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = color.from; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = ''; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = `${color.from}40`; }}>

@@ -51,7 +51,7 @@ const testimonials: Testimonial[] = [
 function Avatar({ initials, color }: { initials: string; color: string }) {
   return (
     <div
-      className="w-14 h-14 rounded-2xl flex items-center justify-center font-mono text-sm font-bold flex-shrink-0"
+      className="w-14 h-14 rounded-2xl flex items-center justify-center font-small text-small font-bold flex-shrink-0"
       style={{
         background: `${color}18`,
         color,
@@ -159,7 +159,7 @@ export default function Testimonials() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
-              className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime"
+              className="font-small text-small text-accent-lime"
             >
               CLIENT FEEDBACK
             </motion.p>
@@ -167,7 +167,7 @@ export default function Testimonials() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
-              className="font-display text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
+              className="font-header text-header text-text-primary mt-4"
             >
               What They Say
             </motion.h2>
@@ -202,7 +202,7 @@ export default function Testimonials() {
                     exit={{ opacity: 0, y: -16 }}
                     transition={{ duration: 0.4, ease: EASE_OUT_EXPO }}
                   >
-                    <p className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.5] text-text-primary">
+                    <p className="font-subheader text-subheader text-text-primary">
                       &ldquo;{testimonials[active].quote}&rdquo;
                     </p>
                   </motion.div>
@@ -221,10 +221,10 @@ export default function Testimonials() {
                   >
                     <SonarAvatar initials={testimonials[active].initials} color={testimonials[active].color} />
                     <div>
-                      <p className="text-base font-medium text-text-primary">
+                      <p className="font-subheader text-subheader text-text-primary">
                         {testimonials[active].name}
                       </p>
-                      <p className="font-mono text-xs text-text-muted mt-0.5">
+                      <p className="font-small text-small text-text-muted mt-0.5">
                         {testimonials[active].title} · {testimonials[active].company}
                       </p>
                       <div className="mt-1.5">
@@ -269,10 +269,10 @@ export default function Testimonials() {
               >
                 <Avatar initials={t.initials} color={t.color} />
                 <div className="text-left hidden sm:block">
-                  <p className={`text-sm font-medium transition-colors ${i === active ? 'text-text-primary' : 'text-text-muted'}`}>
+                  <p className={`font-subheader text-subheader transition-colors ${i === active ? 'text-text-primary' : 'text-text-muted'}`}>
                     {t.name}
                   </p>
-                  <p className="font-mono text-[0.6rem] text-text-muted">
+                  <p className="font-small text-small text-text-muted">
                     {t.company}
                   </p>
                 </div>

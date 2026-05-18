@@ -79,7 +79,7 @@ export default function Contact() {
         <motion.p
           initial={{ opacity: 0, y: 16 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
-          className="font-mono text-xs tracking-[0.12em] uppercase text-accent-lime mb-4"
+          className="font-small text-small text-accent-lime mb-4"
         >
           {contactData?.sectionLabel ?? "Let's Connect"}
         </motion.p>
@@ -87,7 +87,7 @@ export default function Contact() {
         <motion.h2
           initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
-          className="font-display text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.05] text-text-primary"
+          className="font-header text-header text-text-primary"
         >
           {contactData?.title ?? 'Ready to Build Something?'}
         </motion.h2>
@@ -96,7 +96,7 @@ export default function Contact() {
           <motion.p
             initial={{ opacity: 0, y: 16 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.15, duration: 0.6, ease: EASE_OUT_EXPO }}
-            className="font-mono text-sm text-text-muted mt-3 max-w-md mx-auto leading-relaxed"
+            className="font-body text-body text-text-muted mt-3 max-w-md mx-auto leading-relaxed"
           >
             {contactData.subtitle}
           </motion.p>
@@ -110,13 +110,13 @@ export default function Contact() {
         >
           <a
             href="/contact"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full liquid-glass-btn text-text-primary font-mono text-xs uppercase tracking-widest"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full liquid-glass-btn text-text-primary font-small text-small tracking-widest"
           >
             Start a Project
           </a>
           <a
             href="/contact"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full liquid-glass-btn text-text-primary font-mono text-xs uppercase tracking-widest"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full liquid-glass-btn text-text-primary font-small text-small tracking-widest"
           >
             Book a Call
           </a>
@@ -134,7 +134,7 @@ export default function Contact() {
                 key={c.type}
                 href={c.href}
                 onClick={c.type === 'email' ? (e: React.MouseEvent) => { e.preventDefault(); handleCopy(); } : undefined}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full liquid-glass border border-white/10 font-mono text-xs text-text-secondary hover:text-accent-lime hover:border-accent-lime/30 transition-all group"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full liquid-glass border border-white/10 font-small text-small text-text-secondary hover:text-accent-lime hover:border-accent-lime/30 transition-all group"
               >
                 {c.type === 'email' ? <Mail size={13} /> : <Phone size={13} />}
                 {c.value}
@@ -152,7 +152,7 @@ export default function Contact() {
           <motion.p
             initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.5, duration: 0.6, ease: EASE_OUT_EXPO }}
-            className="font-mono text-xs text-text-muted mt-6 opacity-60"
+            className="font-small text-small text-text-muted mt-6 opacity-60"
           >
             {contactData.tagline}
           </motion.p>

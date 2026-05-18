@@ -9,7 +9,7 @@ function ProjectInitial({ title, color }: { title: string; color: string }) {
   const initial = title.charAt(0).toUpperCase()
   return (
     <div
-      className="w-8 h-8 rounded-lg flex items-center justify-center font-mono text-xs font-bold flex-shrink-0"
+      className="w-8 h-8 rounded-lg flex items-center justify-center font-small text-small font-bold flex-shrink-0"
       style={{
         background: `${color}18`,
         color,
@@ -70,7 +70,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
             <div className="flex items-center gap-2">
               <ProjectInitial title={project.title} color={project.color} />
               <span
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[0.6rem] tracking-wide border"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-small text-small border"
                 style={{
                   background: `${project.color}15`,
                   borderColor: `${project.color}40`,
@@ -83,18 +83,18 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
             </div>
             <Link
               to={`/work/${project.id}`}
-              className="liquid-glass-btn flex items-center gap-1.5 px-3 py-1.5 font-mono text-[0.65rem] tracking-wide text-text-muted hover:text-accent-lime transition-colors"
+              className="liquid-glass-btn flex items-center gap-1.5 px-3 py-1.5 font-small text-small text-text-muted hover:text-accent-lime transition-colors"
             >
               <Eye size={12} />
               View
             </Link>
           </div>
 
-          <h3 className="font-display text-xl text-text-primary leading-snug group-hover:text-accent-lime transition-colors duration-300">
+          <h3 className="font-subheader text-subheader text-text-primary leading-snug group-hover:text-accent-lime transition-colors duration-300">
             {project.title}
           </h3>
 
-          <p className="text-sm text-text-muted leading-relaxed flex-1">
+          <p className="font-body text-body text-text-muted leading-relaxed flex-1">
             {project.description}
           </p>
 
@@ -103,7 +103,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-2 py-0.5 rounded-md font-mono text-[0.6rem] tracking-wide text-text-muted border border-white/5 bg-white/[0.03]"
+                className="px-2 py-0.5 rounded-md font-small text-small text-text-muted border border-white/5 bg-white/[0.03]"
               >
                 {tag}
               </span>
@@ -117,7 +117,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
             rel="noopener noreferrer"
             className="pt-4 border-t border-white/5 flex items-center justify-between group/link"
           >
-            <span className="font-mono text-xs text-text-muted group-hover/link:text-accent-lime transition-colors">
+            <span className="font-small text-small text-text-muted group-hover/link:text-accent-lime transition-colors">
               {isFigma ? 'Open Prototype' : 'Visit Live Site'}
             </span>
             <div className="flex items-center gap-1">

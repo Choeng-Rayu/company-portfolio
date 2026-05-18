@@ -50,9 +50,10 @@ module.exports = {
         'accent-dim': '#8FAF20'
       },
       fontFamily: {
-        display: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+        header: ['"Space Grotesk"', 'system-ui', '-apple-system', 'sans-serif'],
+        subheader: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
         body: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
-        mono: ['"JetBrains Mono"', '"Fira Code"', 'monospace']
+        small: ['"JetBrains Mono"', '"Fira Code"', 'monospace']
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",

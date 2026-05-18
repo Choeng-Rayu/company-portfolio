@@ -73,7 +73,7 @@ export default function ContactPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
-          className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime mb-4"
+          className="font-small text-small text-accent-lime mb-4"
         >
           {data?.sectionLabel}
         </motion.p>
@@ -81,7 +81,7 @@ export default function ContactPage() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: EASE_OUT_EXPO }}
-          className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.05] text-text-primary max-w-4xl"
+          className="font-header text-header text-text-primary max-w-4xl"
         >
           {data?.title}
         </motion.h1>
@@ -89,7 +89,7 @@ export default function ContactPage() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: EASE_OUT_EXPO }}
-          className="text-lg text-text-secondary mt-6 max-w-2xl leading-relaxed"
+          className="font-body text-body text-text-secondary mt-6 max-w-2xl leading-relaxed"
         >
           {data?.subtitle}
         </motion.p>
@@ -121,10 +121,10 @@ export default function ContactPage() {
                       <Icon size={18} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-mono text-[0.6rem] uppercase tracking-wide text-text-muted">
+                      <p className="font-small text-small text-text-muted">
                         {contact.label}
                       </p>
-                      <p className="text-text-primary text-sm truncate">{contact.value}</p>
+                      <p className="text-text-primary font-body text-body truncate">{contact.value}</p>
                     </div>
                     {contact.type === 'email' && (
                       <button
@@ -149,7 +149,7 @@ export default function ContactPage() {
             >
               <div className="flex items-center gap-2 mb-3">
                 <Clock size={16} className="text-accent-lime" />
-                <span className="font-mono text-xs text-text-muted uppercase tracking-wide">Working Hours</span>
+                <span className="font-small text-small text-text-muted tracking-wide">Working Hours</span>
               </div>
               <div className="space-y-1.5">
                 <div className="flex justify-between text-sm">
@@ -176,16 +176,16 @@ export default function ContactPage() {
             >
               <div className="flex items-center gap-2 mb-2">
                 <Globe size={16} className="text-accent-lime" />
-                <span className="font-mono text-xs text-text-muted uppercase tracking-wide">Response Time</span>
+                <span className="font-small text-small text-text-muted tracking-wide">Response Time</span>
               </div>
-              <p className="text-sm text-text-secondary leading-relaxed">
+              <p className="font-body text-body text-text-secondary leading-relaxed">
                 We typically respond within <span className="text-accent-lime font-medium">24 hours</span> on business days. For urgent inquiries, reach out via Telegram for faster replies.
               </p>
             </motion.div>
 
             {/* Socials */}
             <div className="pt-2">
-              <p className="font-mono text-xs uppercase tracking-wide text-text-muted mb-4">
+              <p className="font-small text-small text-text-muted mb-4">
                 Follow Us
               </p>
               <div className="flex flex-wrap gap-3">
@@ -204,7 +204,7 @@ export default function ContactPage() {
                       title={media.platform}
                     >
                       <Icon size={16} className="text-text-muted group-hover:text-accent-lime transition-colors" />
-                      <span className="font-mono text-xs text-text-muted group-hover:text-text-primary transition-colors">
+                      <span className="font-small text-small text-text-muted group-hover:text-text-primary transition-colors">
                         {media.platform}
                       </span>
                     </motion.a>
@@ -215,7 +215,7 @@ export default function ContactPage() {
 
             {/* 3D Folder Socials (visual accent) */}
             <div className="pt-2">
-              <p className="font-mono text-xs uppercase tracking-wide text-text-muted mb-4">
+              <p className="font-small text-small text-text-muted mb-4">
                 Connect With Us
               </p>
               <div className="flex pl-4 h-24">
@@ -251,15 +251,15 @@ export default function ContactPage() {
           >
             <div className="flex items-center gap-3 mb-2">
               <MessageSquare size={20} className="text-accent-lime" />
-              <h2 className="font-display text-xl text-text-primary">Send a Message</h2>
+              <h2 className="font-subheader text-subheader text-text-primary">Send a Message</h2>
             </div>
-            <p className="text-sm text-text-muted mb-6">
+            <p className="font-body text-body text-text-muted mb-6">
               Tell us about your project, your timeline, and your goals. We will get back to you with a plan.
             </p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block font-mono text-[0.65rem] uppercase tracking-wide text-text-muted mb-1.5">
+                  <label className="block font-small text-small text-text-muted mb-1.5">
                     Name
                   </label>
                   <input
@@ -267,12 +267,12 @@ export default function ContactPage() {
                     required
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-text-primary text-sm placeholder:text-text-muted/50 focus:outline-none focus:border-accent-lime/50 transition-colors"
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-text-primary font-body text-body placeholder:text-text-muted/50 focus:outline-none focus:border-accent-lime/50 transition-colors"
                     placeholder="Your name"
                   />
                 </div>
                 <div>
-                  <label className="block font-mono text-[0.65rem] uppercase tracking-wide text-text-muted mb-1.5">
+                  <label className="block font-small text-small text-text-muted mb-1.5">
                     Email
                   </label>
                   <input
@@ -280,13 +280,13 @@ export default function ContactPage() {
                     required
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-text-primary text-sm placeholder:text-text-muted/50 focus:outline-none focus:border-accent-lime/50 transition-colors"
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-text-primary font-body text-body placeholder:text-text-muted/50 focus:outline-none focus:border-accent-lime/50 transition-colors"
                     placeholder="you@company.com"
                   />
                 </div>
               </div>
               <div>
-                <label className="block font-mono text-[0.65rem] uppercase tracking-wide text-text-muted mb-1.5">
+                <label className="block font-small text-small text-text-muted mb-1.5">
                   Subject
                 </label>
                 <input
@@ -294,12 +294,12 @@ export default function ContactPage() {
                   required
                   value={form.subject}
                   onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-text-primary text-sm placeholder:text-text-muted/50 focus:outline-none focus:border-accent-lime/50 transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-text-primary font-body text-body placeholder:text-text-muted/50 focus:outline-none focus:border-accent-lime/50 transition-colors"
                   placeholder="Project inquiry"
                 />
               </div>
               <div>
-                <label className="block font-mono text-[0.65rem] uppercase tracking-wide text-text-muted mb-1.5">
+                <label className="block font-small text-small text-text-muted mb-1.5">
                   Message
                 </label>
                 <textarea
@@ -307,14 +307,14 @@ export default function ContactPage() {
                   rows={5}
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-text-primary text-sm placeholder:text-text-muted/50 focus:outline-none focus:border-accent-lime/50 transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-text-primary font-body text-body placeholder:text-text-muted/50 focus:outline-none focus:border-accent-lime/50 transition-colors resize-none"
                   placeholder="Tell us about your project..."
                 />
               </div>
               <button
                 type="submit"
                 disabled={submitted}
-                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full liquid-glass-btn text-text-primary font-mono text-xs uppercase tracking-wide hover:text-accent-lime transition-colors disabled:opacity-50"
+                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full liquid-glass-btn text-text-primary font-small text-small hover:text-accent-lime transition-colors disabled:opacity-50"
               >
                 <Send size={14} />
                 {submitted ? 'Message Sent!' : 'Send Message'}
@@ -323,14 +323,14 @@ export default function ContactPage() {
 
             {/* Trust badges */}
             <div className="mt-8 pt-6 border-t border-white/5">
-              <p className="font-mono text-[0.6rem] uppercase tracking-wide text-text-muted mb-3">
+              <p className="font-small text-small text-text-muted mb-3">
                 Trusted by businesses across Cambodia
               </p>
               <div className="flex flex-wrap gap-2">
                 {['MR Training', 'Oddar Meanchey Gov', 'InnoLab', 'VersionDragon'].map((client) => (
                   <span
                     key={client}
-                    className="px-3 py-1.5 rounded-lg font-mono text-[0.65rem] text-text-muted border border-white/5 bg-white/[0.03]"
+                    className="px-3 py-1.5 rounded-lg font-small text-small text-text-muted border border-white/5 bg-white/[0.03]"
                   >
                     {client}
                   </span>
@@ -350,7 +350,7 @@ export default function ContactPage() {
           className="liquid-glass-card rounded-2xl p-8 md:p-12 text-center relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-[100px] opacity-[0.06] pointer-events-none bg-accent-lime" />
-          <h3 className="font-display text-2xl md:text-3xl text-text-primary mb-3 relative z-10">
+          <h3 className="font-subheader text-subheader text-text-primary mb-3 relative z-10">
             Prefer to chat directly?
           </h3>
           <p className="text-text-muted max-w-md mx-auto mb-6 relative z-10">
@@ -360,7 +360,7 @@ export default function ContactPage() {
             href="https://t.me/chakrawaldigital"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent-lime text-black font-mono text-xs font-bold uppercase tracking-wide hover:bg-white transition-colors relative z-10"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent-lime text-black font-small text-small font-bold tracking-wide hover:bg-white transition-colors relative z-10"
           >
             <MessageCircle size={14} />
             Chat on Telegram

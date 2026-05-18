@@ -24,19 +24,19 @@ export default function Footer() {
     <footer className="relative z-10 w-full bg-[#0A0A0B] border-t border-white/10">
       {/* CTA Section */}
       <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
-        <p className="font-mono text-xs text-accent-lime uppercase tracking-widest mb-4">
+        <p className="font-small text-small text-accent-lime mb-4">
           Ready to launch?
         </p>
-        <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-none mb-6">
+        <h2 className="font-header text-header text-white mb-6">
           LET'S WORK<br />
           <span className="text-accent-lime">TOGETHER</span>
         </h2>
-        <p className="text-text-muted text-base md:text-lg max-w-xl mx-auto mb-10">
+        <p className="font-body text-body text-text-muted max-w-xl mx-auto mb-10">
           Have a project in mind? We'd love to hear about it. Let's build something extraordinary.
         </p>
         <Link
           to="/contact"
-          className="inline-flex items-center gap-2 bg-accent-lime text-black font-mono text-sm font-bold px-8 py-4 rounded-full hover:bg-white transition-colors duration-200"
+          className="inline-flex items-center gap-2 bg-accent-lime text-black font-small text-small font-bold px-8 py-4 rounded-full hover:bg-white transition-colors duration-200"
         >
           Start a Project <ArrowUpRight size={16} />
         </Link>
@@ -63,7 +63,7 @@ export default function Footer() {
               <Link
                 key={link.label}
                 to={link.href}
-                className="font-mono text-xs text-text-muted hover:text-white transition-colors uppercase tracking-[0.04em]"
+                className="font-small text-small text-text-muted hover:text-white transition-colors tracking-[0.04em]"
               >
                 {link.label}
               </Link>
@@ -87,7 +87,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <p className="font-mono text-[0.65rem] text-text-muted text-center mt-4">
+        <p className="font-small text-small text-text-muted text-center mt-4">
           © {new Date().getFullYear()} Chakrawal Digital. Built in Phnom Penh, Cambodia. ·{' '}
           <Link to="/" className="hover:text-white transition-colors">Privacy Policy</Link>
         </p>

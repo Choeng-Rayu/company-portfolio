@@ -22,7 +22,7 @@ const HUD: React.FC = () => {
       />
 
       {/* Bottom info bar */}
-      <div className="flex justify-between px-4 pb-2 text-text-primary font-mono text-xs">
+      <div className="flex justify-between px-4 pb-2 text-text-primary font-small text-small">
         <span>Coordinates: UNKNOWN</span>
         <span>Speed: Warp 1</span>
       </div>

@@ -229,7 +229,7 @@ function HoverTooltip({ service, index, visible }: { service: Service; index: nu
           exit={{ opacity: 0, y: 4, scale: 0.95 }}
           transition={{ duration: 0.2 }}
           className="absolute top-4 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
-          <div className="flex items-center gap-2 px-5 py-3 rounded-full text-base font-mono font-semibold tracking-wide whitespace-nowrap"
+          <div className="flex items-center gap-2 px-5 py-3 rounded-full font-small text-small font-semibold tracking-wide whitespace-nowrap"
             style={{
               background: 'rgba(10,10,20,0.9)', border: `2px solid ${color.from}`,
               color: '#fff', backdropFilter: 'blur(12px)', boxShadow: `0 0 24px ${color.glow}`,
@@ -265,12 +265,12 @@ function ServiceInfoCard({ service, index, visible }: { service: Service; index:
                   <path d={iconPath} />
                 </svg>
               </div>
-              <h3 className="text-base sm:text-lg font-semibold text-text-primary leading-snug">
+              <h3 className="font-subheader text-subheader text-text-primary leading-snug">
                 {service.title}
               </h3>
             </div>
-            <p className="text-base text-text-secondary leading-relaxed">{service.description}</p>
-            <p className="font-mono text-xs mt-4 opacity-70" style={{ color: color.from }}>
+            <p className="font-body text-body text-text-secondary leading-relaxed">{service.description}</p>
+            <p className="font-small text-small mt-4 opacity-70" style={{ color: color.from }}>
               Click planet for full details
             </p>
           </div>
@@ -290,7 +290,7 @@ function PlanetDots({ services, active, onSelect }: {
         const isActive = active === i;
         return (
           <button key={i} onClick={() => onSelect(i)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-full font-mono text-[0.65rem] tracking-wide transition-all duration-300 border"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full font-small text-small tracking-wide transition-all duration-300 border"
             style={{
               background: isActive ? `${color.from}22` : 'transparent',
               borderColor: isActive ? color.from : `${color.from}55`,
@@ -364,13 +364,13 @@ export default function Services() {
         <div className="text-center mb-12 sm:mb-16 relative z-20">
           <motion.p initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
-            className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime">{sectionLabel}</motion.p>
+            className="font-small text-small text-accent-lime">{sectionLabel}</motion.p>
           <motion.h2 initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
-            className="font-display text-[clamp(2rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4">{title}</motion.h2>
+            className="font-header text-header text-text-primary mt-4">{title}</motion.h2>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2, duration: 0.6, ease: EASE_OUT_EXPO }}
-            className="text-lg sm:text-xl text-text-secondary mt-4 max-w-[560px] mx-auto">{subtitle}</motion.p>
+            className="font-body text-body text-text-secondary mt-4 max-w-[560px] mx-auto">{subtitle}</motion.p>
         </div>
 
         <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={isInView ? { opacity: 1, scale: 1 } : {}}
@@ -379,7 +379,7 @@ export default function Services() {
           style={{ height: canvasHeight }}>
           <Suspense fallback={
             <div className="w-full h-full flex items-center justify-center">
-              <span className="font-mono text-xs text-text-muted animate-pulse tracking-widest uppercase">Loading universe…</span>
+              <span className="font-small text-small text-text-muted animate-pulse tracking-widest">Loading universe…</span>
             </div>
           }>
             <Canvas camera={{ position: [0, 22, 10], fov: 50 }}
@@ -401,7 +401,7 @@ export default function Services() {
           <AnimatePresence>
             {focusedIndex !== null && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                className="absolute top-4 right-4 font-mono text-[0.58rem] tracking-[0.1em] uppercase text-text-muted hidden sm:block">
+                className="absolute top-4 right-4 font-small text-small text-text-muted hidden sm:block">
                 orbit resumes in 5 s
               </motion.p>
             )}
@@ -410,7 +410,7 @@ export default function Services() {
             {focusedIndex === null && isInView && (
               <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
                 transition={{ delay: 1.2, duration: 0.6 }}
-                className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 font-mono text-sm tracking-widest uppercase text-white font-semibold pointer-events-none">
+                className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 font-small text-small text-white font-semibold pointer-events-none">
                 <MousePointerClick size={16} />
                 tap a planet to explore
               </motion.div>

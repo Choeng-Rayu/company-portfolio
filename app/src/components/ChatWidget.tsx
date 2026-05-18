@@ -32,7 +32,7 @@ function TypingDots() {
   );
 }
 
-const inputClass = "w-full liquid-glass-input px-4 py-3 font-mono text-xs text-text-primary placeholder:text-text-muted focus:outline-none transition-all";
+const inputClass = "w-full liquid-glass-input px-4 py-3 font-body text-body text-text-primary placeholder:text-text-muted focus:outline-none transition-all";
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -153,10 +153,10 @@ export default function ChatWidget() {
             <div className="flex items-center gap-3 px-5 py-4 border-b border-white/10">
               <img src="/images/chatbot_icon.png" alt="" className="w-8 h-8 object-contain" />
               <div className="flex-1">
-                <p className="font-mono text-xs font-semibold text-text-primary uppercase tracking-widest">Universe AI</p>
+                <p className="font-small text-small font-semibold text-text-primary tracking-widest">Universe AI</p>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent-lime animate-pulse" />
-                  <span className="font-mono text-[10px] text-accent-lime uppercase tracking-widest">Online</span>
+                  <span className="font-small text-small text-accent-lime tracking-widest">Online</span>
                 </div>
               </div>
               {/* Tabs */}
@@ -165,7 +165,7 @@ export default function ChatWidget() {
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-3 py-1 rounded-full font-mono text-[10px] uppercase tracking-wider transition-all ${
+                    className={`px-3 py-1 rounded-full font-small text-small tracking-wider transition-all ${
                       activeTab === tab ? 'bg-white/15 text-text-primary' : 'text-text-muted hover:text-text-secondary'
                     }`}
                   >
@@ -184,7 +184,7 @@ export default function ChatWidget() {
                       {messages.map((msg) => (
                         <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                           <div
-                            className={`max-w-[82%] px-4 py-2.5 text-sm leading-relaxed ${
+                            className={`max-w-[82%] px-4 py-2.5 font-body text-body leading-relaxed ${
                               msg.sender === 'user'
                                 ? 'bg-accent-lime/15 text-text-primary rounded-[1.2rem] rounded-tr-sm border border-accent-lime/20'
                                 : 'bg-white/5 text-text-secondary rounded-[1.2rem] rounded-tl-sm border border-white/10'
@@ -193,7 +193,7 @@ export default function ChatWidget() {
                             {msg.id === 'typing' ? (
                               <div className="space-y-1.5">
                                 <TypingDots />
-                                {msg.text !== 'typing...' && <div className="text-sm text-text-secondary">{msg.text}</div>}
+                                {msg.text !== 'typing...' && <div className="font-body text-body text-text-secondary">{msg.text}</div>}
                               </div>
                             ) : (
                               msg.text
@@ -212,7 +212,7 @@ export default function ChatWidget() {
                         onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                         placeholder={isLoading ? 'Computing...' : 'Ask anything…'}
                         disabled={isLoading}
-                        className="flex-1 liquid-glass-input px-4 py-2.5 font-mono text-xs text-text-primary placeholder:text-text-muted focus:outline-none disabled:opacity-50"
+                        className="flex-1 liquid-glass-input px-4 py-2.5 font-body text-body text-text-primary placeholder:text-text-muted focus:outline-none disabled:opacity-50"
                       />
                       <button
                         onClick={handleSend}
@@ -236,10 +236,10 @@ export default function ChatWidget() {
                     {formSubmitted ? (
                       <div className="text-center py-10">
                         <div className="w-14 h-14 rounded-full bg-accent-lime/10 border border-accent-lime/30 flex items-center justify-center mx-auto mb-4">
-                          <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-accent-lime text-2xl">✓</motion.span>
+                          <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-accent-lime font-header text-header">✓</motion.span>
                         </div>
-                        <p className="text-base text-text-primary font-medium">Message Sent!</p>
-                        <p className="text-sm text-text-muted mt-2">We'll get back to you within 24 hours.</p>
+                        <p className="font-subheader text-subheader text-text-primary font-medium">Message Sent!</p>
+                        <p className="font-body text-body text-text-muted mt-2">We'll get back to you within 24 hours.</p>
                       </div>
                     ) : (
                       <form onSubmit={handleFormSubmit} className="space-y-3">
@@ -256,7 +256,7 @@ export default function ChatWidget() {
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                           className={`${inputClass} resize-none`} />
                         <button type="submit"
-                          className="w-full py-3 rounded-xl bg-accent-lime text-black font-mono text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors flex items-center justify-center gap-2"
+                          className="w-full py-3 rounded-xl bg-accent-lime text-black font-small text-small font-bold tracking-widest hover:bg-white transition-colors flex items-center justify-center gap-2"
                         >
                           Send Message <ArrowRight size={14} />
                         </button>

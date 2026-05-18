@@ -11,7 +11,7 @@ function SkillTag({ skill, index }: { skill: string; index: number }) {
   const color = colors[index % colors.length]
   return (
     <span
-      className="px-2.5 py-1 rounded-md font-mono text-[0.6rem] tracking-wide border"
+      className="px-2.5 py-1 rounded-md font-small text-small border"
       style={{
         background: `${color}10`,
         borderColor: `${color}25`,
@@ -37,20 +37,20 @@ function TeamCard({ member, index }: { member: TeamMember; index: number }) {
       {/* Header */}
       <div className="flex items-center gap-4 mb-4">
         <div
-          className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-display text-lg font-bold flex-shrink-0"
+          className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-header text-header flex-shrink-0"
           style={{ background: bgGradient }}
         >
           {member.initials}
         </div>
         <div>
-          <h3 className="font-display text-lg text-text-primary">{member.name}</h3>
-          <p className="font-mono text-xs text-accent-lime">{member.role}</p>
+          <h3 className="font-subheader text-subheader text-text-primary">{member.name}</h3>
+          <p className="font-small text-small text-accent-lime">{member.role}</p>
         </div>
       </div>
 
       {/* Bio */}
       {member.bio && (
-        <p className="text-sm text-text-muted leading-relaxed mb-4">
+        <p className="font-body text-body text-text-muted mb-4">
           {member.bio}
         </p>
       )}
@@ -60,7 +60,7 @@ function TeamCard({ member, index }: { member: TeamMember; index: number }) {
         <div className="mb-4">
           <div className="flex items-center gap-1.5 mb-2">
             <Sparkles size={12} className="text-accent-lime" />
-            <span className="font-mono text-[0.6rem] uppercase tracking-wide text-text-muted">Talents</span>
+            <span className="font-small text-small text-text-muted">Talents</span>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {member.skills.map((skill, i) => (
@@ -116,7 +116,7 @@ export default function TeamPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
-          className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime mb-4"
+          className="font-small text-small text-accent-lime mb-4"
         >
           {data?.sectionLabel}
         </motion.p>
@@ -124,7 +124,7 @@ export default function TeamPage() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: EASE_OUT_EXPO }}
-          className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.05] text-text-primary max-w-4xl"
+          className="font-header text-header text-text-primary max-w-4xl"
         >
           {data?.title}
         </motion.h1>
@@ -132,7 +132,7 @@ export default function TeamPage() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: EASE_OUT_EXPO }}
-          className="text-lg text-text-secondary mt-6 max-w-2xl leading-relaxed"
+          className="font-body text-body text-text-secondary mt-6 max-w-2xl leading-relaxed"
         >
           {data?.subtitle}
         </motion.p>
@@ -145,11 +145,11 @@ export default function TeamPage() {
         >
           <div className="flex items-center gap-2 text-text-muted">
             <Users size={16} className="text-accent-lime" />
-            <span className="font-mono text-xs">{data?.members.length} Members</span>
+            <span className="font-small text-small">{data?.members.length} Members</span>
           </div>
           <div className="flex items-center gap-2 text-text-muted">
             <Award size={16} className="text-accent-lime" />
-            <span className="font-mono text-xs">Expert Team</span>
+            <span className="font-small text-small">Expert Team</span>
           </div>
         </motion.div>
       </section>

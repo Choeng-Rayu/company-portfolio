@@ -75,7 +75,7 @@ export default function TechStack() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
-            className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime"
+            className="font-small text-small text-accent-lime"
           >
             OUR TOOLKIT
           </motion.p>
@@ -83,7 +83,7 @@ export default function TechStack() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
-            className="text-[2rem] font-medium text-text-primary mt-4"
+            className="font-header text-header text-text-primary mt-4"
           >
             Technologies We Use
           </motion.h2>
@@ -105,7 +105,7 @@ export default function TechStack() {
                   <div className="w-10 h-10 rounded-xl bg-accent-lime/10 flex items-center justify-center border border-accent-lime/20">
                     <CatIcon size={20} className="text-accent-lime" />
                   </div>
-                  <p className="font-mono text-xs tracking-[0.08em] uppercase text-text-muted">
+                  <p className="font-small text-small text-text-muted">
                     {cat.label}
                   </p>
                 </div>
@@ -113,7 +113,7 @@ export default function TechStack() {
                   {cat.items.map((item) => (
                     <span
                       key={item.name}
-                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl liquid-glass-btn font-mono text-sm text-text-secondary hover:text-text-primary hover:border-accent-lime/30 transition-all cursor-default group"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl liquid-glass-btn font-small text-small text-text-secondary hover:text-text-primary hover:border-accent-lime/30 transition-all cursor-default group"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-accent-lime/60 group-hover:bg-accent-lime transition-colors" />
                       {item.name}

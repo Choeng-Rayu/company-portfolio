@@ -65,7 +65,7 @@ function IsoBlock({
             transform: `rotateX(-90deg) translateZ(${half}px)`,
           }}
         >
-          <span className="font-mono text-[0.65rem] font-bold text-bg-base tracking-tight">
+          <span className="font-small text-small font-bold text-bg-base tracking-tight">
             {num}
           </span>
         </div>
@@ -232,13 +232,13 @@ export default function Process() {
                       />
                     </div>
                   </div>
-                  <h4 className="text-lg font-medium text-text-primary mt-3">
+                  <h4 className="font-subheader text-subheader text-text-primary mt-3">
                     {step.title}
                   </h4>
-                  <p className="text-sm text-text-secondary mt-2 leading-relaxed">
+                  <p className="font-body text-body text-text-secondary mt-2 leading-relaxed">
                     {step.desc}
                   </p>
-                  <span className="inline-block mt-3 px-3 py-1 rounded-full bg-accent-lime/10 text-accent-lime font-mono text-[0.65rem] uppercase border border-accent-lime/20">
+                  <span className="inline-block mt-3 px-3 py-1 rounded-full bg-accent-lime/10 text-accent-lime font-small text-small border border-accent-lime/20">
                     {step.duration}
                   </span>
                 </motion.div>
@@ -280,14 +280,14 @@ export default function Process() {
                       isInView={isInView}
                       size={28}
                     />
-                    <h4 className="text-base font-medium text-text-primary">
+                    <h4 className="font-subheader text-subheader text-text-primary">
                       {step.title}
                     </h4>
                   </div>
-                  <p className="text-sm text-text-secondary mt-1 leading-relaxed">
+                  <p className="font-body text-body text-text-secondary mt-1 leading-relaxed">
                     {step.desc}
                   </p>
-                  <span className="inline-block mt-2 px-2.5 py-0.5 rounded-full bg-accent-lime/10 text-accent-lime font-mono text-[0.6rem] uppercase border border-accent-lime/20">
+                  <span className="inline-block mt-2 px-2.5 py-0.5 rounded-full bg-accent-lime/10 text-accent-lime font-small text-small border border-accent-lime/20">
                     {step.duration}
                   </span>
                 </div>
