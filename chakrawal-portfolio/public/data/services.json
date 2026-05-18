@@ -1,0 +1,31 @@
+{
+  "sectionLabel": "SERVICES",
+  "title": "What We Build",
+  "subtitle": "End-to-end software development for Cambodian SMEs, training centers, and government offices.",
+  "services": [
+    {
+      "icon": "Code",
+      "title": "Custom Software Development",
+      "description": "Full-stack web applications built for your exact workflow. We handle architecture, UI/UX, development, and deployment — no templates, no forced adaptations.",
+      "href": "#contact"
+    },
+    {
+      "icon": "TrendingUp",
+      "title": "Digital Transformation",
+      "description": "Replace spreadsheets and paper processes with integrated digital systems. Typical clients reduce admin time by 40–60% within the first quarter.",
+      "href": "#contact"
+    },
+    {
+      "icon": "Building2",
+      "title": "Business Management Systems",
+      "description": "HR, inventory, lab, and operations platforms with role-based access, audit trails, and Khmer language support where needed.",
+      "href": "#contact"
+    },
+    {
+      "icon": "Zap",
+      "title": "Workflow Automation",
+      "description": "Automate repetitive tasks — payroll calculations, report generation, approval chains, and notifications — using serverless architectures that scale with your volume.",
+      "href": "#contact"
+    }
+  ]
+}

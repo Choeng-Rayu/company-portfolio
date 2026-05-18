@@ -1,0 +1,103 @@
+{
+  "sectionLabel": "PORTFOLIO",
+  "headline": "Our Portfolio",
+  "subtitle": "Real solutions for real Cambodian businesses — from landing pages to full-scale web applications.",
+  "stats": [
+    { "value": "10+", "label": "Systems Delivered" },
+    { "value": "60%", "label": "Avg. Admin Time Reduction" },
+    { "value": "6", "label": "Week Avg. Delivery" },
+    { "value": "24h", "label": "Support Response Time" }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "title": "MR App",
+      "description": "Training enrollment and job-matching mobile prototype. Designed for low-bandwidth environments with offline form submission.",
+      "type": "figma",
+      "link": "https://www.figma.com/proto/KE0jnhSmXHeMlDCeBOpf9b/MR-App?node-id=3-104&p=f&viewport=204%2C310%2C0.04&t=oUCsJ3NqVbQXbl0F-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1%3A3&show-proto-sidebar=1&page-id=0%3A1",
+      "tags": ["Mobile App", "UI/UX", "Prototype"],
+      "color": "#C8F135"
+    },
+    {
+      "id": 2,
+      "title": "Super App",
+      "description": "All-in-one mobile platform prototype combining HR, training, and job-matching services into a unified experience.",
+      "type": "figma",
+      "link": "https://www.figma.com/proto/3QCXDleADXe1NkGzFYQzfS/Super-app?page-id=0%3A1&node-id=1-2&p=f&viewport=1094%2C290%2C0.18&t=oGQaPmz9P6vH6OEI-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=31%3A876",
+      "tags": ["Mobile App", "Super App", "Prototype"],
+      "color": "#3CB371"
+    },
+    {
+      "id": 3,
+      "title": "MR Labs",
+      "description": "Laboratory management platform for MR Training & Jobs Center — tracking lab resources, schedules, and student progress.",
+      "type": "live",
+      "link": "https://labs.mrtrainingandjobscenter.com.kh",
+      "tags": ["Web App", "Education", "Management"],
+      "color": "#4477DD"
+    },
+    {
+      "id": 4,
+      "title": "MR HRM",
+      "description": "Human Resource Management system for MR Training & Jobs Center — employee records, payroll, and attendance tracking.",
+      "type": "live",
+      "link": "https://hrm.mrtrainingandjobscenter.com.kh",
+      "tags": ["Web App", "HR Tech", "Management"],
+      "color": "#E05A20"
+    },
+    {
+      "id": 5,
+      "title": "MR Training & Jobs",
+      "description": "Main website for MR Training & Jobs Center — Cambodia's leading vocational training and job placement platform.",
+      "type": "live",
+      "link": "https://mrtrainingandjobscenter.com.kh",
+      "tags": ["Website", "Education", "Job Portal"],
+      "color": "#C8F135"
+    },
+    {
+      "id": 6,
+      "title": "Oddar Meanchey",
+      "description": "Provincial government website prototype for Oddar Meanchey — modernizing public service access for Cambodian citizens.",
+      "type": "figma",
+      "link": "https://www.figma.com/proto/Iy4sT0XFAdKLLs1jmqv5T3/oddar-meanchey-website?node-id=80-229&page-id=0%3A1&t=TU73jz5QNtX1Af1m-1",
+      "tags": ["Website", "Government", "Prototype"],
+      "color": "#3CB371"
+    },
+    {
+      "id": 7,
+      "title": "InnoLab",
+      "description": "Innovation lab platform prototype — connecting Cambodian startups with mentors, investors, and resources.",
+      "type": "figma",
+      "link": "https://www.figma.com/proto/EAihkuyArTjajh77KU0nCU/innolab?node-id=70-439&page-id=0%3A1&t=DaadUGOnyoPa6Hk9-1",
+      "tags": ["Platform", "Startup", "Prototype"],
+      "color": "#4477DD"
+    },
+    {
+      "id": 8,
+      "title": "VersionDragon",
+      "description": "Version control and release management tool — simplifying software versioning and deployment workflows.",
+      "type": "live",
+      "link": "https://versiondragon.vercel.app/",
+      "tags": ["Web App", "DevTools", "SaaS"],
+      "color": "#E05A20"
+    },
+    {
+      "id": 9,
+      "title": "Rithy Reach Portfolio",
+      "description": "Personal portfolio website showcasing professional work and creative projects with modern animations.",
+      "type": "live",
+      "link": "https://rithyreach-portfolio.vercel.app",
+      "tags": ["Website", "Portfolio", "Creative"],
+      "color": "#C8F135"
+    },
+    {
+      "id": 10,
+      "title": "Automata",
+      "description": "No-code workflow automation for repetitive office tasks. Trigger-based scheduling with Telegram and email notifications.",
+      "type": "live",
+      "link": "https://automata-fawn.vercel.app/",
+      "tags": ["Web App", "Automation", "AI"],
+      "color": "#3CB371"
+    }
+  ]
+}

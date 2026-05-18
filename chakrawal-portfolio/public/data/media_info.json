@@ -1,0 +1,32 @@
+[
+  {
+    "platform": "Facebook",
+    "url": "https://facebook.com/chakrawaldigital",
+    "icon": "Facebook"
+  },
+  {
+    "platform": "LinkedIn",
+    "url": "https://linkedin.com/company/chakrawaldigital",
+    "icon": "Linkedin"
+  },
+  {
+    "platform": "Telegram",
+    "url": "https://t.me/chakrawaldigital",
+    "icon": "MessageCircle"
+  },
+  {
+    "platform": "X",
+    "url": "https://x.com/chakrawaldigital",
+    "icon": "Twitter"
+  },
+  {
+    "platform": "Instagram",
+    "url": "https://instagram.com/chakrawaldigital",
+    "icon": "Instagram"
+  },
+  {
+    "platform": "GitHub",
+    "url": "https://github.com/chakrawaldigital",
+    "icon": "Github"
+  }
+]

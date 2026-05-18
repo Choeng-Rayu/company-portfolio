@@ -1,0 +1,11 @@
+Model Information:
+* title:	Computer Sci-fi
+* source:	https://sketchfab.com/3d-models/computer-sci-fi-912b8340c6984b65b6a5e48aae67a64e
+* author:	armganes- (https://sketchfab.com/armganes-)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Computer Sci-fi" (https://sketchfab.com/3d-models/computer-sci-fi-912b8340c6984b65b6a5e48aae67a64e) by armganes- (https://sketchfab.com/armganes-) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

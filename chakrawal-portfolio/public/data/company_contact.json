@@ -1,0 +1,34 @@
+{
+  "sectionLabel": "CONTACT",
+  "title": "Let's Work Together.",
+  "subtitle": "Tell us what you are building. We will respond within 24 hours with a clear plan and timeline.",
+  "tagline": "Based in Phnom Penh, Cambodia. Serving SMEs and government partners since 2023.",
+  "contacts": [
+    {
+      "type": "email",
+      "label": "Email",
+      "value": "info@chakrawaldigital.com",
+      "href": "mailto:info@chakrawaldigital.com",
+      "icon": "Mail"
+    },
+    {
+      "type": "phone",
+      "label": "Phone",
+      "value": "+855 969 983 479",
+      "href": "tel:+855969983479",
+      "icon": "Phone"
+    },
+    {
+      "type": "location",
+      "label": "Location",
+      "value": "Phnom Penh, Cambodia",
+      "href": "#",
+      "icon": "MapPin"
+    }
+  ],
+  "socials": [
+    { "platform": "LinkedIn", "url": "https://linkedin.com/company/chakrawaldigital", "icon": "Linkedin" },
+    { "platform": "Telegram", "url": "https://t.me/chakrawaldigital", "icon": "MessageCircle" },
+    { "platform": "GitHub", "url": "https://github.com/chakrawaldigital", "icon": "Github" }
+  ]
+}
