@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { EASE_OUT_EXPO } from '@/lib/animation';
 import { Copy, Check, Mail, Phone } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { dataService } from '../services/dataService';
 
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function Contact() {
   const { ref, isInView } = useScrollAnimation('-100px');
@@ -11,8 +12,7 @@ export default function Contact() {
   const [contactData, setContactData] = useState<any>(null);
 
   useEffect(() => {
-    fetch('/data/company_contact.json')
-      .then((res) => res.json())
+    dataService.getContact()
       .then(setContactData)
       .catch(() => {});
   }, []);
@@ -37,7 +37,7 @@ export default function Contact() {
       <div className="relative max-w-[720px] mx-auto px-6 text-center">
         <motion.p
           initial={{ opacity: 0, y: 16 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, ease }}
+          transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
           className="font-mono text-xs tracking-[0.12em] uppercase text-accent-lime mb-4"
         >
           {contactData?.sectionLabel ?? "Let's Connect"}
@@ -45,7 +45,7 @@ export default function Contact() {
 
         <motion.h2
           initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.1, duration: 0.6, ease }}
+          transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
           className="font-display text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.05] text-text-primary"
         >
           {contactData?.title ?? 'Ready to Build Something?'}
@@ -54,7 +54,7 @@ export default function Contact() {
         {contactData?.subtitle && (
           <motion.p
             initial={{ opacity: 0, y: 16 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.15, duration: 0.6, ease }}
+            transition={{ delay: 0.15, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="font-mono text-sm text-text-muted mt-3 max-w-md mx-auto leading-relaxed"
           >
             {contactData.subtitle}
@@ -64,7 +64,7 @@ export default function Contact() {
         {/* CTA buttons */}
         <motion.div
           initial={{ opacity: 0, y: 16 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.25, duration: 0.6, ease }}
+          transition={{ delay: 0.25, duration: 0.6, ease: EASE_OUT_EXPO }}
           className="flex flex-wrap justify-center gap-4 mt-10"
         >
           <a
@@ -85,7 +85,7 @@ export default function Contact() {
         {contactData?.contacts?.length > 0 && (
           <motion.div
             initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.4, duration: 0.6, ease }}
+            transition={{ delay: 0.4, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="mt-10 flex flex-wrap justify-center gap-3"
           >
             {contactData.contacts.map((c: any) => (
@@ -110,7 +110,7 @@ export default function Contact() {
         {contactData?.tagline && (
           <motion.p
             initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.5, duration: 0.6, ease }}
+            transition={{ delay: 0.5, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="font-mono text-xs text-text-muted mt-6 opacity-60"
           >
             {contactData.tagline}

@@ -4,8 +4,10 @@ import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MousePointerClick } from 'lucide-react';
+import { EASE_OUT_EXPO } from '@/lib/animation';
 import ServiceCard from '../components/ServiceCard/ServiceCard2';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { dataService } from '../services/dataService';
 
 interface Service {
   icon: string;
@@ -36,10 +38,6 @@ const PLANET_COLORS = [
   { from: '#2255BB', to: '#4477DD', glow: 'rgba(34,85,187,0.55)' },
 ];
 
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
-// ─── Orbit config ─────────────────────────────────────────────────────────────
-// All planets share ONE lane, evenly spaced 90° apart, same speed
 const ORBIT_RADIUS   = 7.0;
 const ORBIT_SPEED    = 0.22;
 const ORBIT_RADII    = [ORBIT_RADIUS, ORBIT_RADIUS, ORBIT_RADIUS, ORBIT_RADIUS];
@@ -255,7 +253,7 @@ function ServiceInfoCard({ service, index, visible }: { service: Service; index:
           initial={{ opacity: 0, y: 28, scale: 0.94 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -16, scale: 0.94 }}
-          transition={{ duration: 0.45, ease }}
+          transition={{ duration: 0.45, ease: EASE_OUT_EXPO }}
           className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[min(92vw,380px)] pointer-events-none z-30">
           <div className="liquid-glass-card p-5 sm:p-6 rounded-2xl"
             style={{ boxShadow: `0 0 48px ${color.glow}` }}>
@@ -338,7 +336,7 @@ export default function Services() {
   const canvasHeight = useCanvasHeight();
 
   useEffect(() => {
-    fetch('/data/services.json').then((r) => r.json()).then(setData).catch(() => {});
+    dataService.getServices().then(setData).catch(() => {});
   }, []);
 
   const resumeOrbit = useCallback(() => { setFocusedIndex(null); setIsOrbiting(true); }, []);
@@ -353,7 +351,6 @@ export default function Services() {
     setFocusedIndex(i);
     setIsOrbiting(false);
     setSelectedService(i);
-    console.log('Planet clicked:', i, 'Service:', services[i]);
     idleTimerRef.current = setTimeout(resumeOrbit, 5000);
   }, [resumeOrbit, services]);
 
@@ -366,18 +363,18 @@ export default function Services() {
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 sm:mb-16 relative z-20">
           <motion.p initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease }}
+            transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
             className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime">{sectionLabel}</motion.p>
           <motion.h2 initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1, duration: 0.6, ease }}
+            transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="font-display text-[clamp(2rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4">{title}</motion.h2>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.2, duration: 0.6, ease }}
+            transition={{ delay: 0.2, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="text-lg sm:text-xl text-text-secondary mt-4 max-w-[560px] mx-auto">{subtitle}</motion.p>
         </div>
 
         <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={isInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ delay: 0.3, duration: 0.8, ease }}
+          transition={{ delay: 0.3, duration: 0.8, ease: EASE_OUT_EXPO }}
           className="relative w-full rounded-2xl overflow-hidden"
           style={{ height: canvasHeight }}>
           <Suspense fallback={

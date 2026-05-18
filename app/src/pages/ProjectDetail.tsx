@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router'
 import { motion } from 'framer-motion'
-import { ArrowLeft, ExternalLink, Figma, Globe, Loader2, AlertCircle } from 'lucide-react'
+import { ArrowLeft, ExternalLink, Figma, Globe, AlertCircle } from 'lucide-react'
 import { dataService } from '../services/dataService'
 import type { Project, ProjectsData } from '../services/dataService'
-
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
+import { EASE_OUT_EXPO } from '@/lib/animation'
+import PageLoader from '@/components/PageLoader'
 
 function getFigmaEmbedUrl(figmaUrl: string): string {
   return `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(figmaUrl)}`
@@ -34,14 +34,7 @@ export default function ProjectDetail() {
   }, [id])
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center pt-24">
-        <div className="flex items-center gap-3">
-          <Loader2 size={20} className="text-accent-lime animate-spin" />
-          <span className="font-mono text-xs text-text-muted">Loading project…</span>
-        </div>
-      </div>
-    )
+    return <PageLoader />
   }
 
   if (error || !project) {
@@ -72,7 +65,7 @@ export default function ProjectDetail() {
         <motion.button
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, ease }}
+          transition={{ duration: 0.4, ease: EASE_OUT_EXPO }}
           onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2 text-text-muted hover:text-accent-lime transition-colors font-mono text-xs mb-8"
         >
@@ -83,7 +76,7 @@ export default function ProjectDetail() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease }}
+          transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
         >
           <div className="flex items-center gap-3 mb-4">
             <span
@@ -130,7 +123,7 @@ export default function ProjectDetail() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease }}
+          transition={{ duration: 0.6, delay: 0.2, ease: EASE_OUT_EXPO }}
           className="w-full h-[60vh] liquid-glass-card overflow-hidden rounded-2xl"
         >
           <iframe

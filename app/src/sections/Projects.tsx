@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { EASE_OUT_EXPO } from '@/lib/animation'
 import { dataService } from '../services/dataService'
 import type { ProjectsData } from '../services/dataService'
 import { ProjectGrid } from '../components/ProjectCard/ProjectCard'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import { useAnimatedCounter } from '../hooks/useAnimatedCounter'
 
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 function parseStatValue(value: string): { num: number; suffix: string } {
   const match = value.match(/^([0-9]+)(.*)$/)
@@ -25,7 +25,7 @@ function AnimatedStat({ value, label, delay }: { value: string; label: string; d
       ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay, ease }}
+      transition={{ duration: 0.6, delay, ease: EASE_OUT_EXPO }}
       className="text-center"
     >
       <div className="font-display text-3xl md:text-4xl text-accent-lime tabular-nums">
@@ -54,7 +54,7 @@ export default function Projects() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease }}
+            transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
             className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime"
           >
             {data.sectionLabel}
@@ -62,7 +62,7 @@ export default function Projects() {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1, duration: 0.6, ease }}
+            transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="font-display text-[clamp(2rem,6vw,5rem)] leading-[1.05] text-text-primary mt-4"
           >
             {data.headline}
@@ -70,7 +70,7 @@ export default function Projects() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.2, duration: 0.6, ease }}
+            transition={{ delay: 0.2, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="text-lg md:text-xl text-text-secondary mt-4 max-w-[560px] mx-auto"
           >
             {data.subtitle}

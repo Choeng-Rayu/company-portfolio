@@ -6,6 +6,8 @@ import {
   useSpring,
   useMotionTemplate,
 } from 'framer-motion';
+import { EASE_OUT_EXPO } from '@/lib/animation';
+import { dataService } from '../services/dataService';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 type CardData = {
@@ -15,7 +17,6 @@ type CardData = {
   bullets: string[];
 };
 
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 // VisionCard component with 3D tilt and spotlight effect
 function VisionCard({
@@ -99,15 +100,10 @@ export default function VisionMissionGoals() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const [visionRes, missionRes, goalsRes] = await Promise.all([
-        fetch('/data/visions.json'),
-        fetch('/data/missions.json'),
-        fetch('/data/goals.json'),
-      ]);
       const [vision, mission, goals] = await Promise.all([
-        visionRes.json(),
-        missionRes.json(),
-        goalsRes.json(),
+        dataService.getVisions(),
+        dataService.getMissions(),
+        dataService.getGoals(),
       ]);
       setCards([vision, mission, goals]);
     };
@@ -128,7 +124,7 @@ export default function VisionMissionGoals() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease }}
+            transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
             className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime"
           >
             VISION · MISSION · GOALS
@@ -136,7 +132,7 @@ export default function VisionMissionGoals() {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1, duration: 0.6, ease }}
+            transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="font-display text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
           >
             Where We Stand &amp; Where We Go

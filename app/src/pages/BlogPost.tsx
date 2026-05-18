@@ -4,8 +4,8 @@ import { motion } from 'framer-motion'
 import { ArrowLeft, Calendar, Clock, Tag, User } from 'lucide-react'
 import { dataService } from '../services/dataService'
 import type { BlogPost } from '../services/dataService'
-
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
+import { EASE_OUT_EXPO } from '@/lib/animation'
+import PageLoader from '@/components/PageLoader'
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
@@ -22,11 +22,7 @@ export default function BlogPost() {
   }, [slug])
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center pt-24">
-        <div className="font-mono text-xs text-text-muted animate-pulse">Loading…</div>
-      </div>
-    )
+    return <PageLoader />
   }
 
   if (!post) {
@@ -53,7 +49,7 @@ export default function BlogPost() {
         <motion.div
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, ease }}
+          transition={{ duration: 0.4, ease: EASE_OUT_EXPO }}
         >
           <Link
             to="/blog"
@@ -68,7 +64,7 @@ export default function BlogPost() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease }}
+            transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
             className="w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-8"
           >
             <img
@@ -82,7 +78,7 @@ export default function BlogPost() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease }}
+          transition={{ duration: 0.6, delay: 0.1, ease: EASE_OUT_EXPO }}
         >
           <div className="flex flex-wrap items-center gap-4 mb-6">
             <span className="flex items-center gap-1.5 text-text-muted font-mono text-xs">
@@ -119,7 +115,7 @@ export default function BlogPost() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease }}
+          transition={{ duration: 0.6, delay: 0.2, ease: EASE_OUT_EXPO }}
           className="prose prose-invert prose-lg max-w-none"
         >
           {post.content.split('\n\n').map((paragraph, i) => (

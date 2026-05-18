@@ -1,10 +1,9 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router'
 import { Figma, Globe, ExternalLink, Eye, ArrowUpRight } from 'lucide-react'
+import { EASE_OUT_EXPO } from '@/lib/animation'
 import { TiltCard } from '../TiltCard'
 import type { Project } from '../../services/dataService'
-
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 function ProjectInitial({ title, color }: { title: string; color: string }) {
   const initial = title.charAt(0).toUpperCase()
@@ -32,7 +31,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
       initial={{ opacity: 0, y: 40, scale: 0.95 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.5, delay: index * 0.1, ease }}
+      transition={{ duration: 0.5, delay: index * 0.1, ease: EASE_OUT_EXPO }}
       className="h-full"
     >
       <TiltCard className="group liquid-glass-card rounded-2xl flex flex-col h-full w-full overflow-hidden hover:border-white/20 transition-all duration-500">

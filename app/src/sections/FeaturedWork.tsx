@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { EASE_OUT_EXPO } from '@/lib/animation';
+import { dataService } from '../services/dataService';
 import OrbitImages from '../components/OrbitImages';
 
 const PLANET_IMAGES = [
@@ -13,7 +15,6 @@ const PLANET_IMAGES = [
 type Milestone = { year: string; title: string; description: string };
 type JourneyData = { sectionLabel: string; title: string; subtitle?: string; milestones: Milestone[] };
 
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const AUTO_INTERVAL = 3000;
 
 // OrbitImages config
@@ -27,7 +28,7 @@ export default function OurJourney() {
   const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
-    fetch('/data/our_journey.json').then(r => r.json()).then(setData);
+    dataService.getJourney().then(setData);
   }, []);
 
   // Auto-advance through milestones, pause when hovered
@@ -72,7 +73,7 @@ export default function OurJourney() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6, ease }}
+            transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
             className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime"
           >
             {data.sectionLabel}
@@ -81,7 +82,7 @@ export default function OurJourney() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
-            transition={{ delay: 0.1, duration: 0.6, ease }}
+            transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="font-display text-[clamp(2rem,6vw,5rem)] leading-[1.05] text-text-primary mt-4"
           >
             {data.title}
@@ -91,7 +92,7 @@ export default function OurJourney() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-100px' }}
-              transition={{ delay: 0.2, duration: 0.6, ease }}
+              transition={{ delay: 0.2, duration: 0.6, ease: EASE_OUT_EXPO }}
               className="text-lg md:text-xl text-text-secondary mt-4 max-w-[560px] mx-auto"
             >
               {data.subtitle}
@@ -102,7 +103,7 @@ export default function OurJourney() {
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
-            transition={{ delay: 0.35, duration: 0.6, ease }}
+            transition={{ delay: 0.35, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="inline-flex items-center gap-3 mt-6 px-5 py-3 rounded-2xl liquid-glass-card mx-auto"
           >
             <span className="font-display text-2xl text-accent-lime">{data.milestones.length}</span>

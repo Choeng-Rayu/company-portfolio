@@ -1,6 +1,10 @@
 import { useEffect, useRef } from 'react';
 import type { ReactNode } from 'react';
 import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface SmoothScrollerProps {
   children: ReactNode;
@@ -16,10 +20,9 @@ export default function SmoothScroller({ children }: SmoothScrollerProps) {
       duration: 1.2,
       easing: (t: number) =>
         Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      
-
-
     });
+
+    lenisRef.current.on('scroll', ScrollTrigger.update);
 
     const raf = (time: number) => {
       lenisRef.current?.raf(time);
@@ -33,6 +36,7 @@ export default function SmoothScroller({ children }: SmoothScrollerProps) {
         cancelAnimationFrame(rafIdRef.current);
       }
       // Lenis does not expose a destroy method; clearing reference allows GC
+      lenisRef.current?.off('scroll', ScrollTrigger.update);
       lenisRef.current = null;
     };
   }, []);

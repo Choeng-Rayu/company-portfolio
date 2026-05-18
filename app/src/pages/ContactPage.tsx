@@ -4,8 +4,8 @@ import { Copy, Check, Mail, Phone, MapPin, Send, MessageSquare, Facebook, Linked
 import { dataService } from '../services/dataService'
 import type { ContactData, MediaInfo } from '../services/dataService'
 import Folder from '../components/Folder/Folder'
-
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
+import { EASE_OUT_EXPO } from '@/lib/animation'
+import PageLoader from '@/components/PageLoader'
 
 const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   Mail,
@@ -62,11 +62,7 @@ export default function ContactPage() {
   }
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="font-mono text-xs text-text-muted animate-pulse">Loading…</div>
-      </div>
-    )
+    return <PageLoader />
   }
 
   return (
@@ -76,7 +72,7 @@ export default function ContactPage() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease }}
+          transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
           className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime mb-4"
         >
           {data?.sectionLabel}
@@ -84,7 +80,7 @@ export default function ContactPage() {
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease }}
+          transition={{ duration: 0.6, delay: 0.1, ease: EASE_OUT_EXPO }}
           className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.05] text-text-primary max-w-4xl"
         >
           {data?.title}
@@ -92,7 +88,7 @@ export default function ContactPage() {
         <motion.p
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease }}
+          transition={{ duration: 0.6, delay: 0.2, ease: EASE_OUT_EXPO }}
           className="text-lg text-text-secondary mt-6 max-w-2xl leading-relaxed"
         >
           {data?.subtitle}
@@ -106,7 +102,7 @@ export default function ContactPage() {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2, ease }}
+            transition={{ duration: 0.6, delay: 0.2, ease: EASE_OUT_EXPO }}
             className="lg:col-span-2 space-y-6"
           >
             {/* Contact Cards */}
@@ -118,7 +114,7 @@ export default function ContactPage() {
                     key={i}
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.3 + i * 0.1, ease }}
+                    transition={{ duration: 0.5, delay: 0.3 + i * 0.1, ease: EASE_OUT_EXPO }}
                     className="liquid-glass-card p-5 rounded-xl flex items-center gap-4"
                   >
                     <div className="w-11 h-11 rounded-xl bg-accent-lime/10 flex items-center justify-center text-accent-lime flex-shrink-0">
@@ -148,7 +144,7 @@ export default function ContactPage() {
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6, ease }}
+              transition={{ duration: 0.5, delay: 0.6, ease: EASE_OUT_EXPO }}
               className="liquid-glass-card p-5 rounded-xl"
             >
               <div className="flex items-center gap-2 mb-3">
@@ -175,7 +171,7 @@ export default function ContactPage() {
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.7, ease }}
+              transition={{ duration: 0.5, delay: 0.7, ease: EASE_OUT_EXPO }}
               className="liquid-glass-card p-5 rounded-xl"
             >
               <div className="flex items-center gap-2 mb-2">
@@ -203,7 +199,7 @@ export default function ContactPage() {
                       rel="noopener noreferrer"
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.8 + i * 0.05, duration: 0.4, ease }}
+                      transition={{ delay: 0.8 + i * 0.05, duration: 0.4, ease: EASE_OUT_EXPO }}
                       className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl liquid-glass-btn hover:border-white/15 transition-all group"
                       title={media.platform}
                     >
@@ -250,7 +246,7 @@ export default function ContactPage() {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3, ease }}
+            transition={{ duration: 0.6, delay: 0.3, ease: EASE_OUT_EXPO }}
             className="lg:col-span-3 liquid-glass-card p-8 rounded-2xl"
           >
             <div className="flex items-center gap-3 mb-2">
@@ -350,7 +346,7 @@ export default function ContactPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5, ease }}
+          transition={{ duration: 0.6, delay: 0.5, ease: EASE_OUT_EXPO }}
           className="liquid-glass-card rounded-2xl p-8 md:p-12 text-center relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-[100px] opacity-[0.06] pointer-events-none bg-accent-lime" />

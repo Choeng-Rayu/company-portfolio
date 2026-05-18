@@ -47,12 +47,12 @@ module.exports = {
         'text-secondary': '#C4C4D0',
         'text-muted': '#9898A8',
         'accent-lime': '#C8F135',
-        'accent-dim': '#8FAF20',
+        'accent-dim': '#8FAF20'
       },
       fontFamily: {
         display: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
         body: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
-        mono: ['"JetBrains Mono"', '"Fira Code"', 'monospace'],
+        mono: ['"JetBrains Mono"', '"Fira Code"', 'monospace']
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { EASE_OUT_EXPO } from '@/lib/animation';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import {
   Palette, Server, Cloud, BrainCircuit,
@@ -67,7 +68,6 @@ const categories: TechCategory[] = [
   },
 ];
 
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function TechStack() {
   const { ref, isInView } = useScrollAnimation('-100px');
@@ -80,7 +80,7 @@ export default function TechStack() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease }}
+            transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
             className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime"
           >
             OUR TOOLKIT
@@ -88,7 +88,7 @@ export default function TechStack() {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1, duration: 0.6, ease }}
+            transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="text-[2rem] font-medium text-text-primary mt-4"
           >
             Technologies We Master
@@ -104,7 +104,7 @@ export default function TechStack() {
                 key={cat.label}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.2 + catIndex * 0.1, duration: 0.6, ease }}
+                transition={{ delay: 0.2 + catIndex * 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
                 className="liquid-glass-card rounded-2xl p-6"
               >
                 <div className="flex items-center gap-3 mb-5">

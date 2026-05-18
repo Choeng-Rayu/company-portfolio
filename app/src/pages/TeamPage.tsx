@@ -3,8 +3,8 @@ import { motion } from 'framer-motion'
 import { Linkedin, Mail, Sparkles, Users, Award } from 'lucide-react'
 import { dataService } from '../services/dataService'
 import type { TeamData, TeamMember } from '../services/dataService'
-
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
+import { EASE_OUT_EXPO } from '@/lib/animation'
+import PageLoader from '@/components/PageLoader'
 
 function SkillTag({ skill, index }: { skill: string; index: number }) {
   const colors = ['#C8F135', '#3CB371', '#4477DD', '#E05A20', '#C8F135', '#3CB371']
@@ -31,7 +31,7 @@ function TeamCard({ member, index }: { member: TeamMember; index: number }) {
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease }}
+      transition={{ duration: 0.6, delay: index * 0.1, ease: EASE_OUT_EXPO }}
       className="liquid-glass-card p-6 rounded-2xl group hover:-translate-y-1 transition-transform duration-300"
     >
       {/* Header */}
@@ -106,11 +106,7 @@ export default function TeamPage() {
   }, [])
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="font-mono text-xs text-text-muted animate-pulse">Loading...</div>
-      </div>
-    )
+    return <PageLoader />
   }
 
   return (
@@ -119,7 +115,7 @@ export default function TeamPage() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease }}
+          transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
           className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime mb-4"
         >
           {data?.sectionLabel}
@@ -127,7 +123,7 @@ export default function TeamPage() {
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease }}
+          transition={{ duration: 0.6, delay: 0.1, ease: EASE_OUT_EXPO }}
           className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.05] text-text-primary max-w-4xl"
         >
           {data?.title}
@@ -135,7 +131,7 @@ export default function TeamPage() {
         <motion.p
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease }}
+          transition={{ duration: 0.6, delay: 0.2, ease: EASE_OUT_EXPO }}
           className="text-lg text-text-secondary mt-6 max-w-2xl leading-relaxed"
         >
           {data?.subtitle}
@@ -144,7 +140,7 @@ export default function TeamPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease }}
+          transition={{ duration: 0.6, delay: 0.3, ease: EASE_OUT_EXPO }}
           className="flex flex-wrap gap-8 mt-10"
         >
           <div className="flex items-center gap-2 text-text-muted">

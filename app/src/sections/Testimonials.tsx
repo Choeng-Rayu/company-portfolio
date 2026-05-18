@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { EASE_OUT_EXPO } from '@/lib/animation';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -46,7 +47,6 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 function Avatar({ initials, color }: { initials: string; color: string }) {
   return (
@@ -92,7 +92,7 @@ export default function Testimonials() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease }}
+            transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
             className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime"
           >
             CLIENT FEEDBACK
@@ -100,7 +100,7 @@ export default function Testimonials() {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1, duration: 0.6, ease }}
+            transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="font-display text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] text-text-primary mt-4"
           >
             What They Say
@@ -111,7 +111,7 @@ export default function Testimonials() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.3, duration: 0.6, ease }}
+          transition={{ delay: 0.3, duration: 0.6, ease: EASE_OUT_EXPO }}
           className="relative max-w-[900px] mx-auto"
         >
           <div className="liquid-glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden">
@@ -134,7 +134,7 @@ export default function Testimonials() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -16 }}
-                  transition={{ duration: 0.4, ease }}
+                  transition={{ duration: 0.4, ease: EASE_OUT_EXPO }}
                 >
                   <p className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.5] text-text-primary">
                     &ldquo;{testimonials[active].quote}&rdquo;

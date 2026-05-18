@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { motion } from 'framer-motion'
 import { Home, ArrowLeft } from 'lucide-react'
+import { EASE_OUT_EXPO } from '@/lib/animation'
 
 export default function NotFound() {
   return (
@@ -8,7 +9,7 @@ export default function NotFound() {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
         className="text-center space-y-8 max-w-md"
       >
         <div className="relative">

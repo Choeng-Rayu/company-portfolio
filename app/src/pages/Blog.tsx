@@ -3,9 +3,9 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router'
 import { dataService } from '../services/dataService'
 import type { BlogPost } from '../services/dataService'
+import { EASE_OUT_EXPO } from '@/lib/animation'
+import PageLoader from '@/components/PageLoader'
 import CardFlip from '@/components/ui/flip-card'
-
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 export default function Blog() {
   const [posts, setPosts] = useState<BlogPost[]>([])
@@ -24,11 +24,7 @@ export default function Blog() {
   const filtered = filter === 'All' ? posts : posts.filter((p) => p.tags.includes(filter))
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="font-mono text-xs text-text-muted animate-pulse">Loading…</div>
-      </div>
-    )
+    return <PageLoader />
   }
 
   return (
@@ -37,7 +33,7 @@ export default function Blog() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease }}
+          transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
           className="font-mono text-xs tracking-[0.08em] uppercase text-accent-lime mb-4"
         >
           Insights & Updates
@@ -45,7 +41,7 @@ export default function Blog() {
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease }}
+          transition={{ duration: 0.6, delay: 0.1, ease: EASE_OUT_EXPO }}
           className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.05] text-text-primary max-w-4xl"
         >
           From the Blog
@@ -53,7 +49,7 @@ export default function Blog() {
         <motion.p
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease }}
+          transition={{ duration: 0.6, delay: 0.2, ease: EASE_OUT_EXPO }}
           className="text-lg text-text-secondary mt-6 max-w-2xl leading-relaxed"
         >
           Thoughts on design, development, and building digital products for Cambodia and beyond.
@@ -65,7 +61,7 @@ export default function Blog() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.3, ease }}
+          transition={{ duration: 0.4, delay: 0.3, ease: EASE_OUT_EXPO }}
           className="flex flex-wrap gap-2"
         >
           {allTags.map((tag) => (
@@ -93,7 +89,7 @@ export default function Blog() {
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.5, delay: index * 0.08, ease }}
+              transition={{ duration: 0.5, delay: index * 0.08, ease: EASE_OUT_EXPO }}
               className="w-full flex justify-center"
             >
               <Link to={`/blog/${post.slug}`} className="block w-full max-w-[300px]">

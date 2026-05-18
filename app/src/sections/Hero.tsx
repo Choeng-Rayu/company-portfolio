@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { ArrowRight, ChevronDown, Telescope } from 'lucide-react';
+import { EASE_OUT_EXPO } from '@/lib/animation';
+import { dataService } from '../services/dataService';
 
-
-
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 interface AboutData {
   sectionLabel: string;
@@ -55,10 +54,7 @@ export default function Hero() {
   const [data, setData] = useState<AboutData | null>(null);
 
   useEffect(() => {
-    fetch('/data/about_us.json')
-      .then((r) => r.json())
-      .then(setData)
-      .catch(() => {});
+    dataService.getAboutUs().then(setData).catch(() => {});
   }, []);
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -106,7 +102,7 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6, ease }}
+            transition={{ delay: 0.2, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="font-mono text-xs tracking-[0.08em] uppercase text-text-muted mb-6"
           >
             EST. {founded} · DIGITAL SOLUTIONS STUDIO · {location}, {country}
@@ -118,7 +114,7 @@ export default function Hero() {
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 + i * 0.1, duration: 0.7, ease }}
+                transition={{ delay: 0.35 + i * 0.1, duration: 0.7, ease: EASE_OUT_EXPO }}
                 className="font-display text-[clamp(2.5rem,7vw,6rem)] leading-[1.0] tracking-[-0.02em] text-text-primary"
               >
                 {line}
@@ -129,7 +125,7 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.65, duration: 0.6, ease }}
+            transition={{ delay: 0.65, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="mt-8 text-lg leading-relaxed text-text-secondary max-w-[480px] "
           >
             {description}
@@ -138,7 +134,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.85, duration: 0.5, ease }}
+            transition={{ delay: 0.85, duration: 0.5, ease: EASE_OUT_EXPO }}
             className="mt-10 flex flex-wrap gap-4"
           >
             <MagneticButton
@@ -165,7 +161,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.0, duration: 0.8, ease }}
+            transition={{ delay: 1.0, duration: 0.8, ease: EASE_OUT_EXPO }}
             className="relative flex items-center justify-center"
             style={{ width: 260, height: 260 }}
           >
