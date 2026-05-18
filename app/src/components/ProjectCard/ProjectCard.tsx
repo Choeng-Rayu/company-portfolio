@@ -34,7 +34,28 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
       transition={{ duration: 0.5, delay: index * 0.1, ease: EASE_OUT_EXPO }}
       className="h-full"
     >
-      <TiltCard className="group liquid-glass-card rounded-2xl flex flex-col h-full w-full overflow-hidden hover:border-white/20 transition-all duration-500">
+      <TiltCard className="group liquid-glass-card rounded-2xl flex flex-col h-full w-full overflow-hidden hover:border-white/20 transition-all duration-500 group-hover:shadow-[0_0_20px_rgba(200,241,53,0.15)] group-hover:border-accent-lime/20 relative">
+        {/* Wireframe materialization overlay */}
+        <motion.div
+          className="absolute inset-0 rounded-2xl z-[30] pointer-events-none"
+          initial={{ opacity: 1 }}
+          whileInView={{ opacity: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.5, delay: index * 0.1 + 0.25, ease: EASE_OUT_EXPO }}
+          style={{
+            background: 'transparent',
+            border: `1px solid ${project.color}`,
+          }}
+        />
+
+        {/* Scanline effect */}
+        <div
+          className="absolute inset-0 z-[25] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
+          style={{
+            background: `repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(200,241,53,0.03) 1px, rgba(200,241,53,0.03) 2px)`,
+          }}
+        />
+
         {/* Top accent gradient bar */}
         <div
           className="h-1 w-full shrink-0 transition-all duration-500 group-hover:h-1.5"

@@ -28,13 +28,54 @@ export default function Contact() {
 
   return (
     <section id="contact" className="w-full py-32 bg-transparent relative overflow-hidden" ref={ref}>
+      <style>{`
+        @keyframes radioWave {
+          0% {
+            transform: translateY(0) scale(0.3);
+            opacity: 0;
+          }
+          15% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(-180px) scale(1.8);
+            opacity: 0;
+          }
+        }
+        .radio-wave-ring {
+          transform-box: fill-box;
+          transform-origin: center bottom;
+          animation: radioWave 6s ease-out infinite;
+          fill: none;
+          stroke: rgba(200, 241, 53, 0.05);
+          stroke-width: 1;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .radio-wave-ring {
+            animation: none;
+          }
+        }
+      `}</style>
+
       {/* Subtle lime glow */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ background: 'radial-gradient(ellipse 50% 30% at 50% 100%, rgba(200,241,53,0.05) 0%, transparent 70%)' }}
       />
 
-      <div className="relative max-w-[720px] mx-auto px-6 text-center">
+      {/* Radio wave rings */}
+      <svg
+        className="absolute bottom-0 left-0 w-full h-[300px] pointer-events-none"
+        viewBox="0 0 1200 300"
+        preserveAspectRatio="none"
+      >
+        <ellipse cx="600" cy="300" rx="200" ry="20" className="radio-wave-ring" style={{ animationDelay: '0s' }} />
+        <ellipse cx="600" cy="300" rx="200" ry="20" className="radio-wave-ring" style={{ animationDelay: '1.5s' }} />
+        <ellipse cx="600" cy="300" rx="200" ry="20" className="radio-wave-ring hidden sm:block" style={{ animationDelay: '3s' }} />
+        <ellipse cx="600" cy="300" rx="200" ry="20" className="radio-wave-ring hidden sm:block" style={{ animationDelay: '4.5s' }} />
+      </svg>
+
+      <div className="relative z-10 max-w-[720px] mx-auto px-6 text-center">
         <motion.p
           initial={{ opacity: 0, y: 16 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}

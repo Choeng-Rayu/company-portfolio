@@ -1,10 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
-import { ArrowRight, ChevronDown, Telescope } from 'lucide-react';
+import { ArrowRight, Telescope } from 'lucide-react';
 import { EASE_OUT_EXPO } from '@/lib/animation';
 import { dataService } from '../services/dataService';
 
+function useReducedMotion(): boolean {
+  const [reduced, setReduced] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  });
+
+  useEffect(() => {
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+
+  return reduced;
+}
 
 interface AboutData {
   sectionLabel: string;
@@ -13,6 +28,103 @@ interface AboutData {
   foundedYear: string;
   location: string;
   country: string;
+}
+
+function WireframeSphere({ reducedMotion }: { reducedMotion: boolean }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animId: number;
+    let rotation = 0;
+    const segments = 16;
+
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    resize();
+
+    const draw = () => {
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      ctx.clearRect(0, 0, width, height);
+
+      const cx = width / 2;
+      const cy = height / 2;
+      const radius = Math.min(width, height) * 0.35;
+      const focalLength = 300;
+
+      ctx.strokeStyle = '#C8F135';
+      ctx.lineWidth = 0.8;
+      ctx.globalAlpha = 1;
+
+      rotation += reducedMotion ? 0 : 0.003;
+
+      // Longitude lines
+      for (let i = 0; i < segments; i++) {
+        const phi = (i * Math.PI * 2) / segments + rotation;
+        ctx.beginPath();
+        for (let j = 0; j <= segments; j++) {
+          const theta = (j * Math.PI) / segments;
+          const x = radius * Math.sin(theta) * Math.cos(phi);
+          const y = radius * Math.cos(theta);
+          const z = radius * Math.sin(theta) * Math.sin(phi);
+          const scale = focalLength / (focalLength + z);
+          const px = cx + x * scale;
+          const py = cy + y * scale;
+          if (j === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+      }
+
+      // Latitude lines
+      for (let i = 1; i < segments; i++) {
+        const theta = (i * Math.PI) / segments;
+        const r = radius * Math.sin(theta);
+        const y = radius * Math.cos(theta);
+        ctx.beginPath();
+        for (let j = 0; j <= segments; j++) {
+          const phi = (j * Math.PI * 2) / segments + rotation;
+          const x = r * Math.cos(phi);
+          const z = r * Math.sin(phi);
+          const scale = focalLength / (focalLength + z);
+          const px = cx + x * scale;
+          const py = cy + y * scale;
+          if (j === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+      }
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    window.addEventListener('resize', resize);
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', resize);
+    };
+  }, [reducedMotion]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      style={{ zIndex: 1, opacity: reducedMotion ? 0.04 : 0.06 }}
+    />
+  );
 }
 
 function MagneticButton({ children, href = '#', className = '', onClick }: { children: ReactNode; href?: string; className?: string; onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void; }) {
@@ -52,6 +164,26 @@ function MagneticButton({ children, href = '#', className = '', onClick }: { chi
 
 export default function Hero() {
   const [data, setData] = useState<AboutData | null>(null);
+  const reducedMotion = useReducedMotion();
+
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+  const springRotateX = useSpring(rotateX, { stiffness: 150, damping: 30 });
+  const springRotateY = useSpring(rotateY, { stiffness: 150, damping: 30 });
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    const handleMouseMove = (e: MouseEvent) => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const dx = (e.clientX - cx) / cx;
+      const dy = (e.clientY - cy) / cy;
+      rotateY.set(dx * 3);
+      rotateX.set(-dy * 3);
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [reducedMotion, rotateX, rotateY]);
 
   useEffect(() => {
     dataService.getAboutUs().then(setData).catch(() => {});
@@ -94,6 +226,9 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-[100dvh] w-full overflow-x-hidden bg-transparent pt-24">
+      {/* Wireframe celestial sphere background */}
+      <WireframeSphere reducedMotion={reducedMotion} />
+
       {/* Content */}
       <div className="relative z-10 min-h-[100dvh] grid grid-cols-1 md:grid-cols-2 max-w-[1280px] mx-auto px-6">
 
@@ -108,18 +243,27 @@ export default function Hero() {
             EST. {founded} · DIGITAL SOLUTIONS STUDIO · {location}, {country}
           </motion.p>
 
-          <div className="space-y-0">
-            {headlineLines.map((line, i) => (
-              <motion.h1
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 + i * 0.1, duration: 0.7, ease: EASE_OUT_EXPO }}
-                className="font-display text-[clamp(2.5rem,7vw,6rem)] leading-[1.0] tracking-[-0.02em] text-text-primary"
-              >
-                {line}
-              </motion.h1>
-            ))}
+          <div style={{ perspective: 800 }}>
+            <motion.div
+              className="space-y-0"
+              style={{
+                transformStyle: 'preserve-3d',
+                rotateX: reducedMotion ? 0 : springRotateX,
+                rotateY: reducedMotion ? 0 : springRotateY,
+              }}
+            >
+              {headlineLines.map((line, i) => (
+                <motion.h1
+                  key={i}
+                  initial={{ opacity: 0, y: 30, z: i * 20 }}
+                  animate={{ opacity: 1, y: 0, z: i * 20 }}
+                  transition={{ delay: 0.35 + i * 0.1, duration: 0.7, ease: EASE_OUT_EXPO }}
+                  className="font-display text-[clamp(2.5rem,7vw,6rem)] leading-[1.0] tracking-[-0.02em] text-text-primary"
+                >
+                  {line}
+                </motion.h1>
+              ))}
+            </motion.div>
           </div>
 
           <motion.p
@@ -151,13 +295,12 @@ export default function Hero() {
               className="inline-flex items-center gap-2 px-7 py-3 rounded-full liquid-glass-btn text-text-primary text-sm font-medium transition-all"
             >
               View Services
-              <ChevronDown size={16} />
             </MagneticButton>
           </motion.div>
         </div>
 
         {/* Right column — orbiting "Our Work" button */}
-        <div className="hidden md:flex items-center justify-center">
+        <div className="hidden md:flex items-center justify-center relative">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -232,6 +375,19 @@ export default function Hero() {
               <span className="font-mono text-xs tracking-widest uppercase leading-tight">Our<br />Work</span>
             </MagneticButton>
           </motion.div>
+
+          {/* Trajectory line */}
+          <div className="absolute top-[calc(50%+150px)] left-1/2 -translate-x-1/2 pointer-events-none">
+            <svg width="2" height="120" viewBox="0 0 2 120" fill="none">
+              <defs>
+                <linearGradient id="hero-traj" x1="1" y1="0" x2="1" y2="120" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#C8F135" stopOpacity="0.25" />
+                  <stop offset="1" stopColor="#C8F135" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <line x1="1" y1="0" x2="1" y2="120" stroke="url(#hero-traj)" strokeWidth="1" strokeDasharray="4 4" />
+            </svg>
+          </div>
         </div>
 
       </div>

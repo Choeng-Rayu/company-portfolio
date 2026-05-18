@@ -1,4 +1,5 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { Search, PenTool, Code, Rocket, TrendingUp } from 'lucide-react';
 import { EASE_OUT_EXPO } from '@/lib/animation';
@@ -12,17 +13,162 @@ const steps = [
   { num: '05', title: 'Grow', desc: 'Ongoing support, monitoring, and iterative improvements as you scale.', duration: 'ongoing', icon: TrendingUp },
 ];
 
+function IsoBlock({
+  num,
+  isActive,
+  delay,
+  isInView,
+  size = 40,
+}: {
+  num: string;
+  isActive: boolean;
+  delay: number;
+  isInView: boolean;
+  size?: number;
+}) {
+  const prefersReduced = useReducedMotion();
+  const half = size / 2;
+
+  return (
+    <div
+      className={`iso-scene ${isActive ? 'iso-glow' : ''}`}
+      style={{ width: size, height: size }}
+    >
+      <motion.div
+        className="iso-block"
+        initial={{
+          opacity: 0,
+          rotateX: prefersReduced ? 60 : 0,
+          rotateZ: prefersReduced ? -45 : 0,
+        }}
+        animate={
+          isInView
+            ? {
+                opacity: 1,
+                rotateX: 60,
+                rotateZ: -45,
+              }
+            : {}
+        }
+        transition={{
+          delay: 0.3 + delay * 0.12,
+          duration: 0.8,
+          ease: EASE_OUT_EXPO,
+        }}
+        style={{ width: size, height: size }}
+      >
+        <div
+          className="iso-face iso-face-top"
+          style={{
+            width: size,
+            height: size,
+            transform: `rotateX(-90deg) translateZ(${half}px)`,
+          }}
+        >
+          <span className="font-mono text-[0.65rem] font-bold text-bg-base tracking-tight">
+            {num}
+          </span>
+        </div>
+        <div
+          className="iso-face iso-face-side1"
+          style={{
+            width: size,
+            height: size,
+            transform: `translateZ(${half}px)`,
+          }}
+        />
+        <div
+          className="iso-face iso-face-side2"
+          style={{
+            width: size,
+            height: size,
+            transform: `rotateY(-90deg) translateZ(${half}px)`,
+          }}
+        />
+      </motion.div>
+    </div>
+  );
+}
+
 export default function Process() {
   const { ref, isInView } = useScrollAnimation('-100px');
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start 80%', 'end 50%'],
   });
+  const [activeIndex, setActiveIndex] = useState(-1);
 
   const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const activeStepMotion = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, steps.length - 1]
+  );
+
+  useEffect(() => {
+    const unsubscribe = activeStepMotion.on('change', (latest) => {
+      setActiveIndex(Math.round(latest));
+    });
+    return unsubscribe;
+  }, [activeStepMotion]);
 
   return (
-    <section id="process" className="w-full py-[140px] bg-[#0E0E11] border-t border-border-surface" ref={ref}>
+    <section
+      id="process"
+      className="w-full py-[140px] bg-[#0E0E11] border-t border-border-surface"
+      ref={ref}
+    >
+      <style>{`
+        .iso-scene {
+          perspective: 600px;
+          flex-shrink: 0;
+        }
+        .iso-block {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          transform-style: preserve-3d;
+        }
+        .iso-face {
+          position: absolute;
+          top: 0;
+          left: 0;
+          border-radius: 6px;
+        }
+        .iso-face-top {
+          background: #C8F135;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: monospace;
+          font-weight: 800;
+          color: #0E0E11;
+        }
+        .iso-face-side1 {
+          background: #a8d030;
+        }
+        .iso-face-side2 {
+          background: #7da020;
+        }
+        .iso-glow {
+          filter: drop-shadow(0 0 10px rgba(200, 241, 53, 0.5)) drop-shadow(0 0 20px rgba(200, 241, 53, 0.3));
+        }
+        .iso-glow .iso-face-top {
+          box-shadow: 0 0 15px rgba(200, 241, 53, 0.6);
+        }
+        .group:hover .iso-scene:not(.iso-glow) {
+          filter: drop-shadow(0 0 8px rgba(200, 241, 53, 0.35));
+        }
+        .group:hover .iso-scene:not(.iso-glow) .iso-face-top {
+          box-shadow: 0 0 10px rgba(200, 241, 53, 0.4);
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .iso-block {
+            transform: rotateX(60deg) rotateZ(-45deg) !important;
+          }
+        }
+      `}</style>
+
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHeader
           label="OUR PROCESS"
@@ -64,14 +210,26 @@ export default function Process() {
                 <motion.div
                   key={step.num}
                   initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                  animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-                  transition={{ delay: 0.3 + i * 0.12, duration: 0.6, ease: EASE_OUT_EXPO }}
+                  animate={
+                    isInView ? { opacity: 1, y: 0, scale: 1 } : {}
+                  }
+                  transition={{
+                    delay: 0.3 + i * 0.12,
+                    duration: 0.6,
+                    ease: EASE_OUT_EXPO,
+                  }}
                   className="text-center group"
                 >
                   <div className="relative mx-auto mb-4 w-16 h-16 rounded-2xl liquid-glass-card flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <Icon size={24} className="text-accent-lime" />
-                    <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-accent-lime flex items-center justify-center">
-                      <span className="font-mono text-[0.6rem] text-bg-base font-bold">{step.num}</span>
+                    <div className="absolute -top-3 -right-3 z-10">
+                      <IsoBlock
+                        num={step.num}
+                        isActive={i === activeIndex}
+                        delay={i}
+                        isInView={isInView}
+                        size={40}
+                      />
                     </div>
                   </div>
                   <h4 className="text-lg font-medium text-text-primary mt-3">
@@ -98,7 +256,11 @@ export default function Process() {
                 key={step.num}
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: 0.2 + i * 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
+                transition={{
+                  delay: 0.2 + i * 0.1,
+                  duration: 0.6,
+                  ease: EASE_OUT_EXPO,
+                }}
                 className="flex gap-4 items-start liquid-glass-card rounded-2xl p-5"
               >
                 <div className="flex flex-col items-center flex-shrink-0">
@@ -111,7 +273,13 @@ export default function Process() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs text-accent-lime">{step.num}</span>
+                    <IsoBlock
+                      num={step.num}
+                      isActive={i === activeIndex}
+                      delay={i}
+                      isInView={isInView}
+                      size={28}
+                    />
                     <h4 className="text-base font-medium text-text-primary">
                       {step.title}
                     </h4>
