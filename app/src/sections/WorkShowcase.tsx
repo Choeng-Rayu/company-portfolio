@@ -1,16 +1,17 @@
 import { HeroScrub } from '@/components/ui/hero-scrub';
 
+// TODO: Replace with actual project screenshots (MR Labs, MR HRM, VersionDragon, etc.)
 const DEFAULT_FRAMES = [
-  "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1920&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1920&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1920&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1920&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&q=80&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1920&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1920&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1920&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1920&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1555421689-492a1880ceb9?w=1920&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1504384308090-c54be3855833?w=1920&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1531297461136-82lw9z289527?w=1920&q=80&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1920&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1920&q=80&auto=format&fit=crop",
 ];
 
 export type WorkShowcaseProps = {

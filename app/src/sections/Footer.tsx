@@ -52,7 +52,7 @@ export default function Footer() {
           <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
             <img
               src="/images/company_log.png"
-              alt="Universe Software"
+              alt="Chakrawal Digital"
               className="h-7 w-auto object-contain"
             />
           </Link>
@@ -88,7 +88,7 @@ export default function Footer() {
         </div>
 
         <p className="font-mono text-[0.65rem] text-text-muted text-center mt-4">
-          © 2024 Chakrawal Digital. Engineered in Phnom Penh, Cambodia ·{' '}
+          © {new Date().getFullYear()} Chakrawal Digital. Built in Phnom Penh, Cambodia. ·{' '}
           <Link to="/" className="hover:text-white transition-colors">Privacy Policy</Link>
         </p>
       </div>

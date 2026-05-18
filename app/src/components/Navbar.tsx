@@ -41,7 +41,7 @@ export default function Navbar() {
           <Link to="/" className="flex items-center">
             <img
               src="/images/company_log.png"
-              alt="Universe Software"
+              alt="Chakrawal Digital"
               className="h-16 w-auto object-contain"
             />
           </Link>

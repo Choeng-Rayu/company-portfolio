@@ -17,7 +17,7 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     quote:
-      'Chakrawal Digital built our lab management system from scratch. The team understood our workflow and delivered something that actually makes our daily operations easier.',
+      'Chakrawal Digital built our lab management system from scratch. The team understood our workflow and delivered something that actually makes our daily operations easier. Student scheduling went from a whiteboard mess to a self-service portal.',
     name: 'Chanrith Sok',
     title: 'Operations Director',
     company: 'MR Training & Jobs Center',
@@ -27,9 +27,9 @@ const testimonials: Testimonial[] = [
   },
   {
     quote:
-      'We needed a provincial website that citizens could actually use. They delivered a clean, fast site that our elderly residents can navigate without help.',
+      'We needed a provincial website that citizens could actually use. They delivered a clean, fast site that our elderly residents can navigate without help. Citizen inquiries through the website increased 3x in the first month after launch.',
     name: 'Sopheap Chea',
-    title: 'Digital Transformation Lead',
+    title: 'Director of Administration',
     company: 'Oddar Meanchey Provincial Gov',
     initials: 'SC',
     color: '#3CB371',
@@ -37,7 +37,7 @@ const testimonials: Testimonial[] = [
   },
   {
     quote:
-      'Our HRM system went from spreadsheet chaos to a proper platform. Payroll used to take days. Now it takes hours. Worth every riel.',
+      'Our HRM system went from spreadsheet chaos to a proper platform. Payroll processing dropped from 3 days to under 4 hours. Error rate went to zero. Worth every riel.',
     name: 'Dara Oum',
     title: 'HR Manager',
     company: 'MR Training & Jobs Center',

@@ -1,54 +1,54 @@
 {
-  "sectionLabel": "07 — TEAM",
+  "sectionLabel": "TEAM",
   "title": "Meet Our Team",
   "subtitle": "The passionate minds behind Chakrawal Digital",
   "members": [
     {
       "name": "Choeng Rayu",
-      "role": "CEO",
+      "role": "Founder & Lead Strategist",
       "initials": "CR",
-      "linkedIn": "https://linkedin.com",
-      "bio": "Visionary leader with a deep understanding of Cambodia's digital landscape. Drives strategic partnerships and ensures every project aligns with our mission to empower local businesses.",
+      "linkedIn": "https://linkedin.com/in/choeng-rayu",
+      "bio": "Founded Chakrawal Digital in 2023 after seeing local businesses struggle with off-the-shelf software that did not fit Cambodian workflows. Leads client strategy and manages partnerships with education and government sectors.",
       "skills": ["Strategy", "Business Development", "Team Leadership", "Partnerships", "Digital Transformation"]
     },
     {
-      "name": "Yen Mara",
-      "role": "CMO",
-      "initials": "YM",
-      "linkedIn": "https://linkedin.com",
-      "bio": "Creative marketer who bridges the gap between technology and people. Crafts compelling brand stories and growth strategies that resonate with Cambodian audiences.",
-      "skills": ["Marketing", "Brand Strategy", "Content Creation", "Social Media", "Growth Hacking"]
-    },
-    {
       "name": "Rithi Reach",
-      "role": "CTO",
+      "role": "Lead Engineer",
       "initials": "RR",
-      "linkedIn": "https://linkedin.com",
-      "bio": "Full-stack architect passionate about clean code and scalable systems. Leads technical decisions and mentors the team on modern development practices.",
+      "linkedIn": "https://linkedin.com/in/rithi-reach",
+      "bio": "Architects the technical stack for all client projects. Specializes in React/TypeScript frontends and Node.js backends. Previously built internal tools for a local NGO before joining full-time.",
       "skills": ["React", "Node.js", "System Design", "Cloud Architecture", "TypeScript", "DevOps"]
     },
     {
+      "name": "Yen Mara",
+      "role": "Growth & Marketing Lead",
+      "initials": "YM",
+      "linkedIn": "https://linkedin.com/in/yen-mara",
+      "bio": "Builds brand presence and client relationships for Chakrawal Digital. Crafts targeted outreach strategies that connect Cambodian SMEs with the right digital solutions for their scale.",
+      "skills": ["Marketing", "Brand Strategy", "Content Creation", "Social Media", "Growth Hacking"]
+    },
+    {
       "name": "Tep Somnang",
-      "role": "COO",
+      "role": "Operations & Delivery Lead",
       "initials": "TS",
-      "linkedIn": "https://linkedin.com",
-      "bio": "Operations expert who keeps projects on time and within budget. Streamlines workflows and ensures smooth delivery from discovery to deployment.",
+      "linkedIn": "https://linkedin.com/in/tep-somnang",
+      "bio": "Ensures every project ships on time and within scope. Manages agile sprints, client communication, and quality checks across design, development, and deployment phases.",
       "skills": ["Project Management", "Agile", "Process Optimization", "Client Relations", "Quality Assurance"]
     },
     {
       "name": "Povpanha Ngovseng",
-      "role": "CFO",
+      "role": "Finance & Business Analyst",
       "initials": "PN",
-      "linkedIn": "https://linkedin.com",
-      "bio": "Financial strategist ensuring sustainable growth. Manages resources wisely so we can invest in talent and deliver exceptional value to our partners.",
+      "linkedIn": "https://linkedin.com/in/povpanha-ngovseng",
+      "bio": "Handles pricing, contracts, and resource planning. Analyzes project ROI and helps clients understand the financial impact of digital transformation before they commit.",
       "skills": ["Financial Planning", "Budgeting", "Risk Management", "Business Analysis", "Forecasting"]
     },
     {
       "name": "Prak Dararith",
-      "role": "Project Management",
+      "role": "Project Coordinator",
       "initials": "PD",
-      "linkedIn": "https://linkedin.com",
-      "bio": "Detail-oriented coordinator who translates client needs into actionable tasks. Ensures every sprint delivers measurable progress and client satisfaction.",
+      "linkedIn": "https://linkedin.com/in/prak-dararith",
+      "bio": "Coordinates day-to-day project tasks and client feedback loops. Acts as the bridge between technical teams and business stakeholders to keep everyone aligned.",
       "skills": ["Scrum", "Stakeholder Management", "Requirements Analysis", "Timeline Planning", "Communication"]
     }
   ]

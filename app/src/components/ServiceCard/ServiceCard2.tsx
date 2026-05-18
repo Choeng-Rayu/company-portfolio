@@ -12,20 +12,20 @@ const PLANET_COLORS = [
 
 const SERVICE_DETAILS = {
   'Custom Software Development': {
-    features: ['End-to-end custom application development', 'Scalable architecture design', 'API integration & microservices', 'Cloud-native solutions'],
+    features: ['End-to-end custom application development', 'Multi-tenant architecture with role-based access control', 'API integration & microservices', 'Cloud-native solutions'],
     benefits: ['Perfectly aligned with your workflow', 'Full ownership of source code', 'Flexible and maintainable codebase'],
   },
-  'Digital Transformation for SMEs': {
+  'Digital Transformation': {
     features: ['Process digitization & automation', 'Legacy system modernization', 'Cloud migration strategies', 'Digital workflow optimization'],
-    benefits: ['Reduce operational costs', 'Improve efficiency by 40-60%', 'Real-time business insights'],
+    benefits: ['Cut payroll processing from 3 days to 4 hours (proven with MR Training)', 'Improve efficiency by 40-60%', 'Real-time business insights'],
   },
   'Business Management Systems': {
-    features: ['Inventory & supply chain management', 'CRM & customer engagement', 'Financial tracking & reporting', 'Multi-user role management'],
+    features: ['Inventory & supply chain management', 'Khmer-English bilingual interfaces with offline-ready PWA support', 'Financial tracking & reporting', 'Multi-user role management'],
     benefits: ['Centralized business operations', 'Data-driven decision making', 'Seamless team collaboration'],
   },
-  'Automation Tools': {
+  'Workflow Automation': {
     features: ['Workflow automation & RPA', 'Data processing pipelines', 'Scheduled task management', 'Integration with existing tools'],
-    benefits: ['Save 20+ hours per week', 'Eliminate human errors', 'Focus on strategic work'],
+    benefits: ['Serverless automation that costs less than $20/month to run', 'Eliminate human errors', 'Focus on strategic work'],
   },
 };
 

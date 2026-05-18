@@ -27,43 +27,37 @@ const categories: TechCategory[] = [
       { name: 'TypeScript', icon: Palette },
       { name: 'Tailwind CSS', icon: Palette },
       { name: 'Framer Motion', icon: Palette },
-      { name: 'Three.js', icon: Palette },
     ],
   },
   {
-    label: 'Backend',
+    label: 'Backend & Database',
     icon: Server,
     items: [
       { name: 'Node.js', icon: Server },
       { name: 'Python', icon: Server },
-      { name: 'Go', icon: Server },
       { name: 'PostgreSQL', icon: Server },
       { name: 'MongoDB', icon: Server },
       { name: 'Redis', icon: Server },
     ],
   },
   {
-    label: 'Infrastructure',
+    label: 'Cloud & DevOps',
     icon: Cloud,
     items: [
       { name: 'AWS', icon: Cloud },
-      { name: 'Google Cloud', icon: Cloud },
-      { name: 'Kubernetes', icon: Cloud },
+      { name: 'Vercel', icon: Cloud },
       { name: 'Docker', icon: Cloud },
-      { name: 'Terraform', icon: Cloud },
-      { name: 'CI/CD', icon: Cloud },
+      { name: 'CI/CD (GitHub Actions)', icon: Cloud },
     ],
   },
   {
-    label: 'AI / Data',
+    label: 'Integrations',
     icon: BrainCircuit,
     items: [
-      { name: 'OpenAI', icon: BrainCircuit },
-      { name: 'TensorFlow', icon: BrainCircuit },
-      { name: 'PyTorch', icon: BrainCircuit },
-      { name: 'Pandas', icon: BrainCircuit },
-      { name: 'Kafka', icon: BrainCircuit },
-      { name: 'Elasticsearch', icon: BrainCircuit },
+      { name: 'Telegram Bot API', icon: BrainCircuit },
+      { name: 'ABA PayWay', icon: BrainCircuit },
+      { name: 'Wing / TrueMoney', icon: BrainCircuit },
+      { name: 'OpenAI API', icon: BrainCircuit },
     ],
   },
 ];
@@ -91,7 +85,7 @@ export default function TechStack() {
             transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT_EXPO }}
             className="text-[2rem] font-medium text-text-primary mt-4"
           >
-            Technologies We Master
+            Technologies We Use
           </motion.h2>
         </div>
 

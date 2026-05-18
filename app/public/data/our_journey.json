@@ -1,32 +1,32 @@
 {
-  "sectionLabel": "05 — TIMELINE",
+  "sectionLabel": "TIMELINE",
   "title": "Our Journey",
-  "subtitle": "Building Cambodia's digital future, one milestone at a time.",
+  "subtitle": "From a two-person team to a full-service software studio.",
   "milestones": [
     {
+      "year": "2023",
+      "title": "Founded in Phnom Penh",
+      "description": "Started as a two-person development team focused on landing pages and small business websites."
+    },
+    {
+      "year": "2024",
+      "title": "First Major Client Partnership",
+      "description": "Delivered the MR Training & Jobs Center website and began long-term collaboration on internal management systems."
+    },
+    {
+      "year": "2025",
+      "title": "Product Suite Expansion",
+      "description": "Launched MR Labs, MR HRM, and VersionDragon — moving from websites to full-stack web applications."
+    },
+    {
       "year": "2026",
-      "title": "Planning & Team Formation",
-      "description": "Prepare infrastructure. Launch first portfolio projects."
+      "title": "Team & Capability Growth",
+      "description": "Scaled to a 6-person team with dedicated design, frontend, backend, and project management capabilities."
     },
     {
       "year": "2027",
-      "title": "First SaaS Product",
-      "description": "Partner with Ministry of Interior."
-    },
-    {
-      "year": "2028",
-      "title": "Expand Team",
-      "description": "Build strong portfolio. Multiple industry solutions."
-    },
-    {
-      "year": "2029",
-      "title": "First in Cambodia",
-      "description": "Become market leader."
-    },
-    {
-      "year": "2030",
-      "title": "Go Overseas",
-      "description": "Regional expansion."
+      "title": "SaaS & Provincial Expansion",
+      "description": "Target: Launch first independent SaaS product and expand gov-tech partnerships beyond Phnom Penh."
     }
   ]
 }
