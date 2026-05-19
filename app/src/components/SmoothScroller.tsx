@@ -16,22 +16,29 @@ export default function SmoothScroller({ children }: SmoothScrollerProps) {
 
   useEffect(() => {
     // Lenis easing is expo-out (aligned with motion token E.out)
-    lenisRef.current = new Lenis({
+    const lenis = new Lenis({
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
 
-    lenisRef.current.on('scroll', ScrollTrigger.update);
+    lenisRef.current = lenis;
 
-    const raf = (time: number) => {
-      lenisRef.current?.raf(time);
-      rafIdRef.current = requestAnimationFrame(raf);
-    };
-    rafIdRef.current = requestAnimationFrame(raf);
+    // Connect Lenis to ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
+
+    // Sync GSAP ticker with Lenis raf
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+
+    // Lag smoothing ensures no sudden jumps after heavy tasks
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
-      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
-      lenisRef.current?.off('scroll', ScrollTrigger.update);
+      gsap.ticker.remove((time) => {
+        lenis.raf(time * 1000);
+      });
+      lenis.destroy();
       lenisRef.current = null;
     };
   }, []);

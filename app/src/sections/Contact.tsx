@@ -106,20 +106,23 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0, y: 16 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.25, duration: 0.6, ease: EASE_OUT_EXPO }}
-          className="flex flex-wrap justify-center gap-4 mt-10"
+          className="flex flex-wrap justify-center gap-6 mt-10"
         >
           <a
             href="/contact"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full liquid-glass-btn text-text-primary font-small text-small tracking-widest"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-accent-lime text-black hover:bg-white transition-colors font-small text-small tracking-widest h-fit mt-1"
           >
             Start a Project
           </a>
-          <a
-            href="/contact"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full liquid-glass-btn text-text-primary font-small text-small tracking-widest"
-          >
-            Book a Call
-          </a>
+          <div className="flex flex-col items-center">
+            <a
+              href="/contact"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full liquid-glass-btn text-text-primary font-small text-small tracking-widest"
+            >
+              Book a free consultation
+            </a>
+            <span className="text-[11px] text-text-muted mt-2 tracking-wide">Free consultation any time, book now</span>
+          </div>
         </motion.div>
 
         {/* Contact info pills */}

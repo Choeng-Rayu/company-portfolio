@@ -321,22 +321,7 @@ export default function ContactPage() {
               </button>
             </form>
 
-            {/* Trust badges */}
-            <div className="mt-8 pt-6 border-t border-white/5">
-              <p className="font-small text-small text-text-muted mb-3">
-                Trusted by businesses across Cambodia
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {['MR Training', 'Oddar Meanchey Gov', 'InnoLab', 'VersionDragon'].map((client) => (
-                  <span
-                    key={client}
-                    className="px-3 py-1.5 rounded-lg font-small text-small text-text-muted border border-white/5 bg-white/[0.03]"
-                  >
-                    {client}
-                  </span>
-                ))}
-              </div>
-            </div>
+
           </motion.div>
         </div>
       </section>
