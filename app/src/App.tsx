@@ -12,7 +12,6 @@ const ProjectDetail = lazy(() => import('./pages/ProjectDetail'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))
 const Blog = lazy(() => import('./pages/Blog'))
 const BlogPost = lazy(() => import('./pages/BlogPost'))
-const TeamPage = lazy(() => import('./pages/TeamPage'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 function PageLoader() {
@@ -37,7 +36,6 @@ export default function App() {
     '/work': 'Our Work — Universe Software',
     '/contact': 'Contact — Universe Software',
     '/blog': 'Blog — Universe Software',
-    '/team': 'Team — Universe Software',
   }
 
   const baseTitle = titles[location.pathname] ?? 'Universe Software'
@@ -58,7 +56,6 @@ export default function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/team" element={<TeamPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

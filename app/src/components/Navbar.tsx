@@ -36,13 +36,13 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[96%] max-w-[1280px] z-50 h-20 flex items-center transition-all duration-300 liquid-glass-nav">
-        <div className="w-full mx-auto px-6 flex items-center justify-between">
+      <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[96%] max-w-[1280px] z-[60] h-14 md:h-20 flex items-center transition-all duration-300 liquid-glass-nav">
+        <div className="w-full mx-auto px-3 md:px-6 flex items-center justify-between">
           <Link to="/" className="flex items-center">
             <img
               src="/images/company_log.png"
               alt="Chakrawal Digital"
-              className="h-16 w-auto object-contain"
+              className="h-10 md:h-16 w-auto object-contain"
             />
           </Link>
 
@@ -52,7 +52,7 @@ export default function Navbar() {
                   key={link.label}
                   to={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`relative font-small text-small font-light tracking-[0.08em] transition-colors group ${
+                  className={`relative font-small text-base font-light tracking-[0.08em] transition-colors group ${
                     isActive(link.href) ? 'text-accent-lime' : 'text-text-secondary hover:text-text-primary'
                   }`}
                 >
@@ -68,7 +68,7 @@ export default function Navbar() {
 
             <Link
               to="/contact"
-              className="hidden md:inline-flex items-center px-6 py-2.5 rounded-full liquid-glass-btn text-text-primary font-small text-small font-medium tracking-[0.02em] transition-all hover:text-accent-lime"
+              className="hidden md:inline-flex items-center px-6 py-2.5 rounded-full liquid-glass-btn text-text-primary font-small text-base font-medium tracking-[0.02em] transition-all hover:text-accent-lime"
             >
               Start a Project
             </Link>
@@ -129,7 +129,7 @@ export default function Navbar() {
                 <Link
                   to="/contact"
                   onClick={() => setMobileOpen(false)}
-                  className="mt-4 px-8 py-3 rounded-full liquid-glass-btn text-text-primary font-small text-small font-medium transition-all hover:text-accent-lime"
+                  className="mt-4 px-8 py-3 rounded-full liquid-glass-btn text-text-primary font-small text-base font-medium transition-all hover:text-accent-lime"
                 >
                   Start a Project
                 </Link>

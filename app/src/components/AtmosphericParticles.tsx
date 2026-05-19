@@ -32,10 +32,10 @@ const TIER_CFG = [
 
 function getCountBudget(): [number, number, number] {
   const w = window.innerWidth;
-  if (w >= 1440) return [360, 180, 60];
-  if (w >= 1024) return [240, 120, 40];
-  if (w >= 768)  return [140,  60, 20];
-  return [60, 25, 5];
+  if (w >= 1440) return [300, 150, 40];
+  if (w >= 1024) return [200, 100, 30];
+  if (w >= 768)  return [100,  40, 15];
+  return [40, 15, 0]; // Near-zero near particles for mobile
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -88,6 +88,7 @@ export default function AtmosphericParticles() {
     let lastScrollY = window.scrollY;
     let scrollVelocityEMA = 0;
     const onScroll = () => {
+      if (window.innerWidth < 768) return; // Skip on mobile
       const delta = window.scrollY - lastScrollY;
       lastScrollY = window.scrollY;
       scrollVelocityEMA = 0.15 * delta + 0.85 * scrollVelocityEMA;

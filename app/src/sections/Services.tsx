@@ -121,7 +121,7 @@ function OrbitingPlanet({
     if (cloudsRef.current) cloudsRef.current.rotation.y += delta * rotSpeed * 1.25;
 
     if (atmRef.current) {
-      const targetOpacity = hovered || focused ? 0.28 : 0.1;
+      const targetOpacity = hovered || focused ? 0.35 : 0.15;
       const mat = atmRef.current.material as THREE.MeshBasicMaterial;
       mat.opacity += (targetOpacity - mat.opacity) * delta * 4;
     }
@@ -141,17 +141,18 @@ function OrbitingPlanet({
         <sphereGeometry args={[PLANET_SIZE, 64, 64]} />
         <meshStandardMaterial map={colorMap} normalMap={normalMap}
           normalScale={new THREE.Vector2(1.5, 1.5)} roughnessMap={specularMap}
-          roughness={0.75} metalness={0.35} color={colorHex} />
+          roughness={0.5} metalness={0.1} color={colorHex}
+          emissive="#0a1a3a" emissiveIntensity={0.2} />
       </mesh>
       <mesh ref={atmRef} scale={1.18}>
         <sphereGeometry args={[PLANET_SIZE, 32, 32]} />
-        <meshBasicMaterial color={colorHex} transparent opacity={0.1}
+        <meshBasicMaterial color={colorHex} transparent opacity={0.15}
           blending={THREE.AdditiveBlending} side={THREE.BackSide} />
       </mesh>
-      <mesh ref={cloudsRef} scale={1.018}>
+      <mesh ref={cloudsRef} scale={1.008}>
         <sphereGeometry args={[PLANET_SIZE, 64, 64]} />
-        <meshStandardMaterial map={cloudMap} transparent opacity={0.45}
-          depthWrite={false} side={THREE.DoubleSide} />
+        <meshStandardMaterial map={cloudMap} transparent opacity={0.8}
+          depthWrite={false} side={THREE.DoubleSide} blending={THREE.NormalBlending} />
       </mesh>
       <mesh rotation={[Math.PI / 2.5, 0, 0]}>
         <ringGeometry args={[PLANET_SIZE * 1.42, PLANET_SIZE * 1.48, 64]} />
@@ -198,9 +199,10 @@ function OrbitalScene({ services, focusedIndex, hoveredIndex, onPlanetClick, onP
 
   return (
     <>
-      <ambientLight intensity={0.55} />
-      <directionalLight position={[10, 8, 6]} intensity={1.8} />
-      <pointLight position={[-8, -4, -4]} intensity={0.7} color="#4488ff" />
+      <ambientLight intensity={2.0} color="#eef3ff" />
+      <directionalLight position={[15, 10, 15]} intensity={4.5} color="#ffffff" />
+      <directionalLight position={[-15, -5, 10]} intensity={3.5} color="#2266ff" />
+      <pointLight position={[-10, 10, -15]} intensity={4.0} color="#4488ff" />
       <CursorController hoveredIndex={hoveredIndex} />
       {/* Single shared orbit path ring */}
       <OrbitPath radius={ORBIT_RADIUS} color="#ffffff" />

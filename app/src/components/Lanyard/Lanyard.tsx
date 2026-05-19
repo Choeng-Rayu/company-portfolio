@@ -135,8 +135,10 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
     }
   });
 
-  curve.curveType = 'chordal';
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+  useEffect(() => {
+    if (curve) curve.curveType = 'chordal';
+    if (texture) texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+  }, [curve, texture]);
 
   return (
     <>

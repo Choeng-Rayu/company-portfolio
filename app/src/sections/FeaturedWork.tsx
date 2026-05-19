@@ -104,7 +104,7 @@ export default function OurJourney() {
         </div>
 
         {/* Orbit — collapse empty space above/below the ellipse band */}
-        <div style={{ marginTop: -220, marginBottom: -220 }}>
+        <div className="mt-0 mb-0 md:mt-[-220px] md:mb-[-220px] overflow-hidden md:overflow-visible">
             <OrbitImages
               images={planetImages}
               shape="ellipse"

@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect } from 'react'
+import { type ReactNode } from 'react'
 import { useLocation } from 'react-router'
 import Navbar from '../components/Navbar'
 import Contact from '../sections/Contact'
@@ -15,10 +15,6 @@ import { useAppStore } from '../store/useAppStore'
 export default function MainLayout({ children }: { children: ReactNode }) {
   const location = useLocation()
   const showUniverse = useAppStore((s) => s.showUniverse)
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [location.pathname])
 
   return (
     <SmoothScroller>

@@ -1,9 +1,9 @@
-import Services from '../sections/Services'
+import ServicesNexus from '../components/ServicesNexus'
 
 export default function ServicesPage() {
   return (
-    <div className="pt-24">
-      <Services />
+    <div className="min-h-screen">
+      <ServicesNexus />
     </div>
   )
 }

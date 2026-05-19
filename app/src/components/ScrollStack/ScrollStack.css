@@ -40,10 +40,10 @@
   backface-visibility: hidden;
   transform-style: preserve-3d;
   height: auto;
-  min-height: 20rem;
+  min-height: 15rem;
   width: 100%;
   margin: 0;
-  padding: 3rem;
+  padding: 1.5rem;
   border-radius: 1.5rem;
   box-sizing: border-box;
   position: relative;
@@ -63,6 +63,13 @@
     inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
+}
+
+@media (min-width: 768px) {
+  .scroll-stack-card {
+    padding: 3rem;
+    min-height: 20rem;
+  }
 }
 
 .scroll-stack-end {
