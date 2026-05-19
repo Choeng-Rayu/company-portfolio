@@ -36,13 +36,13 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[96%] max-w-[1280px] z-50 h-20 flex items-center transition-all duration-300 liquid-glass-nav">
-        <div className="w-full mx-auto px-6 flex items-center justify-between">
+      <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[96%] max-w-[1280px] z-[60] h-14 md:h-20 flex items-center transition-all duration-300 liquid-glass-nav">
+        <div className="w-full mx-auto px-3 md:px-6 flex items-center justify-between">
           <Link to="/" className="flex items-center">
             <img
               src="/images/company_log.png"
               alt="Chakrawal Digital"
-              className="h-16 w-auto object-contain"
+              className="h-10 md:h-16 w-auto object-contain"
             />
           </Link>
 

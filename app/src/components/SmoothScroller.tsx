@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLocation } from 'react-router';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,36 +13,56 @@ interface SmoothScrollerProps {
 
 export default function SmoothScroller({ children }: SmoothScrollerProps) {
   const lenisRef = useRef<Lenis | null>(null);
-  const rafIdRef = useRef<number>(0);
+  const location = useLocation();
 
   useEffect(() => {
-    // Lenis easing is expo-out (aligned with motion token E.out)
+    // 1. Initialize Lenis with lerp for "liquid" smoothness
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.1, // Faster lerp for better responsiveness on mobile
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.2,
+      autoRaf: false,
     });
 
     lenisRef.current = lenis;
 
-    // Connect Lenis to ScrollTrigger
+    // 2. Connect ScrollTrigger to Lenis
     lenis.on('scroll', ScrollTrigger.update);
 
-    // Sync GSAP ticker with Lenis raf
-    gsap.ticker.add((time) => {
+    // 3. Integrate with GSAP ticker for synchronized animation frames
+    const tick = (time: number) => {
       lenis.raf(time * 1000);
-    });
-
-    // Lag smoothing ensures no sudden jumps after heavy tasks
+    };
+    gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
+    // 4. Initial refresh
+    ScrollTrigger.refresh();
+
     return () => {
-      gsap.ticker.remove((time) => {
-        lenis.raf(time * 1000);
-      });
+      gsap.ticker.remove(tick);
       lenis.destroy();
       lenisRef.current = null;
     };
   }, []);
+
+  // Handle scroll to top on route change
+  useEffect(() => {
+    // 1. Reset native scroll immediately
+    window.scrollTo(0, 0);
+    
+    // 2. Reset Lenis if it exists
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    }
+
+    // 3. Force a ScrollTrigger refresh after a short delay to account for page transition / DOM shifts
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
 
   return <>{children}</>;
 }

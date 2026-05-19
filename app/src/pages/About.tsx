@@ -8,6 +8,8 @@ import { dataService } from '../services/dataService'
 import type { AboutUsData, VisionData } from '../services/dataService'
 import Lanyard from '../components/Lanyard/Lanyard'
 import OurJourney from '../sections/FeaturedWork'
+import Storytelling from '../sections/Storytelling'
+import AboutTeam from '../sections/AboutTeam'
 import ScrollStack, { ScrollStackItem } from '../components/ScrollStack/ScrollStack'
 
 
@@ -76,17 +78,17 @@ export default function About() {
   }
 
   return (
-    <div className="pt-24 pb-20">
+    <div className="pt-16 md:pt-20 pb-16">
       {/* Hero */}
-      <section className="py-16 md:py-24" ref={heroRef}>
+      <section className="py-10 md:py-24" ref={heroRef}>
         <Container>
-          <div className="flex flex-col lg:flex-row items-center gap-12">
+          <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12">
             <div className="flex-1 w-full">
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
-                className="font-small text-small text-accent-lime mb-4"
+                className="font-small text-small text-accent-lime mb-3"
               >
                 {about?.sectionLabel}
               </motion.p>
@@ -102,7 +104,7 @@ export default function About() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.2, ease: EASE_OUT_EXPO }}
-                className="font-body text-body text-text-secondary mt-6 leading-relaxed"
+                className="font-body text-body text-text-secondary mt-4 leading-relaxed"
               >
                 {about?.description}
               </motion.p>
@@ -111,7 +113,7 @@ export default function About() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.3, ease: EASE_OUT_EXPO }}
-                className="flex flex-wrap gap-6 mt-10"
+                className="flex flex-wrap gap-4 mt-6"
               >
                 <div className="flex items-center gap-2 text-text-muted">
                   <Calendar size={16} className="text-accent-lime" />
@@ -130,7 +132,7 @@ export default function About() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={isHeroInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.4, ease: EASE_OUT_EXPO }}
-              className="flex-1 w-full h-[600px] relative rounded-3xl overflow-hidden liquid-glass-card shadow-2xl border border-white/10"
+              className="flex-1 w-full h-[300px] sm:h-[400px] md:h-[520px] relative rounded-2xl md:rounded-3xl overflow-hidden liquid-glass-card shadow-2xl border border-white/10"
             >
               <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
             </motion.div>
@@ -139,13 +141,13 @@ export default function About() {
       </section>
 
       {/* Vision / Mission / Goals */}
-      <section className="py-16">
+      <section className="py-10 md:py-16">
         <Container>
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 md:mb-12">
             <p className="font-small text-small tracking-[0.08em] uppercase text-accent-lime">
               {visions?.sectionLabel}
             </p>
-            <h2 className="font-header text-header text-text-primary mt-4">
+            <h2 className="font-header text-header text-text-primary mt-3 md:mt-4">
               Vision, Mission & Goals
             </h2>
           </div>
@@ -153,11 +155,10 @@ export default function About() {
         <Container>
           <ScrollStack
             useWindowScroll={true}
-            itemDistance={80}
+            itemDistance={60}
             itemScale={0.04}
-            itemStackDistance={40}
-            stackPosition="15%"
-            scaleEndPosition="8%"
+            itemStackDistance={30}
+            stackPosition="80px"
             baseScale={0.9}
             blurAmount={2}
           >
@@ -213,9 +214,9 @@ export default function About() {
       </section>
 
       {/* Why Us */}
-      <section className="w-full py-[140px] bg-[#0E0E11] border-t border-border-surface">
+      <section className="w-full py-12 md:py-[140px] bg-[#0E0E11] border-t border-border-surface">
         <Container>
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 md:mb-16">
             <p className="font-small text-small tracking-[0.08em] uppercase text-accent-lime">
               WHY CHOOSE US
             </p>
@@ -253,6 +254,12 @@ export default function About() {
 
       {/* Journey */}
       <OurJourney />
+
+      {/* Storytelling */}
+      <Storytelling />
+
+      {/* Team Preview */}
+      <AboutTeam />
     </div>
   )
 }

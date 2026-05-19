@@ -111,7 +111,7 @@ const ParallaxScene: React.FC = () => {
         trigger: document.body,
         start: 'top top',
         end: 'bottom bottom',
-        scrub: 1.5, // Smoother scroll interpolation
+        scrub: 2.2, // Increased for ultra-smooth planet parallax
       }
     });
 
@@ -171,42 +171,52 @@ const ParallaxScene: React.FC = () => {
 // Main export
 // ---------------------------------------------------------------------------
 export default function UniverseCanvas() {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
   return (
     <div className="fixed inset-0 z-0 bg-[#020205]">
-      <Canvas shadows camera={{ fov: 45 }}>
+      <Canvas shadows={!isMobile} camera={{ fov: 45 }} dpr={isMobile ? 1 : [1, 1.5]}>
         <Suspense fallback={null}>
           {/* Super Bright & Atmospheric Lighting Setup */}
           
           {/* Boosted ambient light with a slight blue tint */}
-          <ambientLight intensity={2.0} color="#eef3ff" />
+          <ambientLight intensity={isMobile ? 1.5 : 2.0} color="#eef3ff" />
 
-          {/* Main Key Light - much brighter */}
+          {/* Main Key Light */}
           <directionalLight
             position={[15, 10, 15]}
-            intensity={4.5}
+            intensity={isMobile ? 3.0 : 4.5}
             color="#ffffff"
           />
 
-          {/* Deep Blue Fill Light - Creates realistic blue shadows on the dark side */}
-          <directionalLight
-            position={[-15, -5, 10]}
-            intensity={3.5}
-            color="#2266ff"
-          />
+          {!isMobile && (
+            <>
+              {/* Deep Blue Fill Light */}
+              <directionalLight
+                position={[-15, -5, 10]}
+                intensity={3.5}
+                color="#2266ff"
+              />
 
-          {/* Rim Light / Atmospheric Glow - strong blue backlight */}
-          <pointLight
-            position={[-10, 10, -15]}
-            intensity={4.0}
-            color="#4488ff"
-          />
+              {/* Rim Light / Atmospheric Glow */}
+              <pointLight
+                position={[-10, 10, -15]}
+                intensity={4.0}
+                color="#4488ff"
+              />
 
-          {/* Additional Top-down Light */}
-          <pointLight
-            position={[0, 20, 0]}
-            intensity={1.5}
-            color="#ffffff"
-          />
+              {/* Additional Top-down Light */}
+              <pointLight
+                position={[0, 20, 0]}
+                intensity={1.5}
+                color="#ffffff"
+              />
+            </>
+          )}
 
           {/* Scene */}
           <ParallaxScene />
