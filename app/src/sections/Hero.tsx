@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { ArrowRight, Telescope } from 'lucide-react';
-import { EASE_OUT_EXPO } from '@/lib/animation';
+import { D, E, S } from '@/lib/animation';
 import { dataService } from '../services/dataService';
 
 function useReducedMotion(): boolean {
@@ -201,7 +201,19 @@ export default function Hero() {
   const location = data?.location ?? 'Phnom Penh';
   const country = data?.country ?? 'Cambodia';
 
-  // Split headline into lines for staggered animation without breaking words
+  // ── Entrance timeline (token-driven) ────────────────────────────────────────
+  // Label    → 0.0s
+  // Headline → 0.15s start, 0.04s per word stagger
+  // Desc     → 0.5s (overlaps with headline ending)
+  // CTAs     → 0.7s (overlaps with description)
+  // Orbit    → 1.0s (last, decoration)
+
+  const tLabel   = { delay: 0,           duration: D.medium, ease: E.out.fm };
+  const tLine    = (i: number) => ({ delay: 0.15 + i * S.text, duration: D.medium, ease: E.out.fm });
+  const tDesc    = { delay: 0.5,         duration: D.medium, ease: E.out.fm };
+  const tCTA     = { delay: 0.7,         duration: D.short,  ease: E.out.fm };
+  const tOrbit   = { delay: 1.0,         duration: D.long,   ease: E.out.fm };
+
   const splitHeadline = (text: string) => {
     if (text.includes(' — ')) return text.split(' — ');
     if (text.length <= 50) return [text];
@@ -221,7 +233,6 @@ export default function Hero() {
     return [text.slice(0, splitAt).trimEnd(), text.slice(splitAt).trimStart()];
   };
 
-  // Split headline into lines for staggered animation
   const headlineLines = splitHeadline(headline);
 
   return (
@@ -237,7 +248,7 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6, ease: EASE_OUT_EXPO }}
+            transition={tLabel}
             className="font-small text-small text-text-muted mb-6"
           >
             EST. {founded} · DIGITAL SOLUTIONS STUDIO · {location}, {country}
@@ -257,7 +268,7 @@ export default function Hero() {
                   key={i}
                   initial={{ opacity: 0, y: 30, z: i * 20 }}
                   animate={{ opacity: 1, y: 0, z: i * 20 }}
-                  transition={{ delay: 0.35 + i * 0.1, duration: 0.7, ease: EASE_OUT_EXPO }}
+                  transition={tLine(i)}
                   className="font-header text-header text-text-primary"
                 >
                   {line}
@@ -269,7 +280,7 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.65, duration: 0.6, ease: EASE_OUT_EXPO }}
+            transition={tDesc}
             className="mt-8 font-body text-body text-text-secondary max-w-[480px] "
           >
             {description}
@@ -278,13 +289,13 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.85, duration: 0.5, ease: EASE_OUT_EXPO }}
+            transition={tCTA}
             className="mt-10 flex flex-wrap gap-4"
           >
             <MagneticButton
               href="#contact"
               onClick={(e) => handleScroll(e, '#contact')}
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full liquid-glass-btn text-text-primary font-small text-small transition-all"
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full liquid-glass-btn text-text-primary font-small text-small"
             >
               Start a Project
               <ArrowRight size={16} />
@@ -292,7 +303,7 @@ export default function Hero() {
             <MagneticButton
               href="#services"
               onClick={(e) => handleScroll(e, '#services')}
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full liquid-glass-btn text-text-primary font-small text-small transition-all"
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full liquid-glass-btn text-text-primary font-small text-small"
             >
               View Services
             </MagneticButton>
@@ -304,7 +315,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.0, duration: 0.8, ease: EASE_OUT_EXPO }}
+            transition={tOrbit}
             className="relative flex items-center justify-center"
             style={{ width: 260, height: 260 }}
           >
@@ -313,9 +324,7 @@ export default function Hero() {
               animate={{ rotate: 360 }}
               transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
               className="absolute inset-0 rounded-full"
-              style={{
-                border: '1px dashed rgba(200,241,53,0.25)',
-              }}
+              style={{ border: '1px dashed rgba(200,241,53,0.25)' }}
             />
 
             {/* Inner orbit ring */}
@@ -323,11 +332,7 @@ export default function Hero() {
               animate={{ rotate: -360 }}
               transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
               className="absolute rounded-full"
-              style={{
-                width: 180,
-                height: 180,
-                border: '1px dashed rgba(200,241,53,0.12)',
-              }}
+              style={{ width: 180, height: 180, border: '1px dashed rgba(200,241,53,0.12)' }}
             />
 
             {/* Orbiting dot on outer ring */}
@@ -338,12 +343,7 @@ export default function Hero() {
             >
               <div
                 className="absolute w-2 h-2 rounded-full bg-accent-lime"
-                style={{
-                  top: '50%',
-                  left: '-4px',
-                  transform: 'translateY(-50%)',
-                  boxShadow: '0 0 8px #C8F135',
-                }}
+                style={{ top: '50%', left: '-4px', transform: 'translateY(-50%)', boxShadow: '0 0 8px #C8F135' }}
               />
             </motion.div>
 
@@ -356,12 +356,7 @@ export default function Hero() {
             >
               <div
                 className="absolute w-1.5 h-1.5 rounded-full bg-accent-lime opacity-60"
-                style={{
-                  bottom: '-3px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  boxShadow: '0 0 6px #C8F135',
-                }}
+                style={{ bottom: '-3px', left: '50%', transform: 'translateX(-50%)', boxShadow: '0 0 6px #C8F135' }}
               />
             </motion.div>
 
@@ -369,7 +364,7 @@ export default function Hero() {
             <MagneticButton
               href="#work"
               onClick={(e) => handleScroll(e, '#work')}
-              className="relative z-10 flex flex-col items-center justify-center gap-2 w-28 h-28 rounded-full liquid-glass-btn text-text-primary font-small text-small transition-all text-center"
+              className="relative z-10 flex flex-col items-center justify-center gap-2 w-28 h-28 rounded-full liquid-glass-btn text-text-primary font-small text-small text-center"
             >
               <Telescope size={20} className="text-accent-lime" />
               <span className="font-small text-small leading-tight">Our<br />Work</span>

@@ -1,0 +1,175 @@
+/* ─── DomeGallery ─── */
+
+.domeGallery {
+  position: relative;
+  width: 100%;
+  min-height: 50vh;
+  padding: 3rem 0;
+  overflow: hidden;
+}
+
+/* Soft glow background (matches site theme) */
+.bgGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bgGlow::before,
+.bgGlow::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.08;
+}
+
+.bgGlow::before {
+  width: 25rem;
+  height: 25rem;
+  top: -5rem;
+  left: -5rem;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+}
+
+.bgGlow::after {
+  width: 20rem;
+  height: 20rem;
+  bottom: -5rem;
+  right: -5rem;
+  background: radial-gradient(circle, #6B4EE6 0%, transparent 70%);
+}
+
+/* Grid wrapper */
+.gridWrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .gridWrapper {
+    padding: 0 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gridWrapper {
+    padding: 0 4rem;
+  }
+}
+
+/* ─── Masonry double-column layout ─── */
+.masonryGrid {
+  column-count: 1;
+  column-gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .masonryGrid {
+    column-count: 2;
+    column-gap: 1.5rem;
+  }
+}
+
+/* ─── Card ─── */
+.cardLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+}
+
+.galleryCard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  transition: border-color 0.3s ease;
+}
+
+.galleryCard:hover {
+  border-color: var(--border-accent);
+}
+
+/* ─── Card image area ─── */
+.cardImage {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+}
+
+.cardImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.galleryCard:hover .cardImage img {
+  transform: scale(1.05);
+}
+
+/* ─── Category badge ─── */
+.categoryBadge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+/* ─── Card body ─── */
+.cardContent {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cardTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.galleryCard:hover .cardTitle {
+  color: var(--accent);
+}
+
+.cardExcerpt {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Meta line ─── */
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.metaDivider {
+  opacity: 0.4;
+}

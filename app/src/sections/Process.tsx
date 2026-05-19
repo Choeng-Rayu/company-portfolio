@@ -98,7 +98,6 @@ export default function Process() {
   });
   const [activeIndex, setActiveIndex] = useState(-1);
 
-  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const activeStepMotion = useTransform(
     scrollYProgress,
     [0, 1],
@@ -190,7 +189,9 @@ export default function Process() {
               stroke="#C8F135"
               strokeWidth="2"
               strokeLinecap="round"
-              style={{ pathLength }}
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: [0, 1, 0] }}
+              transition={{ duration: 5, ease: "easeInOut", repeat: Infinity }}
             />
             {/* Fallback visible path (background) */}
             <path

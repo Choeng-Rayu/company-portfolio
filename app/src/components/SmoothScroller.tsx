@@ -12,14 +12,13 @@ interface SmoothScrollerProps {
 
 export default function SmoothScroller({ children }: SmoothScrollerProps) {
   const lenisRef = useRef<Lenis | null>(null);
-   const rafIdRef = useRef<number>(0);
+  const rafIdRef = useRef<number>(0);
 
   useEffect(() => {
-    // Initialize Lenis with the required configuration
+    // Lenis easing is expo-out (aligned with motion token E.out)
     lenisRef.current = new Lenis({
       duration: 1.2,
-      easing: (t: number) =>
-        Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
 
     lenisRef.current.on('scroll', ScrollTrigger.update);
@@ -30,12 +29,8 @@ export default function SmoothScroller({ children }: SmoothScrollerProps) {
     };
     rafIdRef.current = requestAnimationFrame(raf);
 
-    // Cleanup on unmount
     return () => {
-      if (rafIdRef.current) {
-        cancelAnimationFrame(rafIdRef.current);
-      }
-      // Lenis does not expose a destroy method; clearing reference allows GC
+      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
       lenisRef.current?.off('scroll', ScrollTrigger.update);
       lenisRef.current = null;
     };

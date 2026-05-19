@@ -98,6 +98,16 @@
       "link": "https://automata-fawn.vercel.app/",
       "tags": ["Web App", "Automation", "AI"],
       "color": "#3CB371"
+    },
+    {
+      "id": 11,
+      "title": "OukChakTrong",
+      "description": "An entertaining game prototype inspired by the traditional Cambodian game Ouk Chak Trong — modernized for digital play.",
+      "type": "live",
+      "link": "https://cambodiadevs.com/",
+      "tags": ["Community", "Tech", "Platform"],
+      "color": "#4477DD"
+      
     }
   ]
 }

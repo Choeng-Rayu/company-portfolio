@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar'
 import Contact from '../sections/Contact'
 import ChatWidget from '../components/ChatWidget'
 import UniverseCanvas from '../components/UniverseCanvas'
+import AtmosphericParticles from '../components/AtmosphericParticles'
 import HUD from '../components/HUD'
 import GrainOverlay from '../components/GrainOverlay'
 import ProbeCursor from '../components/ProbeCursor'
@@ -22,6 +23,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
   return (
     <SmoothScroller>
       {showUniverse && <UniverseCanvas />}
+      <AtmosphericParticles />
       <HUD />
       <ProbeCursor />
       <GrainOverlay />

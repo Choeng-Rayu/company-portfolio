@@ -19,9 +19,11 @@ interface OrbitItemProps {
   rotation: number;
   progress: ReturnType<typeof useMotionValue<number>>;
   fill: boolean;
+  isActive?: boolean;
+  info?: React.ReactNode;
 }
 
-function OrbitItem({ item, index, totalItems, path, itemSize, rotation, progress, fill }: OrbitItemProps) {
+function OrbitItem({ item, index, totalItems, path, itemSize, rotation, progress, fill, isActive, info }: OrbitItemProps) {
   const itemOffset = fill ? (index / totalItems) * 100 : 0;
   const offsetDistance = useTransform(progress, (p: number) => {
     const offset = (((p + itemOffset) % 100) + 100) % 100;
@@ -37,11 +39,27 @@ function OrbitItem({ item, index, totalItems, path, itemSize, rotation, progress
         offsetPath: `path('${path}')`,
         offsetDistance,
         offsetRotate: '0deg',
+        zIndex: isActive ? 20 : 1,
       }}
     >
       {/* Counter-rotate the inner content so it stays upright */}
-      <div style={{ width: '100%', height: '100%', transform: `rotate(${-rotation}deg)` }}>
+      <div style={{ width: '100%', height: '100%', transform: `rotate(${-rotation}deg)`, position: 'relative' }}>
         {item}
+        {isActive && info && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 'calc(100% + 48px)',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: 280,
+              pointerEvents: 'auto',
+              zIndex: 30,
+            }}
+          >
+            {info}
+          </div>
+        )}
       </div>
     </motion.div>
   );
@@ -69,6 +87,8 @@ interface OrbitImagesProps {
   centerContent?: React.ReactNode;
   responsive?: boolean;
   renderItem?: (src: string, index: number) => React.ReactNode;
+  activeIndex?: number;
+  renderInfo?: (index: number) => React.ReactNode;
 }
 
 export default function OrbitImages({
@@ -93,6 +113,8 @@ export default function OrbitImages({
   centerContent,
   responsive = true,
   renderItem,
+  activeIndex,
+  renderInfo,
 }: OrbitImagesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
@@ -170,6 +192,8 @@ export default function OrbitImages({
               rotation={rotation}
               progress={progress}
               fill={fill}
+              isActive={activeIndex === index}
+              info={renderInfo ? renderInfo(index) : undefined}
             />
           ))}
         </div>

@@ -44,26 +44,6 @@ export default function OurJourney() {
 
   const planetImages = data.milestones.map((_, idx) => PLANET_IMAGES[idx % PLANET_IMAGES.length]);
 
-  const centerContent = (
-    <motion.div
-      key={activeIndex}
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.35 }}
-      className="liquid-glass-card rounded-3xl p-6 md:p-8 text-center max-w-[320px]"
-    >
-      <span className="inline-flex items-center justify-center px-4 py-1.5 font-small text-small bg-accent-lime text-bg-base rounded-full mb-3">
-        {data.milestones[activeIndex].year}
-      </span>
-      <h3 className="font-subheader text-subheader text-text-primary mb-2 leading-tight">
-        {data.milestones[activeIndex].title}
-      </h3>
-      <p className="font-body text-body text-text-secondary leading-relaxed">
-        {data.milestones[activeIndex].description}
-      </p>
-    </motion.div>
-  );
-
   return (
     <section id="journey" className="w-full py-20 md:py-[140px] bg-transparent">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
@@ -124,7 +104,7 @@ export default function OurJourney() {
         </div>
 
         {/* Orbit — collapse empty space above/below the ellipse band */}
-        <div style={{ marginTop: -260, marginBottom: -260 }}>
+        <div style={{ marginTop: -220, marginBottom: -220 }}>
             <OrbitImages
               images={planetImages}
               shape="ellipse"
@@ -139,7 +119,26 @@ export default function OurJourney() {
               showPath={true}
               paused={hovered}
               fill={true}
-              centerContent={centerContent}
+              activeIndex={activeIndex}
+              renderInfo={(index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="liquid-glass-card rounded-2xl p-5 text-center"
+                >
+                  <span className="inline-flex items-center justify-center px-3 py-1 font-small text-small bg-accent-lime text-bg-base rounded-full mb-2">
+                    {data.milestones[index].year}
+                  </span>
+                  <h3 className="font-subheader text-subheader text-text-primary mb-1 leading-tight">
+                    {data.milestones[index].title}
+                  </h3>
+                  <p className="font-body text-small text-text-secondary leading-relaxed">
+                    {data.milestones[index].description}
+                  </p>
+                </motion.div>
+              )}
               renderItem={(src, index) => (
                 <button
                   onClick={() => setActiveIndex(index)}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, useSpring } from 'framer-motion';
+import { bindPointer } from '../lib/pointer';
 
 export default function ProbeCursor() {
   const [isVisible, setIsVisible] = useState(false);
@@ -20,31 +21,31 @@ export default function ProbeCursor() {
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (isTouchDevice || window.innerWidth < 1024) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-      
+    // bindPointer registers into the shared singleton listener —
+    // no second mousemove listener is created.
+    const unbind = bindPointer((x, y) => {
+      cursorX.set(x);
+      cursorY.set(y);
       particles.forEach((p) => {
-        p.x.set(e.clientX);
-        p.y.set(e.clientY);
+        p.x.set(x);
+        p.y.set(y);
       });
-
-      if (!isVisible) setIsVisible(true);
-    };
+      setIsVisible(true);
+    });
 
     const handleMouseEnter = () => setIsVisible(true);
     const handleMouseLeave = () => setIsVisible(false);
 
-    document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseenter', handleMouseEnter);
     document.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
+      unbind();
       document.removeEventListener('mouseenter', handleMouseEnter);
       document.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [cursorX, cursorY, particles, isVisible]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cursorX, cursorY]);
 
   const isTouchDevice = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
   if (isTouchDevice || (typeof window !== 'undefined' && window.innerWidth < 1024)) return null;

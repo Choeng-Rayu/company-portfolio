@@ -12,9 +12,26 @@
   will-change: scroll-position;
 }
 
+/* Window-scroll mode: do NOT create an internal scroll container. */
+.scroll-stack-scroller.scroll-stack-window {
+  height: auto;
+  overflow: visible;
+  overscroll-behavior: auto;
+  -webkit-transform: none;
+  transform: none;
+  will-change: auto;
+}
+
 .scroll-stack-inner {
   padding: 10vh 0 50vh;
   min-height: 100vh;
+}
+
+.scroll-stack-scroller.scroll-stack-window .scroll-stack-inner {
+  /* In window mode the surrounding <section> already provides spacing.
+     Bottom padding is the “pin runway” for the last card to release. */
+  padding: 4vh 0 60vh;
+  min-height: 0;
 }
 
 .scroll-stack-card {

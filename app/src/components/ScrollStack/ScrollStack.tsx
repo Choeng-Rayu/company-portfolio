@@ -83,11 +83,18 @@ const ScrollStack = ({
   const getElementOffset = useCallback(
     (element: HTMLElement) => {
       if (useWindowScroll) {
-        const rect = element.getBoundingClientRect();
-        return rect.top + window.scrollY;
-      } else {
-        return element.offsetTop;
+        // offsetTop chain is NOT affected by transforms — getBoundingClientRect IS.
+        // Using rects here would feed the card's own translate back into the math
+        // and cause oscillation as soon as scaleProgress > 0.
+        let offset = 0;
+        let el: HTMLElement | null = element;
+        while (el) {
+          offset += el.offsetTop;
+          el = el.offsetParent as HTMLElement | null;
+        }
+        return offset;
       }
+      return element.offsetTop;
     },
     [useWindowScroll]
   );
@@ -101,9 +108,7 @@ const ScrollStack = ({
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
     const scaleEndPositionPx = parsePercentage(scaleEndPosition, containerHeight);
 
-    const endElement = useWindowScroll
-      ? document.querySelector('.scroll-stack-end')
-      : scrollerRef.current?.querySelector('.scroll-stack-end');
+    const endElement = scrollerRef.current?.querySelector('.scroll-stack-end');
 
     const endElementTop = endElement instanceof HTMLElement ? getElementOffset(endElement) : 0;
 
@@ -202,13 +207,21 @@ const ScrollStack = ({
     getElementOffset
   ]);
 
+  const rafTickRef = useRef<number>(0);
   const handleScroll = useCallback(() => {
-    updateCardTransforms();
+    if (rafTickRef.current) return;
+    rafTickRef.current = requestAnimationFrame(() => {
+      rafTickRef.current = 0;
+      updateCardTransforms();
+    });
   }, [updateCardTransforms]);
 
   const setupLenis = useCallback(() => {
     if (useWindowScroll) {
+      // Page-level Lenis (SmoothScroller) drives native scroll events on window,
+      // so we just subscribe rather than instantiating a second Lenis.
       window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener('resize', handleScroll, { passive: true });
       return null;
     } else {
       const scroller = scrollerRef.current;
@@ -246,10 +259,9 @@ const ScrollStack = ({
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
+    // Always scope to this instance so multiple ScrollStacks on one page don't collide.
     const cards = Array.from(
-      useWindowScroll
-        ? document.querySelectorAll('.scroll-stack-card')
-        : scroller.querySelectorAll('.scroll-stack-card')
+      scroller.querySelectorAll('.scroll-stack-card')
     ) as HTMLDivElement[];
 
     cardsRef.current = cards;
@@ -280,6 +292,11 @@ const ScrollStack = ({
       }
       if (useWindowScroll) {
         window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleScroll);
+      }
+      if (rafTickRef.current) {
+        cancelAnimationFrame(rafTickRef.current);
+        rafTickRef.current = 0;
       }
       stackCompletedRef.current = false;
       cardsRef.current = [];
@@ -304,7 +321,10 @@ const ScrollStack = ({
   ]);
 
   return (
-    <div className={`scroll-stack-scroller ${className}`.trim()} ref={scrollerRef}>
+    <div
+      className={`scroll-stack-scroller ${useWindowScroll ? 'scroll-stack-window' : ''} ${className}`.replace(/\s+/g, ' ').trim()}
+      ref={scrollerRef}
+    >
       <div className="scroll-stack-inner">
         {children}
         <div className="scroll-stack-end" />

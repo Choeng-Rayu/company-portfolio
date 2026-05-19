@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { EASE_OUT_EXPO, VIEWPORT_ONCE } from '@/lib/animation';
+import { motion, useReducedMotion } from 'framer-motion';
+import { D, E, VIEWPORT_ONCE } from '@/lib/animation';
 
 interface SectionHeaderProps {
   label?: string;
@@ -19,6 +19,12 @@ export default function SectionHeader({
   delay = 0,
 }: SectionHeaderProps) {
   const alignClass = align === 'center' ? 'text-center' : 'text-left';
+  const reduced = useReducedMotion();
+
+  const t = {
+    duration: reduced ? D.short : D.medium,
+    ease: E.out.fm,
+  };
 
   return (
     <div className={`${alignClass} ${className}`}>
@@ -27,7 +33,7 @@ export default function SectionHeader({
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={VIEWPORT_ONCE}
-          transition={{ duration: 0.6, delay, ease: EASE_OUT_EXPO }}
+          transition={{ ...t, delay: reduced ? 0 : delay }}
           className="font-small text-small text-accent-lime mb-4"
         >
           {label}
@@ -38,7 +44,7 @@ export default function SectionHeader({
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={VIEWPORT_ONCE}
-          transition={{ duration: 0.6, delay: delay + 0.1, ease: EASE_OUT_EXPO }}
+          transition={{ ...t, delay: reduced ? 0 : delay + 0.1 }}
           className="font-header text-header text-text-primary mt-4"
         >
           {title}
@@ -49,7 +55,7 @@ export default function SectionHeader({
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={VIEWPORT_ONCE}
-          transition={{ duration: 0.6, delay: delay + 0.2, ease: EASE_OUT_EXPO }}
+          transition={{ ...t, delay: reduced ? 0 : delay + 0.2 }}
           className="font-body text-body text-text-secondary mt-4 max-w-[560px] mx-auto"
         >
           {subtitle}
